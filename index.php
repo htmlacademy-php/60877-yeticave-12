@@ -1,14 +1,14 @@
 <?php
 $is_auth = rand(0, 1);
 $user_name = 'Maxym Berezynets'; // укажите здесь ваше имя
-$arrayfirst = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");
-$arraycat = [
-    ['nameofthecategory'=>'Доски и лыжи', 'name'=>"2014 Rossignol District Snowboard", 'price'=>10999, 'url'=>'img/lot-1.jpg'],
-    ['nameofthecategory'=>'Доски и лыжи', 'name'=>"DC Ply Mens 2016/2017 Snowboard", 'price'=>159999, 'url'=>'img/lot-2.jpg'],
-    ['nameofthecategory'=>'Крепления', 'name'=>"Крепления Union Contact Pro 2015 года размер L/XL", 'price'=>8000, 'url'=>'img/lot-3.jpg'],
-    ['nameofthecategory'=>'Ботинки', 'name'=>"Ботинки для сноуборда DC Mutiny Charocal", 'price'=>10999, 'url'=>'img/lot-4.jpg'],
-    ['nameofthecategory'=>'Одежда', 'name'=>"Куртка для сноуборда DC Mutiny Charocal", 'price'=>7500, 'url'=>'img/lot-5.jpg'],
-    ['nameofthecategory'=>'Разное', 'name'=>"Маска Oakley Canopy", 'price'=>5400, 'url'=>'img/lot-6.jpg'],
+$categories = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");
+$lots = [
+    ['category'=>'Доски и лыжи', 'name'=>"2014 Rossignol District Snowboard", 'price'=>10999, 'img'=>'img/lot-1.jpg'],
+    ['category'=>'Доски и лыжи', 'name'=>"DC Ply Mens 2016/2017 Snowboard", 'price'=>159999, 'img'=>'img/lot-2.jpg'],
+    ['category'=>'Крепления', 'name'=>"Крепления Union Contact Pro 2015 года размер L/XL", 'price'=>8000, 'img'=>'img/lot-3.jpg'],
+    ['category'=>'Ботинки', 'name'=>"Ботинки для сноуборда DC Mutiny Charocal", 'price'=>10999, 'img'=>'img/lot-4.jpg'],
+    ['category'=>'Одежда', 'name'=>"Куртка для сноуборда DC Mutiny Charocal", 'price'=>7500, 'img'=>'img/lot-5.jpg'],
+    ['category'=>'Разное', 'name'=>"Маска Oakley Canopy", 'price'=>5400, 'img'=>'img/lot-6.jpg'],
 ];
 
 ?>
@@ -68,19 +68,14 @@ $arraycat = [
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
 
-            <?php foreach ($arraycat as $key => $value): ?>
+            <?php for ($i= 0; $i<count($categories); $i++ ): ?>
 
             <li class="promo__item promo__item--boards">
                 <a class="promo__link" href="pages/all-lots.html">
-
-<?php echo $value['nameofthecategory']; ?>
-
-
-
-
+                  <?php echo $categories[$i]; ?>
                </a>
             </li>
-            <?php endforeach; ?>
+            <?php endfor; ?>
         </ul>
     </section>
     <section class="lots">
@@ -89,13 +84,13 @@ $arraycat = [
         </div>
         <ul class="lots__list">
             <!--заполните этот список из массива с товарами-->
-            <?php foreach ($arraycat as $key => $value): ?>
+            <?php foreach ($lots as $key => $value): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="<?php echo $value['url']; ?>" width="350" height="260" alt="">
+                    <img src="<?php echo $value['img']; ?>" width="350" height="260" alt="">
                 </div>
                 <div class="lot__info">
-                    <span class="lot__category"><?php echo $value['nameofthecategory']; ?></span>
+                    <span class="lot__category"><?php echo $value['category']; ?></span>
                     <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?php echo $value['name']; ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
@@ -118,11 +113,11 @@ $arraycat = [
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-            <?php foreach ($arraycat as $key => $value): ?>
+            <?php for ($i= 0; $i<count($categories); $i++ ): ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"><?php echo $value['nameofthecategory']; ?></a>
+                <a href="pages/all-lots.html"><?php echo $categories[$i]; ?></a>
             </li>
-            <?php endforeach; ?>
+            <?php endfor; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
