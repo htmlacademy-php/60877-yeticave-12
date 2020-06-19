@@ -10,22 +10,7 @@ $lots = [
     ['category'=>'Одежда', 'name'=>"Куртка для сноуборда DC Mutiny Charocal", 'price'=>7500, 'img'=>'img/lot-5.jpg'],
     ['category'=>'Разное', 'name'=>"Маска Oakley Canopy", 'price'=>5400, 'img'=>'img/lot-6.jpg'],
 ];
-function formatPrice($pricenum) {
 
-    $pricenumTransform = ceil($pricenum);
-
-    $stringparfunc = strval(ceil($pricenumTransform));
-
-
-    $resultlast = substr($stringparfunc, -3,3);
-    $resultfirst = substr($stringparfunc, 0,2);
-
-return $resultfirst ." ".$resultlast. " " . " ₽";
-
-    if ($pricenum<1000) {
-      return $pricenum;
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -111,7 +96,7 @@ return $resultfirst ." ".$resultlast. " " . " ₽";
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?php echo formatPrice($value['price']); ?></span>
+                            <span class="lot__cost"><?php echo $value['price']; ?><b class="rub">р</b></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
