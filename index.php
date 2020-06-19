@@ -107,8 +107,6 @@ return $resultfirst ." ".$resultlast. " " . " ₽";
 
                             <span class="lot__cost"><?php echo formatPrice($value['price']); ?></span>
 
-                            <span class="lot__cost"><?php echo $value['price']; ?><b class="rub">р</b></span>
-
                         </div>
                         <div class="lot__timer timer">
                             12:23
