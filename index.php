@@ -11,13 +11,14 @@ $lots = [
     ['category'=>'Разное', 'name'=>"Маска Oakley Canopy", 'price'=>5400, 'img'=>'img/lot-6.jpg'],
 ];
 function formatPrice($pricenum) {
-    $pricenumTransform = ceil($pricenum);
-    $stringparfunc = strval(ceil($pricenumTransform));
-    $resultlast = substr($stringparfunc, -3,3);
-    $resultfirst = substr($stringparfunc, 0,2);
-return $resultfirst ." ".$resultlast. " " . " ₽";
-    if ($pricenum<1000) {
-      return $pricenum;
+if ($pricenum <1000) {
+return ceil($pricenum);
+}
+else if($pricenum > 1000){
+$resultold = ceil($pricenum);
+    $result = number_format($resultold, 0, ' ', ' ');
+     return $result . " ". "₽";
+    }
     }
 ?>
 <!DOCTYPE html>
@@ -29,6 +30,7 @@ return $resultfirst ." ".$resultlast. " " . " ₽";
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
+<?php echo formatPrice(1001);?>
 <div class="page-wrapper">
 
 
