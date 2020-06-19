@@ -19,6 +19,7 @@ return $resultfirst ." ".$resultlast. " " . " ₽";
     if ($pricenum<1000) {
       return $pricenum;
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
