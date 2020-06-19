@@ -20,6 +20,7 @@ $resultold = ceil($pricenum);
      return $result . " ". "₽";
     }
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
