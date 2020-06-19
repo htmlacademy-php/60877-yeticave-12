@@ -11,6 +11,23 @@ $lots = [
     ['category'=>'Разное', 'name'=>"Маска Oakley Canopy", 'price'=>5400, 'img'=>'img/lot-6.jpg'],
 ];
 
+function formatPrice($pricenum) {
+
+    $pricenumTransform = ceil($pricenum);
+
+    $stringparfunc = strval(ceil($pricenumTransform));
+
+
+    $resultlast = substr($stringparfunc, -3,3);
+    $resultfirst = substr($stringparfunc, 0,2);
+
+return $resultfirst ." ".$resultlast. " " . " ₽";
+
+    if ($pricenum<1000) {
+      return $pricenum;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -23,7 +40,7 @@ $lots = [
 <body>
 <div class="page-wrapper">
 
-<?php echo formatPrice(25000);?>
+
 <header class="main-header">
     <div class="main-header__container container">
         <h1 class="visually-hidden">YetiCave</h1>
@@ -96,7 +113,7 @@ $lots = [
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?php echo $value['price']; ?><b class="rub">р</b></span>
+                            <span class="lot__cost"><?php echo formatPrice($value['price']); ?></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
