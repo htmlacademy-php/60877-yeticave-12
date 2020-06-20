@@ -12,7 +12,7 @@ $lots = [
 ];
 function formatPrice($pricenum) {
 if ($pricenum <1000) {
-return ceil($pricenum);
+return ceil($pricenum). " "."₽";
 }
 else if($pricenum > 1000){
 $resultold = ceil($pricenum);
@@ -20,7 +20,6 @@ $resultold = ceil($pricenum);
      return $result . " ". "₽";
     }
     }
-}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -31,10 +30,7 @@ $resultold = ceil($pricenum);
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
-<?php echo formatPrice(1001);?>
 <div class="page-wrapper">
-
-
 <header class="main-header">
     <div class="main-header__container container">
         <h1 class="visually-hidden">YetiCave</h1>
