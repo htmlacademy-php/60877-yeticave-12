@@ -1,5 +1,4 @@
 <?php
-require_once ('helpers.php');
 $is_auth = rand(0, 1);
 $user_name = 'Maxym Berezynets'; // укажите здесь ваше имя
 $categories = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");
@@ -11,15 +10,17 @@ $lots = [
     ['category'=>'Одежда', 'name'=>"Куртка для сноуборда DC Mutiny Charocal", 'price'=>7500, 'img'=>'img/lot-5.jpg'],
     ['category'=>'Разное', 'name'=>"Маска Oakley Canopy", 'price'=>5400, 'img'=>'img/lot-6.jpg'],
 ];
-$title="";
-$arrfirst = ['categories'=>$categories, 'lots'=>$lots];
-$content = include_template ('main.php', $arrfirst);
-$arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
-    require_once('layout.php');
+function formatPrice($pricenum) {
+if ($pricenum <1000) {
+return ceil($pricenum). " "."₽";
+}
+else if($pricenum > 1000){
+$resultold = ceil($pricenum);
+    $result = number_format($resultold, 0, ' ', ' ');
+     return $result . " ". "₽";
+    }
+    }
 ?>
-
-
-<!--
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -62,7 +63,7 @@ $arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
   </ul>
 
     <?php endif; ?>
-
+        <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
 
         </nav>
     </div>
@@ -73,7 +74,7 @@ $arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
         <h2 class="promo__title">Нужен стафф для катки?</h2>
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
-
+            <!--заполните этот список из массива категорий-->
 
             <?php for ($i= 0; $i<count($categories); $i++ ): ?>
 
@@ -90,7 +91,7 @@ $arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
             <h2>Открытые лоты</h2>
         </div>
         <ul class="lots__list">
-]
+            <!--заполните этот список из массива с товарами-->
             <?php foreach ($lots as $key => $value): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
@@ -103,7 +104,7 @@ $arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
 
-                            <span class="lot__cost"></span>
+                            <span class="lot__cost"><?php echo formatPrice($value['price']); ?></span>
 
                         </div>
                         <div class="lot__timer timer">
@@ -121,6 +122,7 @@ $arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
+            <!--заполните этот список из массива категорий-->
             <?php for ($i= 0; $i<count($categories); $i++ ): ?>
             <li class="nav__item">
                 <a href="pages/all-lots.html"><?php echo $categories[$i]; ?></a>
@@ -168,7 +170,7 @@ $arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
             </a>
         </div>
     </div>
-</footer>-->
+</footer>
 
 <script src="flatpickr.js"></script>
 <script src="script.js"></script>

@@ -1,5 +1,4 @@
 <?php
-require_once ('helpers.php');
 $is_auth = rand(0, 1);
 $user_name = 'Maxym Berezynets'; // укажите здесь ваше имя
 $categories = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");
@@ -11,20 +10,24 @@ $lots = [
     ['category'=>'Одежда', 'name'=>"Куртка для сноуборда DC Mutiny Charocal", 'price'=>7500, 'img'=>'img/lot-5.jpg'],
     ['category'=>'Разное', 'name'=>"Маска Oakley Canopy", 'price'=>5400, 'img'=>'img/lot-6.jpg'],
 ];
-$title="";
-$arrfirst = ['categories'=>$categories, 'lots'=>$lots];
-$content = include_template ('main.php', $arrfirst);
-$arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
-    require_once('layout.php');
+function formatPrice($pricenum) {
+if ($pricenum <1000) {
+return ceil($pricenum). " "."₽";
+}
+else if($pricenum > 1000){
+$resultold = ceil($pricenum);
+    $result = number_format($resultold, 0, ' ', ' ');
+     return $result . " ". "₽";
+    }
+    }
+    $title = "Главная";
+    $content = "main";
 ?>
-
-
-<!--
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Главная</title>
+    <title><?php echo $title ?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -62,65 +65,21 @@ $arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
   </ul>
 
     <?php endif; ?>
-
+        <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
 
         </nav>
     </div>
 </header>
 
 <main class="container">
-    <section class="promo">
-        <h2 class="promo__title">Нужен стафф для катки?</h2>
-        <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
-        <ul class="promo__list">
-
-
-            <?php for ($i= 0; $i<count($categories); $i++ ): ?>
-
-            <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html">
-                  <?php echo $categories[$i]; ?>
-               </a>
-            </li>
-            <?php endfor; ?>
-        </ul>
-    </section>
-    <section class="lots">
-        <div class="lots__header">
-            <h2>Открытые лоты</h2>
-        </div>
-        <ul class="lots__list">
-]
-            <?php foreach ($lots as $key => $value): ?>
-            <li class="lots__item lot">
-                <div class="lot__image">
-                    <img src="<?php echo $value['img']; ?>" width="350" height="260" alt="">
-                </div>
-                <div class="lot__info">
-                    <span class="lot__category"><?php echo $value['category']; ?></span>
-                    <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?php echo $value['name']; ?></a></h3>
-                    <div class="lot__state">
-                        <div class="lot__rate">
-                            <span class="lot__amount">Стартовая цена</span>
-
-                            <span class="lot__cost"></span>
-
-                        </div>
-                        <div class="lot__timer timer">
-                            12:23
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <?php endforeach; ?>
-        </ul>
-    </section>
+    <?php echo $content; ?>
 </main>
 </div>
 
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
+            <!--заполните этот список из массива категорий-->
             <?php for ($i= 0; $i<count($categories); $i++ ): ?>
             <li class="nav__item">
                 <a href="pages/all-lots.html"><?php echo $categories[$i]; ?></a>
@@ -168,7 +127,7 @@ $arrsecond = ['content'=>$content, 'user_name'=>$user_name, 'title'=>$title];
             </a>
         </div>
     </div>
-</footer>-->
+</footer>
 
 <script src="flatpickr.js"></script>
 <script src="script.js"></script>
