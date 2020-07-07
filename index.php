@@ -20,5 +20,3 @@ $layout_content = include_template('layout.php', ['content' => $content, 'title'
 
 print($layout_content);
 ?>
-</body>
-</html>
