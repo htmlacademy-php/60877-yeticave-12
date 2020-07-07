@@ -1,26 +1,5 @@
 <?php
-/*
-$is_auth = rand(0, 1);
-$user_name = 'Maxym Berezynets'; // укажите здесь ваше имя
-$categories = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");
-$lots = [
-    ['category'=>'Доски и лыжи', 'name'=>"2014 Rossignol District Snowboard", 'price'=>10999, 'img'=>'img/lot-1.jpg'],
-    ['category'=>'Доски и лыжи', 'name'=>"DC Ply Mens 2016/2017 Snowboard", 'price'=>159999, 'img'=>'img/lot-2.jpg'],
-    ['category'=>'Крепления', 'name'=>"Крепления Union Contact Pro 2015 года размер L/XL", 'price'=>8000, 'img'=>'img/lot-3.jpg'],
-    ['category'=>'Ботинки', 'name'=>"Ботинки для сноуборда DC Mutiny Charocal", 'price'=>10999, 'img'=>'img/lot-4.jpg'],
-    ['category'=>'Одежда', 'name'=>"Куртка для сноуборда DC Mutiny Charocal", 'price'=>7500, 'img'=>'img/lot-5.jpg'],
-    ['category'=>'Разное', 'name'=>"Маска Oakley Canopy", 'price'=>5400, 'img'=>'img/lot-6.jpg'],
-];
-function formatPrice($pricenum) {
-if ($pricenum <1000) {
-return ceil($pricenum). " "."₽";
-}
-else if($pricenum > 1000){
-$resultold = ceil($pricenum);
-    $result = number_format($resultold, 0, ' ', ' ');
-     return $result . " ". "₽";
-    }
-    }*/
+
     $title = "Главная";
 ?>
 <!DOCTYPE html>
@@ -65,8 +44,6 @@ $resultold = ceil($pricenum);
   </ul>
 
     <?php endif; ?>
-        <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
-
         </nav>
     </div>
 </header>
@@ -79,7 +56,6 @@ $resultold = ceil($pricenum);
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <!--заполните этот список из массива категорий-->
             <?php for ($i= 0; $i<count($categories); $i++ ): ?>
             <li class="nav__item">
                 <a href="pages/all-lots.html"><?php echo $categories[$i]; ?></a>
