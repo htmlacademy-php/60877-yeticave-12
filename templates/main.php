@@ -32,7 +32,7 @@
                       </div>
 
                       <div class="lot__timer timer">
-                          12:23
+                        <?php $timetoend = lefttotime("2020-09-07"); echo $timetoend[0] .":".$timetoend[1]?>
                       </div>
                     </div>
                 </div>

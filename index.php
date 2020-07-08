@@ -4,7 +4,7 @@
     $categories = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");
 $is_auth = rand(0, 1);
 $user_name = 'Максим Березинец';
-
+$title = "Главная";
 $lots = [
     ['category'=>'Доски и лыжи', 'name'=>"2014 Rossignol District Snowboard", 'price'=>10999, 'img'=>'img/lot-1.jpg'],
     ['category'=>'Доски и лыжи', 'name'=>"DC Ply Mens 2016/2017 Snowboard", 'price'=>159999, 'img'=>'img/lot-2.jpg'],
