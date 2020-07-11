@@ -12,19 +12,20 @@
 
 function lefttotime ($dateleft) {
 
-$now = time();
+$now = strtotime("now");
 
 $futuretime = strtotime($dateleft);
 
 $newtime = $futuretime - $now;
-
-$minutes = $newtime/60;
-
-$minutes = floor($minutes);
-
 $hours = $newtime/3600;
 
 $hours = floor($hours);
+if ($hours <10) {
+   $hours = "0".$hours;
+}
+$minutes = floor((($futuretime - $hours * 3600) - $now) / 60);
+
+
 
 $result = [$hours, $minutes];
 

@@ -31,8 +31,11 @@
                          <span class="lot__cost"> <?php echo htmlspecialchars(formatPrice($lot['price'])); ?></span>
                       </div>
 
-                      <div class="lot__timer timer">
-                        <?php $timetoend = lefttotime("2020-09-07"); echo $timetoend[0] .":".$timetoend[1]?>
+                      <div class="lot__timer timer<?php
+
+                      $leftTime = lefttotime($newtime);
+                     if($leftTime < 3600){echo "timer--finishing";}?>">
+                        <?php  $lefttoend = lefttotime( $lot['time'] ); echo $lefttoend[0] ." : " .  $lefttoend[1]?>
                       </div>
                     </div>
                 </div>
