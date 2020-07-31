@@ -17,16 +17,20 @@ $now = strtotime("now");
 $futuretime = strtotime($dateleft);
 
 $newtime = $futuretime - $now;
+if ($newtime<0) {
+return [ "00", "00"];
+}
 $hours = $newtime/3600;
 
 $hours = floor($hours);
 if ($hours <10) {
    $hours = "0".$hours;
 }
-$minutes = floor((($futuretime - $hours * 3600) - $now) / 60);
 
-
-
+$minutes = ceil((($futuretime - $hours * 3600) - $now) / 60);
+if ($minutes <10) {
+    $minutes = "0".$minutes;
+ }
 $result = [$hours, $minutes];
 
 return $result;

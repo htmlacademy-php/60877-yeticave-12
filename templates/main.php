@@ -31,11 +31,27 @@
                          <span class="lot__cost"> <?php echo htmlspecialchars(formatPrice($lot['price'])); ?></span>
                       </div>
 
-                      <div class="lot__timer timer<?php
+                      <div class="lot__timer timer
+                      <?php $presentTime = strtotime('now');
+                            $futureDate = strtotime($lot['time']);
+                        $timerFinishing = $futureDate - $presentTime;
+                      if ($timerFinishing<3600)
+                          {echo "timer--finishing";}
 
-                      $leftTime = lefttotime($newtime);
-                     if($leftTime < 3600){echo "timer--finishing";}?>">
-                        <?php  $lefttoend = lefttotime( $lot['time'] ); echo $lefttoend[0] ." : " .  $lefttoend[1]?>
+                      ?>
+                      ">
+
+                       <?php $lefttoend = lefttotime( $lot['time'] );
+
+                        if($lefttoend[0]<=0&&$lefttoend[1]<=0){
+                              $lefttoend[0] = 0;
+                              $lefttoend[1] = 0;
+                              echo $lefttoend[0] ." : " .  $lefttoend[1];
+                            }
+                            else {
+                                echo $lefttoend[0] ." : " .  $lefttoend[1];
+                            }
+                                ?>
                       </div>
                     </div>
                 </div>
