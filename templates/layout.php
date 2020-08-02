@@ -1,7 +1,3 @@
-<?php
-
-    $title = "Главная";
-?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
