@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Авг 06 2020 г., 23:41
+-- Время создания: Авг 08 2020 г., 22:39
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.3.9
 
@@ -30,7 +30,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bids` (
   `date` datetime(6) NOT NULL,
-  `summary_of_the_lot` int(10) NOT NULL
+  `summary_of_the_lot` int(10) NOT NULL,
+  `users` varchar(30) NOT NULL,
+  `lots` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -41,7 +43,7 @@ CREATE TABLE `bids` (
 
 CREATE TABLE `categories` (
   `name` varchar(255) NOT NULL,
-  `symbol_code` int(11) NOT NULL
+  `symbol_code` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -51,13 +53,16 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `lots` (
-  `date_of_creation` date NOT NULL,
-  `name_of_the_lot` int(11) NOT NULL,
-  `deskription` int(11) NOT NULL,
+  `date_of_creation` datetime NOT NULL,
+  `name_of_the_lot` varchar(50) NOT NULL,
+  `deskription` varchar(70) NOT NULL,
   `img` varchar(255) NOT NULL,
   `start_price` int(11) NOT NULL,
-  `finish_date` date NOT NULL,
-  `step_of_the_bid` int(11) NOT NULL
+  `finish_date` datetime NOT NULL,
+  `step_of_the_bid` int(11) NOT NULL,
+  `author` varchar(30) NOT NULL,
+  `winner` varchar(30) NOT NULL,
+  `category` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -70,7 +75,7 @@ CREATE TABLE `users` (
   `date_registration` datetime NOT NULL,
   `email` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `password` int(30) NOT NULL,
+  `password` varchar(70) NOT NULL,
   `contacts` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
