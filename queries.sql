@@ -17,4 +17,4 @@ select bids.lotid, lots.categoryid from lots join bids on lots.id = bids.id wher
 select lots.id, categories.name from lots JOIN categories ON lots.categoryid = categories.id where lots.id =1
 SELECT * FROM bids where lotid = 1 ORDER BY date ASC
 Select lots.name_of_the_lot, lots.start_price, bids.summary_of_the_lot, lots.img, categories.name from lots JOIN bids ON lots.id = bids.lotid JOIN categories ON lots.id = categories.id where lots.date_of_creation>CURTIME() order by lots.id DESC ;
-
+Select lots.name_of_the_lot, lots.start_price, bids.summary_of_the_lot, lots.img, categories.name from lots JOIN bids ON lots.id = bids.lotid JOIN categories ON lots.id = categories.id where lots.finish_date>CURTIME() order by lots.id DESC ;
