@@ -1,4 +1,7 @@
 <?php
+
+
+
     require_once("helpers.php");
     require_once("function.php");
     $categories = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");

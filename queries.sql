@@ -12,7 +12,7 @@ SELECT summary_of_the_lot FROM `bids` ORDER by lotid ASC
 INSERT INTO `bids` (`id`, `date`, `summary_of_the_lot`, `userid`, `lotid`) VALUES ('12', '2020-09-19 00:00:00.000000', '1230000', '8888', '123578'), ('22', '2020-09-16 00:00:00.000000', '15935222', '15', '269')
 UPDATE lots SET name_of_the_lot= "Botinki" WHERE id=1;
 Select * from bids WHERE id = 3 order BY date ASC;
-select bids.lotid, lots.categoryid from lots join bids on lots.id = bids.id where lots.id =3
+select bids.lotid, lots.categoryid from lots join bids on lots.id = bids.id where lots.id =3;
 
 select lots.id, categories.name from lots JOIN categories ON lots.categoryid = categories.id where lots.id =1
 SELECT * FROM bids where lotid = 1 ORDER BY date ASC

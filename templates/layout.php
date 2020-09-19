@@ -1,3 +1,15 @@
+<?php $con = mysqli_connect("localhost", "root", "", "yeticave");
+mysqli_set_charset($con, "utf8");
+if ($con == false) {
+   print("Ошибка подключения: " . mysqli_connect_error());
+}
+else {
+
+	// выполнение запросов
+}
+$query = "Select lots.name_of_the_lot, lots.start_price, lots.finish_date, bids.summary_of_the_lot, lots.img, categories.name from lots JOIN bids ON lots.id = bids.lotid JOIN categories ON lots.id = categories.id where lots.finish_date>CURTIME() order by lots.id DESC";
+$result = mysqli_query($con, $query );
+$rows = mysqli_fetch_all($result, MYSQLI_ASSOC);?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -52,11 +64,11 @@
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <?php for ($i= 0; $i<count($categories); $i++ ): ?>
+            <?php foreach ($rows as $row): ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"><?php echo $categories[$i]; ?></a>
+                <a href="pages/all-lots.html"><?php print($row['name']); ?></a>
             </li>
-            <?php endfor; ?>
+            <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
