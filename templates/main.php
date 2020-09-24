@@ -1,16 +1,13 @@
 <?php
-$con = mysqli_connect("localhost", "root", "", "yeticave");
-mysqli_set_charset($con, "utf8");
-if ($con == false) {
-   print("Ошибка подключения: " . mysqli_connect_error());
-}
-else {
+require_once("templates/connection.php");
+$querylots = "Select name_of_the_lot, start_price, finish_date, img, from lots where finish_date>CURTIME() order by id DESC";
+$querycategories = "Select name, symbol_code from categories";
 
-	// выполнение запросов
-}
-$query = "Select lots.name_of_the_lot, lots.start_price, lots.finish_date, bids.summary_of_the_lot, lots.img, categories.name from lots JOIN bids ON lots.id = bids.lotid JOIN categories ON lots.id = categories.id where lots.finish_date>CURTIME() order by lots.id DESC";
-$result = mysqli_query($con, $query );
-$rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$resultlots = mysqli_query($con, $querylots );
+$resultcategories = mysqli_query($con, $querycategories );
+
+$rowslots = mysqli_fetch_all($resultlots, MYSQLI_ASSOC);
+$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 ?>
 <main class="container">
     <section class="promo">
@@ -18,9 +15,9 @@ $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
             <?php
-                 foreach ($rows as $row):
+                 foreach ($rowscategories as $row):
                ?>
-            <li class="promo__item promo__item--boards">
+            <li class="promo__item promo__item--<?php echo $row['symbol_code'];?>">
                  <a class="promo__link" href="pages/all-lots.html"><?php print($row['name']);?></a>
               </li>
               <?php endforeach; ?>
@@ -33,13 +30,14 @@ $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <h2>Открытые лоты</h2>
         </div>
         <ul class="lots__list">
-            <?php foreach ($rows as $row): ?>
+            <?php foreach ($rowslots as $row): ?>
+                <?php foreach ($rowscategories as $rowcat): ?>
             <li class="lots__item lot">
               <div class="image">
                     <img src="img/<?php echo $row['img']; ?>" width="350" height="260" alt="">
               </div>
               <div class="lot__info">
-                 <span class="lot__category"><?php $row['name'];?></span>
+                 <span class="lot__category"><?php $rowcat['name'];?></span>
                   <h3 class="lot__title">  <a class="text-link" href="pages/lot.html"><?php echo htmlspecialchars($row['name_of_the_lot']);?></a></h3>
                   <div class="lot__state">
                       <div class="lot__rate">
@@ -49,7 +47,7 @@ $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
                       <div class="lot__timer timer
                       <?php $presentTime = strtotime('now');
-                            $futureDate = $row['finish_date'];
+                            $futureDate = strtotime($row['finish_date']);
 
                         $timerFinishing = $futureDate - $presentTime;
                       if ($timerFinishing<3600)
@@ -75,6 +73,7 @@ $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     </div>
                 </div>
             </li>
+            <?php endforeach; ?>
                <?php endforeach; ?>
         </ul>
     </section>

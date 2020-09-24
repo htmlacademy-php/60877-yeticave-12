@@ -1,15 +1,14 @@
-<?php $con = mysqli_connect("localhost", "root", "", "yeticave");
-mysqli_set_charset($con, "utf8");
-if ($con == false) {
-   print("Ошибка подключения: " . mysqli_connect_error());
-}
-else {
+<?php
+require_once("templates/connection.php");
+$querylots = "Select name_of_the_lot, start_price, finish_date, img, from lots where finish_date>CURTIME() order by id DESC";
+$querycategories = "Select name, symbol_code from categories";
 
-	// выполнение запросов
-}
-$query = "Select lots.name_of_the_lot, lots.start_price, lots.finish_date, bids.summary_of_the_lot, lots.img, categories.name from lots JOIN bids ON lots.id = bids.lotid JOIN categories ON lots.id = categories.id where lots.finish_date>CURTIME() order by lots.id DESC";
-$result = mysqli_query($con, $query );
-$rows = mysqli_fetch_all($result, MYSQLI_ASSOC);?>
+$resultlots = mysqli_query($con, $querylots );
+$resultcategories = mysqli_query($con, $querycategories );
+
+$rowslots = mysqli_fetch_all($resultlots, MYSQLI_ASSOC);
+$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -64,7 +63,7 @@ $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);?>
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ($rows as $row): ?>
+            <?php foreach ($rowscategories as $row): ?>
             <li class="nav__item">
                 <a href="pages/all-lots.html"><?php print($row['name']); ?></a>
             </li>
