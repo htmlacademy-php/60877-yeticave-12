@@ -21,13 +21,12 @@
         </div>
         <ul class="lots__list">
             <?php foreach ($rowslots as $row): ?>
-                <?php foreach ($rowscategories as $rowcat): ?>
+
             <li class="lots__item lot">
               <div class="image">
                     <img src="img/<?php echo $row['img']; ?>" width="350" height="260" alt="">
               </div>
               <div class="lot__info">
-                 <span class="lot__category"><?php $rowcat['name'];?></span>
                   <h3 class="lot__title">  <a class="text-link" href="pages/lot.html"><?php echo htmlspecialchars($row['name_of_the_lot']);?></a></h3>
                   <div class="lot__state">
                       <div class="lot__rate">
@@ -64,7 +63,7 @@
                 </div>
             </li>
             <?php endforeach; ?>
-               <?php endforeach; ?>
+
         </ul>
     </section>
 </main>
