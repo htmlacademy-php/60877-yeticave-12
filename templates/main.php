@@ -1,14 +1,4 @@
-<?php
-require_once("templates/connection.php");
-$querylots = "Select name_of_the_lot, start_price, finish_date, img, from lots where finish_date>CURTIME() order by id DESC";
-$querycategories = "Select name, symbol_code from categories";
 
-$resultlots = mysqli_query($con, $querylots );
-$resultcategories = mysqli_query($con, $querycategories );
-
-$rowslots = mysqli_fetch_all($resultlots, MYSQLI_ASSOC);
-$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
-?>
 <main class="container">
     <section class="promo">
         <h2 class="promo__title">Нужен стафф для катки?</h2>
