@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -52,11 +53,11 @@
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <?php for ($i= 0; $i<count($categories); $i++ ): ?>
+            <?php foreach ($rowscategories as $row): ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"><?php echo $categories[$i]; ?></a>
+                <a href="pages/all-lots.html"><?php print($row['name']); ?></a>
             </li>
-            <?php endfor; ?>
+            <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
