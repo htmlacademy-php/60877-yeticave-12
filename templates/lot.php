@@ -39,6 +39,9 @@
 
   <main>
     <nav class="nav">
+    <?php
+                 echo $rowscategories . var_dump($is_auth);
+               ?>
       <ul class="nav__list container">
       <?php
                  foreach ($rowscategories as $row):

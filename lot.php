@@ -9,6 +9,11 @@ $is_auth = rand(0, 1);
 $user_name = 'Максим Березинец';
 $title = "Главная";
 
+$querycategories = "Select name, symbol_code from categories";
+$resultcategories = mysqli_query($con, $querycategories );
+$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
+
+
 $lot = include_template('lot.php', ['rowslots' => $rowslots, 'rowscategories'=>$rowscategories, 'is_auth' => $is_auth]);
 
 print($lot);
