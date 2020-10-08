@@ -99,9 +99,10 @@
             </form>
           </div>
           <div class="history">
-            <h3>История ставок (<span><?php echo $rowshistorysum; ?></span>)</h3>
+            <h3>История ставок (<span><?php echo $rowshistorysum['id'];           ?>
+                </span>)</h3>
             <table class="history__list">
-            <?php
+            <!--<?php
                  foreach ($rowshistory as $history):
                ?>
               <tr class="history__item">
@@ -110,7 +111,7 @@
                 <td class="history__time"><?php echo $history['date']; ?></td>
               </tr>
               <?php endforeach; ?>
-            </table>
+            </table>-->
           </div>
         </div>
       </div>

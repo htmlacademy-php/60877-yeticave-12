@@ -24,17 +24,15 @@ else {
     exit();
 }
 
-$thehistoryofbidssum= "Select id from bids";
+$thehistoryofbidssum= "select id FROM bids WHERE id=(SELECT max(id) FROM bids)";
 $resultthehistoryofbidsum = mysqli_query($con, $thehistoryofbidssum );
-$resultofthebids = mysqli_num_rows($resultthehistoryofbidsum);
-$rowshistorysum= mysqli_fetch_all($resultofthebids, MYSQLI_ASSOC);
+$rowshistorysum= mysqli_fetch_all($resultthehistoryofbidsum, MYSQLI_ASSOC);
 
-$thehistoryofbids= "Select id, date, summary_of_the_lot, name from bids JOIN users ON bids.userid = users.id";
+$thehistoryofbids= "Select bids.id, date, summary_of_the_lot, name from bids JOIN users ON bids.userid = users.id";
 $resultthehistoryofbids = mysqli_query($con, $thehistoryofbids );
-$resulthistorybids = mysqli_num_rows($resultthehistoryofbids);
-$rowshistory= mysqli_fetch_all($resulthistorybids, MYSQLI_ASSOC);
+$rowshistory= mysqli_fetch_all($resultthehistoryofbids, MYSQLI_ASSOC);
 
-$lot = include_template('lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'rowslots'=>$rowslots, 'rowshistorysum'=>$rowshistorysum, 'resultofthebidssum' => $resultofthebidssum, 'rowshistory'=>$rowshistory]);
+$lot = include_template('lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'rowslots'=>$rowslots, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory]);
 
 print($lot);
 ?>
