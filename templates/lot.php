@@ -2,7 +2,10 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>DC Ply Mens 2016/2017 Snowboard</title>
+  <title> <?php
+                 foreach ($rowslots as $rowlot)
+                echo $rowlot['name_of_the_lot'];
+               ?> </title>
   <link href="../css/normalize.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -59,7 +62,11 @@
           <div class="lot-item__image">
             <img src="../img/<?php echo $rowlot['img']; ?>" width="730" height="548" alt="Сноуборд">
           </div>
-          <p class="lot-item__category">Категория: Lorem Ipsum</span></p>
+          <p class="lot-item__category">Категория:
+              <?php
+                echo $categorynamequeryres[2]['name'];
+              ?>
+             </span></p>
           <p class="lot-item__description">
           <?php echo $rowlot['deskription']; ?>
       </p>
@@ -99,19 +106,25 @@
             </form>
           </div>
           <div class="history">
-            <h3>История ставок (<span><?php echo $rowshistorysum['id'];           ?>
-                </span>)</h3>
+            <h3>История ставок (<span><?php echo count($rowshistorysum);?></span>)</h3>
             <table class="history__list">
-            <!--<?php
-                 foreach ($rowshistory as $history):
-               ?>
+            <?php foreach ($rowshistory as $history): ?>
               <tr class="history__item">
                 <td class="history__name"><?php echo $history['name']; ?></td>
                 <td class="history__price"><?php echo $history['summary_of_the_lot']; ?> р</td>
-                <td class="history__time"><?php echo $history['date']; ?></td>
+                <td class="history__time"><?php
+
+
+                $datefromdatabase = $history['date'];
+
+               $datetoprint = strtotime($datefromdatabase);
+
+               echo date ("Y-m-d", $datetoprint )." в ".date ("H:i", $datetoprint );
+
+                ?></td>
               </tr>
               <?php endforeach; ?>
-            </table>-->
+            </table>
           </div>
         </div>
       </div>
