@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <title>
                <?php
-                 foreach ($rowslots as $rowlot)
-                echo $rowlot['name_of_the_lot'];
+
+                echo $onelot['name_of_the_lot'];
                ?> </title>
   <link href="../css/normalize.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
@@ -53,30 +53,28 @@
         <?php endforeach; ?>
       </ul>
     </nav>
-    <?php
-                 foreach ($rowslots as $rowlot):
-               ?>
+
     <section class="lot-item container">
-      <h2> <?php echo $rowlot['name_of_the_lot']; ?></h2>
+      <h2> <?php echo $onelot['name_of_the_lot']; ?></h2>
       <div class="lot-item__content">
         <div class="lot-item__left">
           <div class="lot-item__image">
-            <img src="../img/<?php echo $rowlot['img']; ?>" width="730" height="548" alt="Сноуборд">
+            <img src="../img/<?php echo $onelot['img']; ?>" width="730" height="548" alt="Сноуборд">
           </div>
           <p class="lot-item__category">Категория:
           <?php
-                echo $categorynamequeryres['name'];
+                echo $onelot['name'];
               ?>
              </span></p>
           <p class="lot-item__description">
-          <?php echo $rowlot['deskription']; ?>
+          <?php echo $onelot['deskription']; ?>
       </p>
         </div>
         <div class="lot-item__right">
           <div class="lot-item__state">
           <?php
-              $hours = lefttotime($rowlot['finish_date'])[0];
-              $minutes = lefttotime($rowlot['finish_date'])[1];
+              $hours = lefttotime($onelot['finish_date'])[0];
+              $minutes = lefttotime($onelot['finish_date'])[1];
 
               ?>
             <div class="lot-item__timer timer<?php
@@ -91,10 +89,10 @@
             <div class="lot-item__cost-state">
               <div class="lot-item__rate">
                 <span class="lot-item__amount">Текущая цена</span>
-                <span class="lot-item__cost"><?php echo $rowlot['start_price']; ?></span>
+                <span class="lot-item__cost"><?php echo $onelot['start_price']; ?></span>
               </div>
               <div class="lot-item__min-cost">
-                Мин. ставка <span><?php echo $rowlot['start_price'] + $rowlot['step_of_the_bid']; ?>р</span>
+                Мин. ставка <span><?php echo $onelot['start_price'] + $onelot['step_of_the_bid']; ?>р</span>
               </div>
             </div>
             <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post" autocomplete="off">
@@ -130,7 +128,6 @@
         </div>
       </div>
     </section>
-    <?php endforeach; ?>
   </main>
 
 </div>

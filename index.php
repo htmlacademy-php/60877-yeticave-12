@@ -4,7 +4,7 @@ require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-$querylots = "Select name_of_the_lot, start_price, finish_date, img, id from lots where finish_date>CURTIME() order by id DESC";
+$querylots = "Select name_of_the_lot, categoryid, name, start_price, finish_date, img, lots.id from lots join categories on lots.categoryid = categories.id where finish_date>CURTIME() order by lots.id DESC";
 $querycategories = "Select name, symbol_code from categories";
 
 $resultlots = mysqli_query($con, $querylots );

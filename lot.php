@@ -14,9 +14,11 @@ $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 
 if ($_GET['id']) {
     $id = $_GET['id'];
-    $querylots = "Select name_of_the_lot, img, deskription, categoryid, start_price, finish_date, step_of_the_bid from lots where id = ".$id;
-    $resultlots = mysqli_query($con, $querylots );
-    $rowslots= mysqli_fetch_all($resultlots, MYSQLI_ASSOC);
+    $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid,
+                         start_price, finish_date, step_of_the_bid, name from lots
+                                      join categories on lots.categoryid = categories.id where lots.id = ".$id;
+    $resultlot = mysqli_query($con, $querylot );
+    $onelot= mysqli_fetch_array($resultlot, MYSQLI_ASSOC);
 }
 else {
     header('HTTP/1.1 404 Not Found');
@@ -32,11 +34,7 @@ $thehistoryofbids= "Select bids.id, date, summary_of_the_lot, name from bids JOI
 $resultthehistoryofbids = mysqli_query($con, $thehistoryofbids );
 $rowshistory= mysqli_fetch_all($resultthehistoryofbids, MYSQLI_ASSOC);
 
-$categoryname= "select categories.name from lots join categories on lots.categoryid = categories.id";
-$categorynamequery = mysqli_query($con, $categoryname );
-$categorynamequeryres= mysqli_fetch_all($categorynamequery, MYSQLI_ASSOC);
-
-$lot = include_template('lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'rowslots'=>$rowslots, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory, "categorynamequeryres"=>$categorynamequeryres]);
+$lot = include_template('lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory]);
 
 print($lot);
 ?>
