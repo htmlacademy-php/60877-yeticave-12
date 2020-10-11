@@ -89,10 +89,10 @@
             <div class="lot-item__cost-state">
               <div class="lot-item__rate">
                 <span class="lot-item__amount">Текущая цена</span>
-                <span class="lot-item__cost"><?php echo $onelot['start_price']; ?></span>
+                <span class="lot-item__cost"><?php echo formatPrice($onelot['start_price']); ?></span>
               </div>
               <div class="lot-item__min-cost">
-                Мин. ставка <span><?php echo $onelot['start_price'] + $onelot['step_of_the_bid']; ?>р</span>
+                Мин. ставка <span><?php echo formatPrice($onelot['start_price'] + $onelot['step_of_the_bid']); ?></span>
               </div>
             </div>
             <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post" autocomplete="off">
@@ -110,7 +110,7 @@
             <?php foreach ($rowshistory as $history): ?>
               <tr class="history__item">
                 <td class="history__name"><?php echo $history['name']; ?></td>
-                <td class="history__price"><?php echo $history['summary_of_the_lot']; ?> р</td>
+                <td class="history__price"><?php echo formatPrice($history['summary_of_the_lot']); ?></td>
                 <td class="history__time"><?php
 
 
