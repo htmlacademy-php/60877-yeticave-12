@@ -32,7 +32,7 @@ $thehistoryofbids= "Select bids.id, date, summary_of_the_lot, name from bids JOI
 $resultthehistoryofbids = mysqli_query($con, $thehistoryofbids );
 $rowshistory= mysqli_fetch_all($resultthehistoryofbids, MYSQLI_ASSOC);
 
-$categoryname= "Select categories.name from categories JOIN lots ON categories.id = lots.categoryid";
+$categoryname= "select categories.name from lots join categories on lots.categoryid = categories.id";
 $categorynamequery = mysqli_query($con, $categoryname );
 $categorynamequeryres= mysqli_fetch_all($categorynamequery, MYSQLI_ASSOC);
 

@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title> <?php
+  <title>
+               <?php
                  foreach ($rowslots as $rowlot)
                 echo $rowlot['name_of_the_lot'];
                ?> </title>
@@ -63,8 +64,8 @@
             <img src="../img/<?php echo $rowlot['img']; ?>" width="730" height="548" alt="Сноуборд">
           </div>
           <p class="lot-item__category">Категория:
-              <?php
-                echo $categorynamequeryres[2]['name'];
+          <?php
+                echo $categorynamequeryres['name'];
               ?>
              </span></p>
           <p class="lot-item__description">
