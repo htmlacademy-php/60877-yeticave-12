@@ -14,11 +14,9 @@ $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 
 if ($_GET['id']) {
     $id = $_GET['id'];
-    $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid,
-                         start_price, finish_date, step_of_the_bid, name from lots
-                                      join categories on lots.categoryid = categories.id where lots.id = ".$id;
+    $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = ".$id;
     $resultlot = mysqli_query($con, $querylot );
-    $onelot= mysqli_fetch_array($resultlot, MYSQLI_ASSOC);
+    $onelot = mysqli_fetch_array($resultlot, MYSQLI_ASSOC);
 }
 else {
     header('HTTP/1.1 404 Not Found');
