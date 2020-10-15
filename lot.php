@@ -13,8 +13,8 @@ $resultcategories = mysqli_query($con, $querycategories );
 $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 
 if ($_GET['id']) {
-    $id = $_GET['id'];
-    $querylot = mysqli_real_escape_string($con, "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = ".$id);
+    $id = mysqli_real_escape_string($con, $_GET['id']);
+    $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = ".$id;
     $resultlot = mysqli_query($con, $querylot );
     $onelot = mysqli_fetch_array($resultlot, MYSQLI_ASSOC);
 
