@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <title><?php echo $title ?></title>
-    <link href="../css/normalize.min.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
-</head>
-<body>
-<h1>СТРАНИЦЫ НЕТУ!!</h1>
-</body>
-</html>
+<?php
+require_once("connection.php");
+require_once("helpers.php");
+require_once("function.php");
+
+$querycategories = "Select name, symbol_code from categories";
+$resultcategories = mysqli_query($con, $querycategories );
+$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
+
+$mistake = include_template('404.php', ['rowscategories'=>$rowscategories]);
+
+print($mistake);
+?>
