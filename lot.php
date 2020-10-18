@@ -18,14 +18,19 @@ if ($_GET['id']) {
     $resultlot = mysqli_query($con, $querylot );
     $onelot = mysqli_fetch_array($resultlot, MYSQLI_ASSOC);
 
-    $thehistoryofbidssum= "select * FROM bids where bids.id = ".$id;
+    $thehistoryofbidssum= "select * FROM bids where bids.lotid = ".$id;
     $resultthehistoryofbidsum = mysqli_query($con, $thehistoryofbidssum );
     $rowshistorysum= mysqli_fetch_all($resultthehistoryofbidsum, MYSQLI_ASSOC);
 
-    $thehistoryofbids= "Select bids.id, date, summary_of_the_lot, name from bids JOIN users ON bids.userid = users.id where bids.id = ".$id;
+    $thehistoryofbids= "Select bids.id, date, summary_of_the_lot, name from bids JOIN users ON bids.userid = users.id where bids.lotid = ".$id;
     $resultthehistoryofbids = mysqli_query($con, $thehistoryofbids );
     $rowshistory= mysqli_fetch_all($resultthehistoryofbids, MYSQLI_ASSOC);
-    if (is_null($onelot)) {
+
+    $querysumlot = "Select max(summary_of_the_lot) from bids where bids.lotid = ".$id;
+    $querysumlottodb = mysqli_query($con, $querysumlot);
+    $querysumlottodbfinal= mysqli_fetch_array($querysumlottodb, MYSQLI_ASSOC);
+
+    if (!$onelot) {
         header('Location: /404.php');
         die();
     }
@@ -35,7 +40,7 @@ if ($_GET['id']) {
      die();
    }
 
-$lot = include_template('lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory]);
+$lot = include_template('lot.php', ['rowscategories'=>$rowscategories, 'querysumlottodbfinal' => $querysumlottodbfinal, 'is_auth' => $is_auth, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory]);
 
 print($lot);
 ?>
