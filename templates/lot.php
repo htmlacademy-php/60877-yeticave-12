@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title><?php echo $onelot['name_of_the_lot'];?></title>
-  <link href="../css/normalize.min.css" rel="stylesheet">
-  <link href="../css/style.css" rel="stylesheet">
-</head>
-<body>
-
-<div class="page-wrapper">
-
   <main>
     <nav class="nav">
       <ul class="nav__list container">
@@ -109,9 +97,3 @@
     </section>
   </main>
 
-</div>
-
-
-
-</body>
-</html>
