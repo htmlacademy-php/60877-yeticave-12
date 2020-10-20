@@ -4,7 +4,7 @@ require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-$querylots = "Select name_of_the_lot, start_price, finish_date, img from lots where finish_date>CURTIME() order by id DESC";
+$querylots = "Select name_of_the_lot, categoryid, name, start_price, finish_date, img, lots.id from lots join categories on lots.categoryid = categories.id where finish_date>CURTIME() order by lots.id DESC";
 $querycategories = "Select name, symbol_code from categories";
 
 $resultlots = mysqli_query($con, $querylots );
@@ -18,7 +18,7 @@ $is_auth = rand(0, 1);
 $user_name = 'Максим Березинец';
 $title = "Главная";
 
-$content = include_template('main.php', ['rowscategories' => $rowscategories, 'rowslots' => $rowslots]);
+$content = include_template('main.php', ['rowscategories' => $rowscategories, 'rowslots' => $rowslots, 'resultlots'=>$resultlots]);
 
 $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
 
