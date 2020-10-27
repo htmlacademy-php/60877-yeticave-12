@@ -31,7 +31,7 @@
           <span class="form__error">Выберите категорию</span>
         </div>
       </div>
-      <div class="form__item form__item--wide ">
+      <div class="form__item form__item--wide <?php  if ($errors) { echo "form--invalid";}?>">
         <label for="message">Описание <sup>*</sup></label>
         <textarea id="message" name="message" placeholder="Напишите описание лота" required ></textarea>
         <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
@@ -46,17 +46,17 @@
         </div>
       </div>
       <div class="form__container-three">
-        <div class="form__item form__item--small">
+        <div class="form__item form__item--small <?php  if ($errors) { echo "form--invalid";}?>">
           <label for="lot-rate">Начальная цена <sup>*</sup></label>
           <input id="lot-rate" type="text" name="lot-rate" placeholder="0" required >
           <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
         </div>
-        <div class="form__item form__item--small">
+        <div class="form__item form__item--small <?php  if ($errors) { echo "form--invalid";}?>">
           <label for="lot-step">Шаг ставки <sup>*</sup></label>
           <input id="lot-step" type="text" name="lot-step" placeholder="0" required >
           <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
         </div>
-        <div class="form__item">
+        <div class="form__item <?php  if ($errors) { echo "form--invalid";}?>">
           <label for="lot-date">Дата окончания торгов <sup>*</sup></label>
           <input class="form__input-date" id="lot-date" type="text" name="lot-date" placeholder="Введите дату в формате ГГГГ-ММ-ДД" required >
           <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
