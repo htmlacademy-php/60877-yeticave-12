@@ -10,13 +10,13 @@
         <?php endforeach; ?>
       </ul>
     </nav>
-    <form class="form form--add-lot container form--invalid" action="add.php" method="post"> <!-- form--invalid -->
+    <form class="form form--add-lot container <?php  if ($errors) { echo "form--invalid";}?>" action="add.php" method="post">
       <h2>Добавление лота</h2>
       <div class="form__container-two">
-        <div class="form__item form__item--invalid"> <!-- form__item--invalid -->
+        <div class="form__item <?php  if ($errors) { echo "form--invalid";}?>">
           <label for="lot-name">Наименование <sup>*</sup></label>
           <input id="lot-name" type="text" name="lot-name" placeholder="Введите наименование лота" required >
-          <span class="form__error">Введите наименование лота</span>
+          <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
         </div>
         <div class="form__item">
           <label for="category">Категория <sup>*</sup></label>
@@ -31,10 +31,10 @@
           <span class="form__error">Выберите категорию</span>
         </div>
       </div>
-      <div class="form__item form__item--wide">
+      <div class="form__item form__item--wide ">
         <label for="message">Описание <sup>*</sup></label>
         <textarea id="message" name="message" placeholder="Напишите описание лота" required ></textarea>
-        <span class="form__error">Напишите описание лота</span>
+        <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
       </div>
       <div class="form__item form__item--file">
         <label>Изображение <sup>*</sup></label>
@@ -49,20 +49,20 @@
         <div class="form__item form__item--small">
           <label for="lot-rate">Начальная цена <sup>*</sup></label>
           <input id="lot-rate" type="text" name="lot-rate" placeholder="0" required >
-          <span class="form__error">Введите начальную цену</span>
+          <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
         </div>
         <div class="form__item form__item--small">
           <label for="lot-step">Шаг ставки <sup>*</sup></label>
           <input id="lot-step" type="text" name="lot-step" placeholder="0" required >
-          <span class="form__error">Введите шаг ставки</span>
+          <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
         </div>
         <div class="form__item">
           <label for="lot-date">Дата окончания торгов <sup>*</sup></label>
           <input class="form__input-date" id="lot-date" type="text" name="lot-date" placeholder="Введите дату в формате ГГГГ-ММ-ДД" required >
-          <span class="form__error">Введите дату завершения торгов</span>
+          <span class="form__error"><?php  if ($errors[$field]) { echo $errors[$field];}?></span>
         </div>
       </div>
-      <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+      <span class="form__error form__error--bottom"><?php  if ($errors) { echo "Исправьте ошибки в форме";}?></span>
       <input type="submit" class="button" name="senddata">Добавить лот</button>
     </form>
   </main>
