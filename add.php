@@ -12,9 +12,9 @@ $resultcategories = mysqli_query($con, $querycategories );
 $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 $errors = [];
 if (isset($_POST['senddata'])) {
-    $required_fields = [$_POST['lot-name'], $_POST['category'], $_POST['message'], $_POST['lot-rate'], $_POST['lot-step']];
+    $required_fields = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step'];
     foreach ($required_fields as $field) {
-        if (empty($field)) {
+        if (empty($_POST[$field])) {
             $errors[$field] = 'Поле не заполнено';
         }
     }
