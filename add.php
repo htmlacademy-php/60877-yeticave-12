@@ -11,20 +11,45 @@ $querycategories = "Select name, symbol_code from categories";
 $resultcategories = mysqli_query($con, $querycategories );
 $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 $errors = [];
-if (isset($_POST['senddata'])) {
-    $required_fields = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step'];
-    foreach ($required_fields as $field) {
-        if ($_POST[$field]) {
-            $errors['field'] = 'Поле не заполнено';
-        }
-        else {
-            unset($errors['field']);
-        }
-    }
-    if(!is_date_valid($_POST["lot-date"])){
-        $errors['date'] = 'Поле даты не валидно';
-    }
+
+$name  = $_POST['lot-name'];
+
+if (empty($name)) {
+    $errors['name'] = "Поле имени пустое"
 }
+
+$categories  = $_POST['category'];
+
+if (empty($categories)) {
+    $errors['categories'] = "Поле категории пустое"
+}
+
+$message  = $_POST['message'];
+
+if (empty($message)) {
+    $errors['message'] = "Поле сообщения пустое"
+}
+
+$lotRate  = $_POST['lot-rate'];
+
+if (empty($lotRate)) {
+    $errors['lot-rate-empty'] = "Поле сообщения пустое"
+}
+
+if (!is_numeric($_POST['lot-rate'])||($_POST['lot-rate']<0)){
+    $errors['lot-rate-num'] = "Начальная цена не число! Или меньше ноля";
+}
+
+$lotStep  = $_POST['lot-step'];
+
+if (empty($lotStep)) {
+    $errors['lot-step-empty'] = "Поле сообщения пустое"
+}
+
+if (!is_numeric($_POST['lot-step'])||($_POST['lot-step']<0)){
+    $errors['lot-step-num'] = "Шаг ставки не число! Или меньше ноля";
+}
+
 if (isset($_FILES['add-lot-file'])) {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $file_name = $_FILES['add-lot-file']['name'];
@@ -39,15 +64,9 @@ if (isset($_FILES['add-lot-file'])) {
 
 }
 
-if (!is_numeric($_POST['lot-rate'])&&($_POST['lot-rate']<0)){
-    $errors['lot-rate'] = "Начальная цена не число! Или меньше ноля";
-}
-
-if (!is_numeric($_POST['lot-step'])&&($_POST['lot-step']<0)){
-    $errors['lot-step'] = "Шаг ставки не число! Или меньше ноля";
-}
-
 $content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors]);
+
 $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
+echo $_POST['lot-step'];
 print($layout_content);
 ?>
