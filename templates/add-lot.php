@@ -10,14 +10,14 @@
         <?php endforeach; ?>
       </ul>
     </nav>
-    <form class="form form--add-lot container <?php  if ($errors['field']) { echo "form--invalid";}?>" action="add.php" method="post" enctype="multipart/form-data">
+    <form class="form form--add-lot container <?php  if ($errors) { echo "form--invalid";}?>" action="add.php" method="post" enctype="multipart/form-data">
       <h2>Добавление лота</h2>
       <div class="form__container-two">
 
-        <div class="form__item <?php  if ($errors['field']) { echo "form--invalid";}?>">
+        <div class="form__item <?php  if ($errors['name']) { echo "form--invalid";}?>">
           <label for="lot-name">Наименование <sup>*</sup></label>
           <input id="lot-name" type="text" name="lot-name" placeholder="Введите наименование лота" required >
-          <span class="form__error"><?php  if ($errors['field']) { echo $errors['field'];}?></span>
+          <span class="form__error"><?php  if ($errors['name']) { echo $errors['name'];}?></span>
         </div>
 
         <div class="form__item <?php  if ($errors['field']) { echo "form__item--invalid";}?>">
@@ -35,10 +35,10 @@
 
       </div>
 
-      <div class="form__item form__item--wide <?php  if ($errors['field']) { echo "form__item--invalid";}?>">
+      <div class="form__item form__item--wide <?php  if ($errors['categories']) { echo "form__item--invalid";}?>">
         <label for="message">Описание <sup>*</sup></label>
         <textarea id="message" name="message" placeholder="Напишите описание лота" required ></textarea>
-        <span class="form__error"><?php  if ($errors['field']) { echo $errors['field'];}?></span>
+        <span class="form__error"><?php  if ($errors['categories']) { echo $errors['categories'];}?></span>
       </div>
 
       <div class="form__item form__item--file <?php  if ($errors['format']) { echo "form__item--invalid";}?>">
@@ -51,24 +51,33 @@
         </div>
         <span class="form__error"><?php  if ($errors['format']) { echo $errors['format'];}?></span>
       </div>
+
       <div class="form__container-three">
-        <div class="form__item form__item--small <?php  if ($errors['field']||$errors['lot-rate']) { echo "form__item--invalid";}?>">
+        <div class="form__item form__item--small <?php  if ($errors['lot-rate-empty']||$errors['lot-rate-empty']) { echo "form__item--invalid";}?>">
           <label for="lot-rate">Начальная цена <sup>*</sup></label>
           <input id="lot-rate" type="text" name="lot-rate" placeholder="0" required >
           <span class="form__error"><?php
-          if ($errors['field']) {
-              echo $errors['field'];
+          if ($errors['lot-rate-empty']) {
+              echo $errors['lot-rate-empty'];
             }
-              if ($errors['lot-rate']) {
-                  echo $errors['lot-rate'];
+              if ($errors['lot-rate-num']) {
+                  echo $errors['lot-rate-num'];
             }
             ?>
             </span>
         </div>
-        <div class="form__item form__item--small <?php  if ($errors['field']) { echo "form__item--invalid";}?>">
+        <div class="form__item form__item--small <?php  if ($errors['lot-step-empty']) { echo "form__item--invalid";}?>">
           <label for="lot-step">Шаг ставки <sup>*</sup></label>
           <input id="lot-step" type="text" name="lot-step" placeholder="0" required >
-          <span class="form__error"><?php  if ($errors['field']) { echo $errors['field'];}?></span>
+          <span class="form__error"><?php
+          if (
+              $errors['lot-step-empty']) {
+              echo $errors['lot-step-empty'];
+        }
+        if ($errors['lot-step-num']) {
+          echo $errors['lot-step-num'];
+        }
+        ?></span>
         </div>
         <div class="form__item <?php  if ($errors['date']) { echo "form__item--invalid";}?>">
           <label for="lot-date">Дата окончания торгов <sup>*</sup></label>

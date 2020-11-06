@@ -15,25 +15,25 @@ $errors = [];
 $name  = $_POST['lot-name'];
 
 if (empty($name)) {
-    $errors['name'] = "Поле имени пустое"
+    $errors['name'] = "Поле имени пустое";
 }
 
 $categories  = $_POST['category'];
 
 if (empty($categories)) {
-    $errors['categories'] = "Поле категории пустое"
+    $errors['categories'] = "Поле категории пустое";
 }
 
 $message  = $_POST['message'];
 
 if (empty($message)) {
-    $errors['message'] = "Поле сообщения пустое"
+    $errors['message'] = "Поле сообщения пустое";
 }
 
 $lotRate  = $_POST['lot-rate'];
 
 if (empty($lotRate)) {
-    $errors['lot-rate-empty'] = "Поле сообщения пустое"
+    $errors['lot-rate-empty'] = "Поле сообщения пустое";
 }
 
 if (!is_numeric($_POST['lot-rate'])||($_POST['lot-rate']<0)){
@@ -43,7 +43,7 @@ if (!is_numeric($_POST['lot-rate'])||($_POST['lot-rate']<0)){
 $lotStep  = $_POST['lot-step'];
 
 if (empty($lotStep)) {
-    $errors['lot-step-empty'] = "Поле сообщения пустое"
+    $errors['lot-step-empty'] = "Поле сообщения пустое";
 }
 
 if (!is_numeric($_POST['lot-step'])||($_POST['lot-step']<0)){
@@ -61,10 +61,13 @@ if (isset($_FILES['add-lot-file'])) {
     if ($file_type !== 'image/jpg'||$file_type !== 'image/jpeg'||$file_type !== 'image/png') {
         $errors['format'] = "Неверный формат картинки";
     }
-
+}
+$date = $_POST['date'];
+if (!is_date_valid($date)) {
+    $errors['date'] = "Поле даты неправильное!";
 }
 
-$content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors]);
+$content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors, "name"=>$name,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
 
 $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
 echo $_POST['lot-step'];
