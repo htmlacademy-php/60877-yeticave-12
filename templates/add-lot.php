@@ -86,6 +86,7 @@
             if ($errors['date']) {
               echo $errors['date']; }
                   ?>
+                  <?php if ($errors['wrongdate']){echo $errors['wrongdate'];} ?>
                   </span>
         </div>
       </div>

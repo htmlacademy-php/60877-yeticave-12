@@ -74,6 +74,12 @@ if (!is_date_valid($date)) {
   }
 }
 
+$datedif = strtotime($date)-strtotime('now');
+echo $datedif;
+if ($datedif<0) {
+    $errors['wrongdate'] = "Выберите дату больше нынешней!";
+}
+
 $content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors, "namefield"=>$namefield,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
 $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
 print($layout_content);
