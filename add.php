@@ -107,17 +107,13 @@ if (!$errors) {
         $categoryid = 6;
         $symbol_code = "raznoe";
     }
-    $insertlot = "INSERT INTO lots (date_of_creation, name_of_the_lot, deskription,
-    img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid)
-    VALUES (CURRENT_TIMESTAMP, $namefield, $message, $lotname , $lotRate, $lotStep, $authorid, NULL, $date, $categoryid)";
+    $insertlot = "INSERT INTO lots (date_of_creation, name_of_the_lot, deskription, img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid) VALUES (CURRENT_TIMESTAMP, $namefield, $message, $lotname , $lotRate, $lotStep, $authorid, NULL, $date, $categoryid)";
 $mysqli_querylots = mysqli_query($con, $insertlot );
 $insertcategories =  "INSERT INTO categories (name, symbol_code) VALUES ($categories, $symbol_code)";
 mysqli_query($con, $insertcategories );
-    $lastid = "Select LAST(id) from lots";
-    header("Location: lot.php/?id = ".$lastid);
-    $content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors, "namefield"=>$namefield,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
-$layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
-    print($layout_content);
+$lastid = "select id from lots order by id desc limit 1";
+$lastidinsert = mysqli_fetch_row (mysqli_query($con, $lastid ));
+header("Location: lot.php/?id = ".$lastidinsert[0]);
 }}
 else {
     $namefield  = $_POST['lot-name'] ?? NULL;
