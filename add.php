@@ -53,7 +53,7 @@ if($lotStep) {
     }
 }
 
-
+$date = $_POST['lot-date'] ?? NULL;;
 if (isset($_FILES['add-lot-file'])) {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $file_name = $_FILES['add-lot-file']['name'];
@@ -61,12 +61,12 @@ if (isset($_FILES['add-lot-file'])) {
     $file_url = '/uploads/' . $file_name;
 
     move_uploaded_file($_FILES['add-lot-file']['tmp_name'], $file_path . $file_name);
-    $file_type = finfo_file($finfo, $file_name, $file_url);
-    if ($file_type !== 'image/jpeg'||$file_type !== 'image/png') {
+    $file_type = finfo_file($finfo, "uploads/$file_name");
+    if ($file_type !== 'image/jpeg'&&$file_type !== 'image/png') {
         $errors['format'] = "Неверный формат картинки";
     }
 }
-$date = $_POST['date'] ?? NULL;;
+
 
 if ($date) {
 if (!is_date_valid($date)) {
@@ -75,15 +75,50 @@ if (!is_date_valid($date)) {
 }
 
 $datedif = strtotime($date)-strtotime('now');
-echo $datedif;
 if ($datedif<0) {
     $errors['wrongdate'] = "Выберите дату больше нынешней!";
 }
 
-$content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors, "namefield"=>$namefield,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
+if (!$errors) {
+    $lotname = $_FILES['add-lot-file']['name'];
+    $date_of_creation = date("Y-m-d H-i-s");
+    $authorid = 1;
+    if ($_POST['category']==="Ботинки") {
+      $categoryid = 1;
+      $symbol_code = "botinki";
+    }
+    else if ($_POST['category']==="Доски и лыжи") {
+        $categoryid = 2;
+        $symbol_code = "doski_i_lishi";
+    }
+    else if ($_POST['category']==="Инструменты") {
+        $categoryid = 3;
+        $symbol_code = "instrumenti";
+    }
+    else if ($_POST['category']==="Крепления") {
+        $categoryid = 4;
+        $symbol_code = "kreplenia";
+    }
+    else if ($_POST['category']==="Одежда") {
+        $categoryid = 5;
+        $symbol_code = "odeshda";
+    }
+    else if ($_POST['category']==="Разное") {
+        $categoryid = 6;
+        $symbol_code = "raznoe";
+    }
+    $insertlot = "INSERT INTO lots (date_of_creation, name_of_the_lot, deskription,
+    img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid)
+    VALUES (CURRENT_TIMESTAMP, $namefield, $message, $lotname , $lotRate, $lotStep, $authorid, NULL, $date, $categoryid)";
+$mysqli_querylots = mysqli_query($con, $insertlot );
+$insertcategories =  "INSERT INTO categories (name, symbol_code) VALUES ($categories, $symbol_code)";
+mysqli_query($con, $insertcategories );
+    $lastid = "Select LAST(id) from lots";
+    header("Location: lot.php/?id = ".$lastid);
+    $content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors, "namefield"=>$namefield,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
 $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
-print($layout_content);
-}
+    print($layout_content);
+}}
 else {
     $namefield  = $_POST['lot-name'] ?? NULL;
     $categories  = $_POST['category'] ?? NULL;
@@ -91,18 +126,7 @@ else {
     $lotRate  = $_POST['lot-rate'] ?? NULL;
     $lotStep  = $_POST['lot-step'] ?? NULL;
     $content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors, "namefield"=>$namefield,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
-$layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
-print($layout_content);
+    $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
+    print($layout_content);
 }
-$lotname = $_FILES['add-lot-file']['name'];
-if (!$errors) {
-    $insertlot =  "INSERT INTO lots (name_of_the_lot, deskription, img, start_price, step_of_the_bid, finish_date) VALUES ($namefield, $message, $lotname , $lotRate, $lotStep, $date)";
-mysqli_query($con, $insertlot );
-$insertcategories =  "INSERT INTO categories (name) VALUES ($categories)";
-mysqli_query($con, $insertcategories );
- $lastid = "Select LAST(id) from lots";
- header("Location: lot.php/?id = ".$lastid);
-}
-
-
 ?>

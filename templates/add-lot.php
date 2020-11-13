@@ -66,7 +66,7 @@
             ?>
             </span>
         </div>
-        <div class="form__item form__item--small <?php  if ($errors['lot-step-empty']) { echo "form__item--invalid";}?>">
+        <div class="form__item form__item--small <?php  if ($errors['lot-step-empty']||$errors['lot-step-num']) { echo "form__item--invalid";}?>">
           <label for="lot-step">Шаг ставки <sup>*</sup></label>
           <input id="lot-step" type="text" name="lot-step" placeholder="0" required >
           <span class="form__error"><?php
