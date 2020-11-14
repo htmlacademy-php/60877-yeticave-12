@@ -105,11 +105,9 @@ if (!$errors) {
         $categoryid = 6;
         $symbol_code = "raznoe";
     }
-    $insertlot = "INSERT INTO lots ('date_of_creation', 'name_of_the_lot', 'deskription',
-    img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid)
-    VALUES (CURRENT_TIMESTAMP, mysqli_real_escape_string($namefield), mysqli_real_escape_string($message), mysqli_real_escape_string($lotname) , mysqli_real_escape_string($lotRate), mysqli_real_escape_string($lotStep), mysqli_real_escape_string($authorid), NULL, mysqli_real_escape_string($date), mysqli_real_escape_string($categoryid))";
+    $insertlot = 'INSERT INTO lots ("date_of_creation", "name_of_the_lot", "deskription",img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid) VALUES (CURRENT_TIMESTAMP, mysqli_real_escape_string($namefield), mysqli_real_escape_string($message), mysqli_real_escape_string($lotname) , mysqli_real_escape_string($lotRate), mysqli_real_escape_string($lotStep), mysqli_real_escape_string($authorid), NULL, mysqli_real_escape_string($date), mysqli_real_escape_string($categoryid))';
 
-$mysqli_querylots = mysqli_query($con, $insertlot );
+mysqli_query($con, $insertlot );
 //$insertcategories =  "INSERT INTO categories (name, symbol_code) VALUES ($categories, $symbol_code)";
 //mysqli_query($con, $insertcategories );
 $lastid = "select id from lots order by id desc limit 1";
