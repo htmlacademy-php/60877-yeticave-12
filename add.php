@@ -53,7 +53,7 @@ if($lotStep) {
     }
 }
 
-$date = $_POST['lot-date'] ?? NULL;;
+$date = $_POST['lot-date'] ?? NULL;
 if (isset($_FILES['add-lot-file'])) {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $file_name = $_FILES['add-lot-file']['name'];
@@ -76,11 +76,17 @@ $datedif = strtotime($date)-strtotime('now');
 if ($datedif<0) {
     $errors['wrongdate'] = "Выберите дату больше нынешней!";
 }
-
+$authorid = 1;
+$namefieldsafe = mysqli_real_escape_string($con, $namefield);
+$messagesafe = mysqli_real_escape_string($con, $message);
+$categoriessafe = mysqli_real_escape_string($con, $categories);
+$lotRatesafe = mysqli_real_escape_string($con, $lotRate);
+$lotStepsafe = mysqli_real_escape_string($con, $lotStep);
+$authoridsafe = mysqli_real_escape_string($con, $authorid);
+$datesafe = mysqli_real_escape_string($con, $date);
 if (!$errors) {
     $lotname = $_FILES['add-lot-file']['name'];
     $date_of_creation = date("Y-m-d H-i-s");
-    $authorid = 1;
     if ($_POST['category']==="Ботинки") {
       $categoryid = 1;
       $symbol_code = "botinki";
@@ -105,11 +111,11 @@ if (!$errors) {
         $categoryid = 6;
         $symbol_code = "raznoe";
     }
-    $insertlot = 'INSERT INTO lots ("date_of_creation", "name_of_the_lot", "deskription",img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid) VALUES (CURRENT_TIMESTAMP, mysqli_real_escape_string($namefield), mysqli_real_escape_string($message), mysqli_real_escape_string($lotname) , mysqli_real_escape_string($lotRate), mysqli_real_escape_string($lotStep), mysqli_real_escape_string($authorid), NULL, mysqli_real_escape_string($date), mysqli_real_escape_string($categoryid))';
 
+    $insertlot = 'INSERT INTO lots ("date_of_creation", "name_of_the_lot", "deskription",img, start_price, step_of_the_bid, authorid, winnerid, finish_date) VALUES (CURRENT_TIMESTAMP, "$namefieldsafe" ,"$messagesafe", "$categoriessafe" , $lotRatesafe , $lotStepsafe, $authoridsafe , NULL, $datesafe)';
 mysqli_query($con, $insertlot );
-//$insertcategories =  "INSERT INTO categories (name, symbol_code) VALUES ($categories, $symbol_code)";
-//mysqli_query($con, $insertcategories );
+/*$insertcategories =  "INSERT INTO categories ('name', 'symbol_code') VALUES (mysqli_real_escape_string($categories), mysqli_real_escape_string($symbol_code))";
+mysqli_query($con, $insertcategories );*/
 $lastid = "select id from lots order by id desc limit 1";
 $lastidinsert = mysqli_fetch_row (mysqli_query($con, $lastid ));
 header("Location: lot.php/?id=".$lastidinsert[0]);
