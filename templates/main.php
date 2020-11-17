@@ -24,7 +24,7 @@
 
             <li class="lots__item lot">
               <div class="image">
-                    <img src="img/<?php echo $row['img']; ?>" width="350" height="260" alt="">
+                    <img src="<?php echo $row['img']; ?>" width="350" height="260" alt="">
 
               </div>
               <div class="lot__info">

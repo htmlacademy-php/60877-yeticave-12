@@ -16,7 +16,7 @@
       <div class="lot-item__content">
         <div class="lot-item__left">
           <div class="lot-item__image">
-            <img src="../img/<?php echo $onelot['img']; ?>" width="730" height="548" alt="Сноуборд">
+            <img src="<?php echo $onelot['img']; ?>" width="730" height="548" alt="Сноуборд">
           </div>
           <p class="lot-item__category">Категория:
           <?php
