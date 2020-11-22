@@ -35,9 +35,7 @@ if ($_GET['id']) {
         die();
     }
   }
-    else {
-     header('Location: /404.php');
-     die();
+    else {header('Location: /404.php'); die();
    }
 
 $content = include_template('lot.php', ['rowscategories'=>$rowscategories, 'querysumlottodbfinal' => $querysumlottodbfinal, 'is_auth' => $is_auth, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory]);
