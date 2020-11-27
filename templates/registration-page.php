@@ -20,13 +20,13 @@
 
 
         <label for="email">E-mail <sup>*</sup></label>
-        <input id="email" type="text" name="email" placeholder="Введите e-mail" required>
+        <input id="email" type="text" name="email" placeholder="Введите e-mail" >
         <span class="form__error">      <?php if (isset($errors['repeatemail'])){ echo $errors['repeatemail'];}?>
       <?php if (isset($errors['wrongformatemail'])){ echo $errors['wrongformatemail'];}?></span>
       </div>
-      <div class="form__item <?php if (isset($errors['password'])){ echo "form__item--invalid";}?>">
+      <div class="form__item <?php if (isset($errors['password'])){ echo "form__item--invalid";}?> ">
         <label for="password">Пароль <sup>*</sup></label>
-        <input id="password" type="password" name="password" placeholder="Введите пароль" required>
+        <input id="password" type="password" name="password" placeholder="Введите пароль" >
         <span class="form__error"><?php if (isset($errors['password'])){ echo $errors['password'];}?>"></span>
       </div>
       <div class="form__item <?php if (isset($errors['name'])){ echo "form__item--invalid";}?>">
@@ -36,7 +36,7 @@
       </div>
       <div class="form__item <?php if (isset($errors['message'])){ echo "form__item--invalid";}?>">
         <label for="message">Контактные данные <sup>*</sup></label>
-        <textarea id="message" name="message" placeholder="Напишите как с вами связаться" required></textarea>
+        <textarea id="message" name="message" placeholder="Напишите как с вами связаться" ></textarea>
         <span class="form__error"><?php if (isset($errors['message'])){ echo $errors['message'];}?></span>
       </div>
       <?php
