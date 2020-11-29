@@ -21,8 +21,6 @@
 
         <label for="email">E-mail <sup>*</sup></label>
         <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?php if (isset($errors['repeatemail'])){ echo $_POST['email'];}?>
-        <?php if (isset($errors['wrongformatemail'])){ echo $_POST['email'];}?>
-        <?php if (isset($errors['repeatemail'])){ echo $_POST['email'];}?>
         ">
         <span class="form__error">      <?php if (isset($errors['repeatemail'])){ echo $errors['repeatemail'];}?>
       <?php if (isset($errors['wrongformatemail'])){ echo $errors['wrongformatemail'];}?></span>

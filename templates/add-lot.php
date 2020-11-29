@@ -91,10 +91,8 @@
                   </span>
         </div>
       </div>
-      <span class="form__error form__error--bottom"><?php  if (isset($errors)) { echo "Исправьте ошибки в форме";}?></span>
+      <span class="form__error form__error--bottom"><?php  if (count($errors)>0) { echo "Исправьте ошибки в форме";}?></span>
       <input type="submit" class="button" name="senddata">Добавить лот</button>
     </form>
   </main>
-
-</div>
 
