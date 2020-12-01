@@ -20,7 +20,6 @@ if (empty($namefield)) {
 }
 
 $categories  = $_POST['category'] ?? NULL;
-echo $categories;
 if ($categories <0) {
     $errors['categories'] = "Поле категории пустое";
 }
@@ -74,8 +73,6 @@ if (isset($_FILES['add-lot-file'])) {
     }
 }
 
-
-
 $authorid = 1;
 $namefieldsafe = mysqli_real_escape_string($con, $namefield);
 $messagesafe = mysqli_real_escape_string($con, $message);
@@ -100,7 +97,6 @@ $lastid = "select id from lots order by id desc limit 1";
 $lastidinsert = mysqli_fetch_row (mysqli_query($con, $lastid ));
 header("Location: lot.php/?id=".$lastidinsert[0]);
 }}
-var_dump($errors);
     $namefield = $_POST['lot-name'] ?? NULL;
     $categories = $_POST['category'] ?? NULL;
     $message = $_POST['message'] ?? NULL;
