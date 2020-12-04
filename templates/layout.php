@@ -23,11 +23,12 @@
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
 
         <nav class="user-menu">
+
         <?php if (isset($_SESSION['iduser'])) : ?>
             <div class="user-menu__logged">
     <p><?php echo $_SESSION['username']; ?></p>
     <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
-    <a class="user-menu__logout" href="#">Выход</a>
+    <a class="user-menu__logout" href="logout.php">Выход</a>
   </div>
 
 

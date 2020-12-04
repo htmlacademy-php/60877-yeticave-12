@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (isset($_SESSION)) {
+    header("HTTP/1.0 403 Forbidden");
+    return;
+}
+
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
@@ -52,13 +58,9 @@ if (isset($register)) {
       $errors['repeatemail'] = "Такой email уже есть";
   }
   if (!$errors) {
-    $insertafterregistrate = "INSERT INTO users
-    (date_registration, email, password, name, contacts) VALUES (CURRENT_TIMESTAMP, '$email', '$password', '$name', '$contacts')";
-
-
-
+    $insertafterregistrate = "INSERT INTO users(date_registration, email, password, name, contacts) VALUES (CURRENT_TIMESTAMP, '$email', '$password', '$name', '$contacts')";
     mysqli_query($con, $insertafterregistrate);
-    header("Location: index.php");
+    header("Location: /");
 }
 }
 

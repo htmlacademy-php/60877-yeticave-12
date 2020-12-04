@@ -1,10 +1,13 @@
 <?php
+session_start();
+if (empty($_SESSION)) {
+    header("HTTP/1.0 403 Forbidden");
+    return;
+}
+
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
-
-$is_auth = rand(0, 1);
-$user_name = 'Максим Березинец';
 $title = "Главная";
 
 $querycategories = "Select id, name, symbol_code from categories";
@@ -73,7 +76,7 @@ if (isset($_FILES['add-lot-file'])) {
     }
 }
 
-$authorid = 1;
+$authorid = $_SESSION['iduser'];
 $namefieldsafe = mysqli_real_escape_string($con, $namefield);
 $messagesafe = mysqli_real_escape_string($con, $message);
 $categoriessafe = mysqli_real_escape_string($con, $categories);
@@ -102,8 +105,8 @@ header("Location: lot.php/?id=".$lastidinsert[0]);
     $message = $_POST['message'] ?? NULL;
     $lotRate = $_POST['lot-rate'] ?? NULL;
     $lotStep = $_POST['lot-step'] ?? NULL;
-    $content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'is_auth' => $is_auth, 'errors'=>$errors, "namefield"=>$namefield,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
-    $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
+    $content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'errors'=>$errors, "namefield"=>$namefield,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
+    $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories]);
     print($layout_content);
 
 ?>
