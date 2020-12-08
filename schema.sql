@@ -196,3 +196,6 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+/*Creates search index on the name and deskriptions fields */
+CREATE FULLTEXT INDEX yeticave_search ON lots(name_of_the_lot, deskription);

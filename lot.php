@@ -1,18 +1,18 @@
 <?php
+session_start();
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
 $categories = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");
 $is_auth = rand(0, 1);
-$user_name = 'Максим Березинец';
 $title = "Главная";
 
 $querycategories = "Select name, symbol_code from categories";
 $resultcategories = mysqli_query($con, $querycategories );
 $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 
-if ($_GET['id']) {
+if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
     $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = ".$id;
     $resultlot = mysqli_query($con, $querylot );
@@ -39,7 +39,7 @@ if ($_GET['id']) {
    }
 
 $content = include_template('lot.php', ['rowscategories'=>$rowscategories, 'querysumlottodbfinal' => $querysumlottodbfinal, 'is_auth' => $is_auth, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory]);
-$layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth, 'user_name' => 'Максим Березинец']);
+$layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth]);
 
 print($layout_content);
 ?>
