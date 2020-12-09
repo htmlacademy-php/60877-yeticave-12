@@ -12,7 +12,7 @@
         <?php endforeach; ?>
       </ul>
     </nav>
-    <form class="form container" action="login.php" method="post"> <!-- form--invalid -->
+    <form class="form container <?php if (isset($errors)){echo "form--invalid"; } ?>" action="login.php" method="post">
       <h2>Вход</h2>
       <div class="form__item <?php if (isset($errors['email'])){echo "form__item--invalid"; } ?>">
         <label for="email">E-mail <sup>*</sup></label>
@@ -27,6 +27,7 @@
         <span class="form__error"><?php if (isset($errors['password'])){echo $errors['password']; } ?></span>
       </div>
       <input type="submit" class="button" name="submit">Войти</button>
+      <span class="form__error"><?php if (isset($errors['wrongdata'])){echo $errors['wrongdata']; } ?></span>
     </form>
   </main>
 

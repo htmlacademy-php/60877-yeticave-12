@@ -28,6 +28,9 @@
       </p>
         </div>
         <div class="lot-item__right">
+
+<?php 
+if (!isset($_SESSION['iduser'])): ?>
           <div class="lot-item__state">
           <?php
               $hours = lefttotime($onelot['finish_date'])[0];
@@ -71,6 +74,10 @@
               <button type="submit" class="button">Сделать ставку</button>
             </form>
           </div>
+			
+			<?php endif; ?>
+			
+			
           <div class="history">
             <h3>История ставок (<span><?php echo count($rowshistorysum);?></span>)</h3>
             <table class="history__list">
