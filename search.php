@@ -12,7 +12,9 @@ $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 
 $search = $_GET['search'];
 
-$querysearch = "SELECT img, symbol_code, name, lots.id, name_of_the_lot, start_price, date_of_creation, finish_date FROM lots JOIN categories ON lots.categoryid = categories.id WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search') ";
+$search = mysqli_real_escape_string($con, $search);
+
+$querysearch = "SELECT img, symbol_code, name, lots.id, name_of_the_lot, start_price, date_of_creation, finish_date FROM lots JOIN categories ON lots.categoryid = categories.id WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search') and current_timestamp<finish_date order by date_of_creation desc ";
 $resultsearchquery = mysqli_query($con, $querysearch );
 $resultsearch= mysqli_fetch_all($resultsearchquery, MYSQLI_ASSOC);
 $results_per_page = 9;
