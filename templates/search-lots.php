@@ -28,18 +28,11 @@
                   <span class="lot__cost"><?php echo $resultsearchrow['start_price']; ?><b class="rub">р</b></span>
                 </div>
                 <?php
-               // $hours = lefttotime($resultsearchrow['finish_date'])[0];
+                //$hours = lefttotime($resultsearchrow['finish_date'])[0];
                 //$minutes = lefttotime($resultsearchrow['finish_date'])[1];
                 [$hours, $minutes ] = lefttotime($resultsearchrow['finish_date']);
                 ?>
-                <div class="lot__timer timer <?php
-        $presentTime = strtotime('now');
-        $futureDate = strtotime($resultsearchrow['finish_date']);
-        $timerFinishing = $futureDate - $presentTime;
-        if ($timerFinishing < 3600)
-        {
-            echo "timer--finishing";
-        }?>
+                <div class="lot__timer timer <?php $presentTime = strtotime('now');$futureDate = strtotime($resultsearchrow['finish_date']);$timerFinishing = $futureDate - $presentTime;if ($timerFinishing < 3600){echo "timer--finishing";}?>
                     ">
                 <?php echo $hours . ":" . $minutes ?>
                 </div>
