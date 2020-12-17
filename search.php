@@ -19,7 +19,7 @@ $resultsearchquery = mysqli_query($con, $querysearch );
 $resultsearch= mysqli_fetch_all($resultsearchquery, MYSQLI_ASSOC);
 $results_per_page = 9;
 
-$num_rows = round(ceil(count($resultsearch))/$results_per_page); // 20 ДЕЛИМ НА 5. СКОЛЬКО? :)
+$num_rows = round(ceil(count($resultsearch))/$results_per_page);
 
 if (isset($_GET['page'])) {
     $nav = $_GET['page'];
