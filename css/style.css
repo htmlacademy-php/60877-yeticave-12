@@ -724,7 +724,7 @@ main.container {
 }
 
 .pagination-item-prev {
-  margin-right: auto;
+  margin-right: 40%;
 }
 
 .pagination-item-next {

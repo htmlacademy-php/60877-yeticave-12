@@ -35,42 +35,41 @@
               </div>
             </div>
           </li>
-
             <?php endif; ?>
           <?php endforeach; ?>
         </ul>
-   <?php  else:?>
-    <?php  echo "Ничего не найдено по вашему запросу"?>
+   <?php else:?>
+    <?php echo "Ничего не найдено по вашему запросу"?>
     <?php endif; ?>
-
       </section>
       <ul class="pagination-list">
-        <?php if (count($resultsearch) > $results_per_page): ?>
-            <?php if (empty($_GET['page']) || $_GET['page'] < 0) { $_GET['page'] = 1; } ?>
-          <?php if (isset($_GET['page']) && $_GET['page'] > 1): ?>
+
+      <?php if ($total > 1):?>
+
+        <?php if ($_GET['page']<=$total):?>
+             <?php if (isset($page) && $page > 1): ?>
 <li class="pagination-item pagination-item-prev">
-<a href="searh.php?search=<?php echo $_GET['search'] ?>&find=<?php echo $_GET['find']; ?>&page=<?php echo $_GET['page']-1; ?>">Назад</a>
+<a href="search.php?search=<?php echo $_GET['search'] ?>&find=<?php echo $_GET['find']; ?>&page=<?php echo $page-1; ?>">Назад</a>
 </li>
-
   <?php endif; ?>
-
-  <?php if (isset($_GET['page'])): ?>
-            <?php for ($i = 1;$i <= $num_rows;$i++): ?>
-               <?php if ($i != $nav): ?>
+  <?php $params = $_GET; ?>
+  <?php if (isset($page)): ?>
+            <?php for ($i = 1;$i <= $total; $i++): ?>
                 <li class="pagination-item">
-                <a href="searh.php?search=<?php echo $_GET['search'] ?>&find=<?php echo $_GET['find']; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                <a href="search.php?search=<?php echo $_GET['search'] ?>&find=<?php echo $_GET['find']; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                 </li>
-        <?php endif; ?>
           </li>
         <?php endfor; ?>
-        <?php endif; ?>
-        <?php if ($_GET['page'] > $resultsearch) { $_GET['page'] = $resultsearch; } ?>
-        <?php if (isset($_GET['page']) && $_GET['page'] < count($resultsearch)): ?>
-<li class="pagination-item pagination-item-next">
-     <a href="searh.php?search=<?php echo $_GET['search'] ?>&find=<?php echo $_GET['find']; ?>&page=<?php echo $_GET['page']; ?>">Вперед</a>
-<?php endif; ?>
+         <?php endif; ?>
 
-        <?php endif; ?>
+           <?php if (isset($page) && $page < $total): ?>
+            <li class="pagination-item pagination-item-next">
+             <a href="search.php?search=<?php echo $_GET['search'] ?>&find=<?php echo $_GET['find']; ?>&page=<?php echo $page+1; ?>">Вперед</a></li>
+              <?php endif; ?>
+              <?php endif; ?>
+              <?php endif; ?>
+
+
       </ul>
     </div>
   </main>

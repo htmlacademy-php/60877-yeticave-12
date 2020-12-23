@@ -10,26 +10,42 @@ $querycategories = "Select id, name, symbol_code from categories";
 $resultcategories = mysqli_query($con, $querycategories );
 $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 
-$search = $_GET['search'];
-
-$search = mysqli_real_escape_string($con, $search);
-
-$querysearch = "SELECT img, symbol_code, name, lots.id, name_of_the_lot, start_price, date_of_creation, finish_date FROM lots JOIN categories ON lots.categoryid = categories.id WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search') and current_timestamp<finish_date order by date_of_creation desc ";
-$resultsearchquery = mysqli_query($con, $querysearch );
-$resultsearch= mysqli_fetch_all($resultsearchquery, MYSQLI_ASSOC);
 $results_per_page = 9;
+$page = 1;
+if (isset ($_GET['page'])&&is_numeric($_GET['page'])&&$_GET['page']>0) {
+    $page = intval($_GET['page']);
+ }
 
-$num_rows = round(ceil(count($resultsearch))/$results_per_page);
+ $start = $page * $results_per_page - $results_per_page;
 
-if (isset($_GET['page'])) {
-    $nav = $_GET['page'];
-    }
-    else {
-    $nav = 0;
-    }
-    $nav = intval($nav);
+$search = mysqli_real_escape_string($con, $_GET['search']);
 
-$content = include_template('search-lots.php', ['rowscategories'=>$rowscategories, 'resultsearch'=>$resultsearch, 'results_per_page'=>$results_per_page, 'num_rows'=>$num_rows, 'nav'=>$nav]);
+$countsql = "SELECT count(id) as count FROM lots
+WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search') and current_timestamp<finish_date";
+
+$countsqlquery = mysqli_query($con, $countsql );
+$countsqlresult= mysqli_fetch_array($countsqlquery, MYSQLI_ASSOC);
+
+ $querysearch = "SELECT img, symbol_code, name, lots.id, name_of_the_lot,
+ start_price, date_of_creation, finish_date
+ FROM lots JOIN categories
+ ON lots.categoryid = categories.id
+ WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search')
+ and current_timestamp<finish_date order by date_of_creation desc limit $start, $results_per_page";
+
+ $resultsearchquery = mysqli_query($con, $querysearch );
+ $resultsearch= mysqli_fetch_all($resultsearchquery, MYSQLI_ASSOC);
+
+ $total = ceil(($countsqlresult['count']) / $results_per_page);
+
+if($page > $total) {
+    $page = $total;
+}
+
+$content = include_template('search-lots.php', ['rowscategories'=>$rowscategories,
+'resultsearch'=>$resultsearch, 'results_per_page'=>$results_per_page,
+"page"=>$page, "total"=>$total]);
+
 $layout_content = include_template('layout.php', ['content' => $content, 'resultsearch'=>$resultsearch, 'title' => 'Главная', 'rowscategories' => $rowscategories]);
 print($layout_content);
 ?>
