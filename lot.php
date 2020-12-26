@@ -4,19 +4,24 @@ require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-$categories = array("Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное");
-$is_auth = rand(0, 1);
 $title = "Главная";
+$userid = $_SESSION['iduser'];
 
-$querycategories = "Select name, symbol_code from categories";
-$resultcategories = mysqli_query($con, $querycategories );
-$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
-
-if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
-    $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = ".$id;
-    $resultlot = mysqli_query($con, $querylot );
-    $onelot = mysqli_fetch_array($resultlot, MYSQLI_ASSOC);
+
+    $querysumlot = "Select max(summary_of_the_lot) from bids where bids.lotid = ".$id;
+    $querysumlottodb = mysqli_query($con, $querysumlot);
+    $querysumlottodbfinal= mysqli_fetch_array($querysumlottodb, MYSQLI_ASSOC);
+
+
+
+    if (isset($_GET['id'])) {
+      $querycategories = "Select name, symbol_code from categories";
+      $resultcategories = mysqli_query($con, $querycategories );
+      $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
+      $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = ".$id;
+      $resultlot = mysqli_query($con, $querylot );
+      $onelot = mysqli_fetch_array($resultlot, MYSQLI_ASSOC);
 
     $thehistoryofbidssum= "select * FROM bids where bids.lotid = ".$id;
     $resultthehistoryofbidsum = mysqli_query($con, $thehistoryofbidssum );
@@ -26,20 +31,49 @@ if (isset($_GET['id'])) {
     $resultthehistoryofbids = mysqli_query($con, $thehistoryofbids );
     $rowshistory= mysqli_fetch_all($resultthehistoryofbids, MYSQLI_ASSOC);
 
-    $querysumlot = "Select max(summary_of_the_lot) from bids where bids.lotid = ".$id;
-    $querysumlottodb = mysqli_query($con, $querysumlot);
-    $querysumlottodbfinal= mysqli_fetch_array($querysumlottodb, MYSQLI_ASSOC);
-
     if (!$onelot) {
         header('Location: /404.php');
         die();
     }
+
   }
-    else {header('Location: /404.php'); die();
-   }
 
-$content = include_template('lot.php', ['rowscategories'=>$rowscategories, 'querysumlottodbfinal' => $querysumlottodbfinal, 'is_auth' => $is_auth, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory]);
-$layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories, 'is_auth' => $is_auth]);
+$errors = [];
+$sendbid = $_POST['send_bid']??NULL;
+  if ($sendbid) {
+    $cost  = $_POST['cost'];
 
-print($layout_content);
+    if (empty($cost)) {
+        $errors['wrongbet'] = "Поле ставки пустое";
+    }
+    else {
+        $lotid = $_GET['id'];
+
+        $insertintodb = "INSERT INTO bids (date, summary_of_the_lot, userid, lotid ) VALUES (current_timestamp, $cost, $userid, $lotid )";
+if (!$insertintodb) {
+  echo "Запрос не добавил ставку!!";
+}
+        header("Location: my-bets.php/?id=".$lotid);
+    }
+    }
+
+
+
+  /*
+    if ($_POST['send_bid']!==null) {
+
+        $lotid = $_GET['id'];
+        $userid = 1;
+        $maxbet = 1;
+
+        $insertintodb = "INSERT INTO bids (date, summary_of_the_lot, userid, lotid ) VALUES (current_timestamp, $maxbet, $userid, $lotid )";
+        header("Location: my-bets.php/?id=".$lotid);
+    }
+    elseif(empty($sendbid)){
+        header("Location: lot.php/?id=".$lotid);
+    }
+*/
+        $content = include_template('lot.php', ['rowscategories'=>$rowscategories, 'querysumlottodbfinal' => $querysumlottodbfinal, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory, 'errors'=>$errors]);
+        $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories]);
+        print($layout_content);
 ?>

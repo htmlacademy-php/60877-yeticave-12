@@ -45,8 +45,16 @@
       <ul class="pagination-list">
 
       <?php if ($total > 1):?>
+<?php
 
-        <?php if ($_GET['page']<=$total):?>
+ if(isset($_GET['page'])){
+  $getpage= $_GET['page'];
+}
+else {
+  $getpage = 0;
+}
+  ?>
+        <?php if ($getpage<=$total):?>
              <?php if (isset($page) && $page > 1): ?>
 <li class="pagination-item pagination-item-prev">
 <a href="search.php?search=<?php echo $_GET['search'] ?>&find=<?php echo $_GET['find']; ?>&page=<?php echo $page-1; ?>">Назад</a>
