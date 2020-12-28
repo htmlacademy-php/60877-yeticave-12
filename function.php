@@ -36,4 +36,15 @@ return $result;
 
 }
 
-?>
+function pagelink($p)
+{
+  return $p>1?'/?p='.$p:'/';
+}
+
+function rotate01()
+{
+  global $pn;
+
+  if ($pn==0) $pn++;
+  elseif ($pn==1) $pn--;
+}
