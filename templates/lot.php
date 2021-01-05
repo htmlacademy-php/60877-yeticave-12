@@ -5,7 +5,7 @@
                  foreach ($rowscategories as $row):
                ?>
         <li class="nav__item">
-          <a href="all-lots.html"><?php echo $row['name'];?></a>
+          <a href="all-lots.php?categoryid=<?php echo $row['id'];?>"><?php echo $row['name'];?></a>
         </li>
         <?php endforeach; ?>
       </ul>
@@ -36,6 +36,13 @@ if (isset($_SESSION['iduser'])): ?>
               $hours = lefttotime($onelot['finish_date'])[0];
               $minutes = lefttotime($onelot['finish_date'])[1];
 
+$distance = strtotime($onelot['finish_date']) - strtotime("now");
+
+$w = ceil($distance / 86400 / 7);
+$d = ceil($distance / 86400 % 7);
+$h = ceil($distance / 3600 % 24);
+$m = ceil($distance / 60 % 60);
+$s = ceil($distance % 60);
               ?>
             <div class="lot-item__timer timer <?php
                             $presentTime = strtotime('now');
@@ -48,7 +55,7 @@ if (isset($_SESSION['iduser'])): ?>
                         }
                       ?>
                       ">
-            <?php echo $hours . " : " . $minutes;?>
+            <?php echo $hours . " : " . $m." : ".$s;?>
 
             </div>
             <div class="lot-item__cost-state">
@@ -103,4 +110,3 @@ if (isset($_SESSION['iduser'])): ?>
       </div>
     </section>
   </main>
-

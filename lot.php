@@ -1,11 +1,12 @@
 <?php
 session_start();
+date_default_timezone_set('Europe/Kiev');
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
 $title = "Главная";
-$userid = $_SESSION['iduser'];
+$userid = $_SESSION['iduser']??NULL;
 
     $id = mysqli_real_escape_string($con, $_GET['id']);
 
@@ -16,7 +17,7 @@ $userid = $_SESSION['iduser'];
 
 
     if (isset($_GET['id'])) {
-      $querycategories = "Select name, symbol_code from categories";
+      $querycategories = "Select id, name, symbol_code from categories";
       $resultcategories = mysqli_query($con, $querycategories );
       $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
       $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = ".$id;
@@ -49,30 +50,14 @@ $sendbid = $_POST['send_bid']??NULL;
     else {
         $lotid = $_GET['id'];
 
-        $insertintodb = "INSERT INTO bids (date, summary_of_the_lot, userid, lotid ) VALUES (current_timestamp, $cost, $userid, $lotid )";
-if (!$insertintodb) {
+        $insertintodb = "INSERT INTO bids (date, summary_of_the_lot, userid, lotid ) VALUES (current_timestamp, $cost, '$userid', $lotid )";
+        $insertintodbquery = mysqli_query($con, $insertintodb);
+if (!$insertintodbquery) {
   echo "Запрос не добавил ставку!!";
 }
         header("Location: my-bets.php/?id=".$lotid);
     }
     }
-
-
-
-  /*
-    if ($_POST['send_bid']!==null) {
-
-        $lotid = $_GET['id'];
-        $userid = 1;
-        $maxbet = 1;
-
-        $insertintodb = "INSERT INTO bids (date, summary_of_the_lot, userid, lotid ) VALUES (current_timestamp, $maxbet, $userid, $lotid )";
-        header("Location: my-bets.php/?id=".$lotid);
-    }
-    elseif(empty($sendbid)){
-        header("Location: lot.php/?id=".$lotid);
-    }
-*/
         $content = include_template('lot.php', ['rowscategories'=>$rowscategories, 'querysumlottodbfinal' => $querysumlottodbfinal, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory, 'errors'=>$errors]);
         $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories]);
         print($layout_content);

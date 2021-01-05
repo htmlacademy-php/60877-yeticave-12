@@ -5,7 +5,7 @@
                  foreach ($rowscategories as $row):
                ?>
         <li class="nav__item">
-          <a href="all-lots.html"><?php echo $row['name'];?></a>
+          <a href="all-lots.php?categoryid=<?php echo $row['id'];?>"><?php echo $row['name'];?></a>
         </li>
         <?php endforeach; ?>
       </ul>

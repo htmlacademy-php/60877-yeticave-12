@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -27,7 +26,7 @@
         <?php if (isset($_SESSION['iduser'])) : ?>
             <div class="user-menu__logged">
     <p><?php echo $_SESSION['username']; ?></p>
-    <a class="user-menu__bets" href="my-bets.php">Мои ставки</a>
+    <a class="user-menu__bets" href="my-bets.php?userid=<?php echo $_SESSION['iduser']?>">Мои ставки</a>
     <a class="user-menu__logout" href="logout.php">Выход</a>
   </div>
 
@@ -57,7 +56,7 @@
         <ul class="nav__list container">
             <?php foreach ($rowscategories as $row): ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"><?php print($row['name']); ?></a>
+                <a href="all-lots.php?categoryid=<?php echo $row['id'];?>"><?php print($row['name']); ?></a>
             </li>
             <?php endforeach; ?>
         </ul>

@@ -1,14 +1,16 @@
 <?php
 session_start();
+date_default_timezone_set('Europe/Kiev');
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-$querylots = "Select name_of_the_lot, categoryid, name, start_price, finish_date, img, lots.id from lots join categories on lots.categoryid = categories.id where finish_date>CURTIME() order by lots.id DESC";
+$querylots = "Select name_of_the_lot, categoryid, name, symbol_code, start_price, finish_date, img, lots.id from lots
+join categories on lots.categoryid = categories.id where finish_date>CURTIME() order by lots.id DESC";
 $resultlots = mysqli_query($con, $querylots );
 $rowslots = mysqli_fetch_all($resultlots, MYSQLI_ASSOC);
 
-$querycategories = "Select name, symbol_code from categories";
+$querycategories = "Select categories.id, name, symbol_code from categories";
 $resultcategories = mysqli_query($con, $querycategories );
 $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
 

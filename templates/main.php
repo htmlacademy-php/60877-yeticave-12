@@ -1,16 +1,18 @@
-
 <main class="container">
     <section class="promo">
         <h2 class="promo__title">Нужен стафф для катки?</h2>
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
             <?php
-                 foreach ($rowscategories as $row):
+                 foreach ($rowscategories as $rowcat):
                ?>
-            <li class="promo__item promo__item--<?php echo $row['symbol_code'];?>">
-                 <a class="promo__link" href="pages/all-lots.html"><?php print($row['name']);?></a>
+
+            <li class="promo__item promo__item--<?php echo $rowcat['symbol_code'];?>">
+
+                 <a class="promo__link" href="all-lots.php?categoryid=<?php echo $rowcat['id']; ?>"><?php print($rowcat['name']);?></a>
               </li>
               <?php endforeach; ?>
+
         </ul>
     </section>
 
