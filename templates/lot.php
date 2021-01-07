@@ -1,4 +1,4 @@
-  <main>
+
     <nav class="nav">
       <ul class="nav__list container">
       <?php
@@ -10,7 +10,6 @@
         <?php endforeach; ?>
       </ul>
     </nav>
-
     <section class="lot-item container">
       <h2> <?php echo $onelot['name_of_the_lot']; ?></h2>
       <div class="lot-item__content">
@@ -29,7 +28,8 @@
         </div>
         <div class="lot-item__right">
 
-<?php $nowdate = strtotime('now'); $finish_date = strtotime($onelot['finish_date']);
+<?php $nowdate = strtotime('now');
+      $finish_date = strtotime($onelot['finish_date']);
 
 if (isset($_SESSION['iduser'])&&($nowdate<$finish_date)
 &&($selectlotsauthorarr[0]['authorid']!==$userid)
@@ -103,9 +103,7 @@ $s = ceil($distance % 60);
                 <td class="history__price"><?php echo formatPrice($history['summary_of_the_lot']); ?></td>
                 <td class="history__time"><?php
 
-
                 $datefromdatabase = $history['date'];
-
                $datetoprint = strtotime($datefromdatabase);
 
                echo date ("Y-m-d", $datetoprint )." в ".date ("H:i", $datetoprint );
@@ -118,4 +116,3 @@ $s = ceil($distance % 60);
         </div>
       </div>
     </section>
-  </main>
