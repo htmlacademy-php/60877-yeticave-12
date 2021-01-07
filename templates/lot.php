@@ -29,8 +29,12 @@
         </div>
         <div class="lot-item__right">
 
-<?php
-if (isset($_SESSION['iduser'])): ?>
+<?php $nowdate = strtotime('now'); $finish_date = strtotime($onelot['finish_date']);
+
+if (isset($_SESSION['iduser'])&&($nowdate<$finish_date)
+&&($selectlotsauthorarr[0]['authorid']!==$userid)
+&&($maxdatebidqueryarr[0]['id']!==$userid)): ?>
+
           <div class="lot-item__state">
           <?php
               $hours = lefttotime($onelot['finish_date'])[0];
@@ -69,7 +73,8 @@ $s = ceil($distance % 60);
                 ?></span>
               </div>
               <div class="lot-item__min-cost">
-                Мин. ставка <span><?php echo formatPrice($onelot['start_price'] + $onelot['step_of_the_bid']); ?></span>
+
+                Мин. ставка <span><?php echo formatPrice($maxbidfornowarr[0]["max(summary_of_the_lot)"] + $maxbidfornowarr[0]["step_of_the_bid"]);?></span>
               </div>
             </div>
             <form class="lot-item__form <?php if(isset($errors['wrongbet'])) {echo "form__item--invalid";}?>" method="post" autocomplete="off">
@@ -82,9 +87,13 @@ $s = ceil($distance % 60);
             </form>
           </div>
 
-			<?php endif; ?>
 
-
+<?php else:?>
+<span>Возможные причины появления данного сообщения <br>
+1) Пользователь не зарегистрирован<br> 2) истек срок действия лота<br> 3) проверьте что не вы автор поста, может быть и такое!<br>4)
+последняя ставка создана текущим юзером
+</span>
+    <?php endif; ?>
           <div class="history">
             <h3>История ставок (<span><?php echo count($rowshistorysum);?></span>)</h3>
             <table class="history__list">

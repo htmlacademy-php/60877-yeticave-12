@@ -14,8 +14,36 @@ $userid = $_SESSION['iduser']??NULL;
     $querysumlottodb = mysqli_query($con, $querysumlot);
     $querysumlottodbfinal= mysqli_fetch_array($querysumlottodb, MYSQLI_ASSOC);
 
+    /* выбираю макс ставку на данный момент*/
+$selectmaxbidfornow = "select max(summary_of_the_lot), lots.step_of_the_bid from bids join lots on bids.lotid = lots.id where lotid = ".$id;
+$selectmaxbidfornowquery = mysqli_query($con, $selectmaxbidfornow);
+$maxbidfornowarr= mysqli_fetch_all($selectmaxbidfornowquery, MYSQLI_ASSOC);
+/* конец выборки максимальной ставки */
 
 
+/*начинаю определять текущего юзера*/
+$selectlotsauthor = "select * from lots where id = ".$id;
+$selectlotsauthorquery = mysqli_query($con, $selectlotsauthor);
+$selectlotsauthorarr = mysqli_fetch_all($selectlotsauthorquery, MYSQLI_ASSOC);
+
+/*определяю последнюю дату создания ставки */
+
+
+
+/*заканчиваю определять последнюю дату ставки */
+
+$maxdatebid= "Select users.id, max(date) from bids JOIN users ON bids.userid = users.id where bids.lotid = ".$id." group by users.id";
+
+$maxdatebidquery = mysqli_query($con, $maxdatebid );
+
+$maxdatebidqueryarr= mysqli_fetch_all($maxdatebidquery, MYSQLI_ASSOC);
+if (isset($maxdatebidqueryarr[0]['id'])) {
+    $maxdatebidqueryarr[0]['id'] = $maxdatebidqueryarr[0]['id'];
+}
+else {
+    $maxdatebidqueryarr[0]['id'] = null;
+}
+/*заканчиваю определение текущего юзера*/
     if (isset($_GET['id'])) {
       $querycategories = "Select id, name, symbol_code from categories";
       $resultcategories = mysqli_query($con, $querycategories );
@@ -58,7 +86,7 @@ if (!$insertintodbquery) {
         header("Location: my-bets.php/?id=".$lotid);
     }
     }
-        $content = include_template('lot.php', ['rowscategories'=>$rowscategories, 'querysumlottodbfinal' => $querysumlottodbfinal, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory, 'errors'=>$errors]);
+        $content = include_template('lot.php', ['rowscategories'=>$rowscategories, "maxdatebidqueryarr"=>$maxdatebidqueryarr, "userid"=>$userid, "selectlotsauthorarr"=>$selectlotsauthorarr, "maxbidfornowarr"=>$maxbidfornowarr, 'querysumlottodbfinal' => $querysumlottodbfinal, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory, 'errors'=>$errors]);
         $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories]);
         print($layout_content);
 ?>
