@@ -83,7 +83,7 @@ $s = ceil($distance % 60);
                 <input id="cost" type="text" name="cost" placeholder="<?php echo $querysumlottodbfinal['max(summary_of_the_lot)']; ?>">
                 <span class="form__error"><?php if(isset($errors['wrongbet'])) {echo $errors['wrongbet'];}?></span>
               </p>
-              <input type="submit" class="button" name="send_bid">Сделать ставку</button>
+              <input type="submit" class="button" name="send_bid" value="Сделать "></button>
             </form>
           </div>
 
