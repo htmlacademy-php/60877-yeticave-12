@@ -4,6 +4,7 @@ date_default_timezone_set('Europe/Kiev');
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
+require_once("getwinner.php");
 
 $querylots = "Select name_of_the_lot, categoryid, name, symbol_code, start_price, finish_date, img, lots.id from lots
 join categories on lots.categoryid = categories.id where finish_date>CURTIME() order by lots.id DESC";
