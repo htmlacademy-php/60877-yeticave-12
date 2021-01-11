@@ -14,9 +14,8 @@ $winnerid = $getarrwinner['usersid'];
 
 $lotsid = $getarrwinner['lotsid'];
 
-if (!!$querygetwinner) {
+
     $insertwinner = "UPDATE lots SET winnerid = ".$winnerid." WHERE lots.id =".$lotsid;
     $insertwinnerquery= mysqli_query($con, $insertwinner );
-}
 
 
