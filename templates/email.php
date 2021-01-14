@@ -1,24 +1,24 @@
-<?php require_once("../getwinner.php");?>
-
 <?php
+
+require_once("../getwinner.php");
+
+require '../vendor/autoload.php';
+
 $winneremail = $getarrwinner["email"];
 $winnername = $getarrwinner["name"];
 $lot_id = $getarrwinner["lotsid"];
 $name_winner_lot = $getarrwinner["name_of_the_lot"];
 $winneruserid = $getarrwinner["usersid"];
 
-require '../vendor/autoload.php';
-
     $transport = (new Swift_SmtpTransport('phpdemo.ru', 25))
     ->setUsername('keks@phpdemo.ru')
     ->setPassword('htmlacademy');
 $mailer = new Swift_Mailer($transport);
 
-$message = (new Swift_Message())
-->setSubject('	Ваша ставка победила')
-->setFrom(['keks@phpdemo.ru'])
-->setTo([$winneremail => 'Bid Winner from Yeticave']);
-$message->setBody(
+$message = (new Swift_Message('Wonderful Subject'))
+->setFrom(['keks@phpdemo.ru'=>'John Doe'])
+->setTo([$winneremail => 'Bid Winner from Yeticave'])
+->setBody(
 '<html lang="ru">'.
 '<body>'.
 '<h1>Поздравляем с победой</h1>' .
@@ -32,8 +32,6 @@ $message->setBody(
 '</html>'
 );
 $message->addPart('Welcome to Mailtrap, now your test emails will be safe', 'text/html');
-$mailer->send($message);
-
-
+$result = $mailer->send($message);
 ?>
 
