@@ -6,11 +6,11 @@ require_once("function.php");
 
 $title = 'Страница ошибки';
 
-$queryСategories = 'Select id, name, symbol_code from categories';
-$resultСategories = mysqli_query($con, $queryСategories);
-$rowsСategories = mysqli_fetch_all($resultСategories, MYSQLI_ASSOC);
+$queryCategories = 'Select id, name, symbol_code from categories';
+$resultCategories = mysqli_query($con, $queryCategories);
+$rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
-$content = include_template('404.php', ['rowscategories' => $rowsСategories]);
-$layoutСontent = include_template('layout.php', ['content' => $content, 'title' => $title, 'rowscategories' => $rowsСategories]);
+$content = include_template('404.php', ['rowsCategories' => $rowsCategories]);
+$layoutContent = include_template('layout.php', ['content' => $content, 'title' => $title, 'rowscategories' => $rowsCategories]);
 
-print($layoutСontent);
+print($layoutContent);
