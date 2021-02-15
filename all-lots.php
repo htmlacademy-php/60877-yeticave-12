@@ -6,9 +6,9 @@ require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-$queryСategories = 'Select id, name, symbol_code from categories';
-$resultСategories = mysqli_query($con, $queryСategories);
-$rowsСategories = mysqli_fetch_all($resultСategories, MYSQLI_ASSOC);
+$queryCategories = 'Select id, name, symbol_code from categories';
+$resultCategories = mysqli_query($con, $queryCategories);
+$rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
 if(isset($_GET['categoryid'])) {
     $categoryId = mysqli_real_escape_string($con, $_GET['categoryid']);// проверить что оно есть
@@ -73,8 +73,8 @@ $countBidsRes = mysqli_fetch_all($resultTheHistoryOfBids, MYSQLI_ASSOC);
 
 }*/
 
-$content = include_template('all-lots.php', ['rowsСategories' => $rowsСategories, "allCategoriesLot" => $allCategoriesLot, "selectAllCategoryQueryArr" => $selectAllCategoryQueryArr, "postrow" => $postRow, "page" => $page, "total" => $total]);
+$content = include_template('all-lots.php', ['rowsСategories' => $rowsCategories, "allCategoriesLot" => $allCategoriesLot, "selectAllCategoryQueryArr" => $selectAllCategoryQueryArr, "postrow" => $postRow, "page" => $page, "total" => $total]);
 
-$layoutContent = include_template('layout.php', ['rowsСategories'=>$rowsСategories, 'content' => $content, "title" => $title]);
+$layoutContent = include_template('layout.php', ['rowsCategories'=>$rowsCategories, 'content' => $content, "title" => $title]);
 
 print($layoutContent);

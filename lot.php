@@ -6,7 +6,9 @@ require_once("timezone.php");
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
-
+$queryCategories = 'Select id, name, symbol_code from categories';
+$resultCategories = mysqli_query($con, $queryCategories);
+$rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $title = "Страница Лота";
 
 if (isset($_SESSION['iduser'])) {
@@ -45,9 +47,7 @@ $maxdateBidQueryArr = mysqli_fetch_array($maxdateBidQuery, MYSQLI_ASSOC);
 
 if (isset($_GET['id'])) {
 
-    $queryCategories = 'Select id, name, symbol_code from categories';
-    $resultCategories = mysqli_query($con, $queryCategories);
-    $rowsСategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
+
 
     $queryLot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = " . $id;
     $resultLot = mysqli_query($con, $queryLot);
@@ -65,7 +65,6 @@ if (isset($_GET['id'])) {
         header('Location: /404.php');
         die();
     }
-
 }
 
 $errors = [];
@@ -88,8 +87,8 @@ if ($sendBid) {
     }
 }
 
-$content = include_template('lot.php', ['rowsСategories'=>$rowsСategories, "maxdateBidQueryArr" => $maxdateBidQueryArr, "userId" => $userId, "selectLotsAuthorArr" => $selectLotsAuthorArr, "maxBidForNowArr" => $maxBidForNowArr, 'querySumLotToDbFinal' => $querySumLotToDbFinal, 'oneLot' => $oneLot, 'rowsHistorySum' => $rowsHistorySum, 'rowsHistory' => $rowsHistory, 'errors' => $errors]);
-$layoutContent = include_template('layout.php', ['rowsСategories'=>$rowsСategories, 'content' => $content, 'title' => $title]);
+$content = include_template('lot.php', ['rowsCategories'=>$rowsCategories, "maxdateBidQueryArr" => $maxdateBidQueryArr, "userId" => $userId, "selectLotsAuthorArr" => $selectLotsAuthorArr, "maxBidForNowArr" => $maxBidForNowArr, 'querySumLotToDbFinal' => $querySumLotToDbFinal, 'oneLot' => $oneLot, 'rowsHistorySum' => $rowsHistorySum, 'rowsHistory' => $rowsHistory, 'errors' => $errors]);
+$layoutContent = include_template('layout.php', ['rowsCategories'=>$rowsCategories, 'content' => $content, 'title' => $title]);
 
 
 print($layoutContent);

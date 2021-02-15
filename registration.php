@@ -61,5 +61,5 @@ if (isset($register)) {
 
 
 $content = include_template('registration-page.php', ['rowsCategories' => $rowsCategories, "errors" => $errors]);
-$layoutContent = include_template('layout.php', ['content' => $content, "errors" => $errors, 'rowscategories' => $rowsCategories]);
+$layoutContent = include_template('layout.php', ['content' => $content, "errors" => $errors, 'rowsCategories' => $rowsCategories]);
 print($layoutContent);

@@ -21,9 +21,9 @@ if (empty($getUser['name'])) {
 }
 
 $title = "Главная";
-$queryСategories = 'Select id, name, symbol_code from categories';
-$resultСategories = mysqli_query($con, $queryСategories);
-$rowsСategories = mysqli_fetch_all($resultСategories, MYSQLI_ASSOC);
+$queryCategories = 'Select id, name, symbol_code from categories';
+$resultCategories = mysqli_query($con, $queryCategories);
+$rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $errors = [];
 
 if ($_POST['senddata'] ?? NULL) {
@@ -109,7 +109,7 @@ if ($_POST['senddata'] ?? NULL) {
         $insertLot = "INSERT INTO lots (date_of_creation, name_of_the_lot,
     deskription,img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid)
     VALUES (CURRENT_TIMESTAMP, '$nameFieldSafe' ,'$messageSafe', '$fileUrl' ,
-    $lotRateSafe , $lotStepSafe, $authorIdSafe , NULL, '$dateSafe', $categories)";
+    $lotRateSafe,$lotStepSafe, $authorIdSafe, NULL, '$dateSafe',$categories)";
 
        if( mysqli_query($con, $insertLot)){
         $lastid = 'select id from lots order by id desc limit 1';
@@ -126,8 +126,8 @@ $message = $_POST['message'] ?? NULL;
 $lotRate = $_POST['lot-rate'] ?? NULL;
 $lotStep = $_POST['lot-step'] ?? NULL;
 
-$content = include_template('add-lot.php', ['rowsCategories' => $rowsСategories, 'errors' => $errors, 'namefield' => $nameField, 'categories' => $categories, 'message' => $message, 'lotRate' => $lotRate, 'lotStep' => $lotStep]);
+$content = include_template('add-lot.php', ['rowsCategories' => $rowsCategories, 'errors' => $errors, 'nameField' => $nameField, 'categories' => $categories, 'message' => $message, 'lotRate' => $lotRate, 'lotStep' => $lotStep]);
 
-$layoutСontent = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowsCategories' => $rowsСategories]);
+$layoutContent = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowsCategories' => $rowsCategories]);
 
-print ($layoutСontent);
+print ($layoutContent);
