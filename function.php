@@ -1,50 +1,34 @@
 <?php
 
-  function formatPrice (int $sum){
-  $ok_sum = ceil($sum);
-    if ($ok_sum >= 1000){
-      $ok_sum = number_format($ok_sum, 0, ' ', ' ');
+function formatPrice(int $sum)
+{
+    $ok_sum = ceil($sum);
+    $ok_sum .= " ₽";
+    return $ok_sum;
+}
+
+function lefttotime($dateleft)
+{
+
+    $now = time();
+
+    $futuretime = strtotime($dateleft);
+
+    $newtime = $futuretime - $now;
+    if ($newtime < 0) {
+        return ["00", "00"];
     }
-  $ok_sum = $ok_sum . " " . "₽";
-  return $ok_sum;
-}
+    $hours = $newtime / 3600;
 
-function lefttotime ($dateleft) {
+    $hours = floor($hours);
+    if ($hours < 10) {
+        $hours = "0" . $hours;
+    }
 
-$now = strtotime("now");
+    $minutes = ceil((($futuretime - $hours * 3600) - $now) / 60);
+    if ($minutes < 10) {
+        $minutes = "0" . $minutes;
+    }
+    return [$hours, $minutes];
 
-$futuretime = strtotime($dateleft);
-
-$newtime = $futuretime - $now;
-if ($newtime<0) {
-return [ "00", "00"];
-}
-$hours = $newtime/3600;
-
-$hours = floor($hours);
-if ($hours <10) {
-   $hours = "0".$hours;
-}
-
-$minutes = ceil((($futuretime - $hours * 3600) - $now) / 60);
-if ($minutes <10) {
-    $minutes = "0".$minutes;
- }
-$result = [$hours, $minutes];
-
-return $result;
-
-}
-
-function pagelink($p)
-{
-  return $p>1?'/?p='.$p:'/';
-}
-
-function rotate01()
-{
-  global $pn;
-
-  if ($pn==0) $pn++;
-  elseif ($pn==1) $pn--;
 }
