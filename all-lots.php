@@ -11,7 +11,7 @@ $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
 if(isset($_GET['categoryid'])) {
-    $categoryId = mysqli_real_escape_string($con, $_GET['categoryid']);// проверить что оно есть
+    $categoryId = mysqli_real_escape_string($con, $_GET['categoryid']);
 }
 
 /*пагинация*/
@@ -27,8 +27,10 @@ if (isset($_GET['page'])) {
     $page = 1;
 }
 
+if ($numberLotsFromCat["count"]) {
+    $total = ceil($numberLotsFromCat["count"] / $num);//проверить что есть $numberLotsFromCat["count"];
+}
 
-$total = ceil($numberLotsFromCat["count"] / $num);//проверить что есть $numberLotsFromCat["count"];
 
 if (empty($page) || $page < 0) {
     $page = 1;
@@ -54,24 +56,6 @@ $selectAllCategoryQuery = mysqli_query($con, $selectAllLotCategory);
 $selectAllCategoryQueryArr = mysqli_fetch_array($selectAllCategoryQuery, MYSQLI_ASSOC);
 
 $title = "All Lots";
-
-/*$theHistoryofBidsSum = "select * FROM bids where bids.lotid = " . $allCategoriesLot[0]['lotsid'];
-$resultTheHistoryofBidsum = mysqli_query($con, $theHistoryofBidsSum);
-$rowsHistorySum = mysqli_fetch_all($resultTheHistoryofBidsum, MYSQLI_ASSOC);*/
-
-//написать запрос где выбирается все id категорий
-/*$getIdLots = "select id from lots where categoryid = ". $categoryId;
-$getIdLotsQuery = mysqli_query($con, $getIdLots);
-$getIdLotsQueryArr = mysqli_fetch_all($getIdLotsQuery, MYSQLI_ASSOC);*/
-/*foreach($allCategoriesLot as $allCategoriesLotOneElem) {
-
-    $lotsIdAll = $allCategoriesLotOneElem["lotsid"];
-
-    $theHistoryOfBids = "Select count(id) as count from bids where lotid = " . $lotsIdAll;
-$resultTheHistoryOfBids = mysqli_query($con, $theHistoryOfBids);
-$countBidsRes = mysqli_fetch_all($resultTheHistoryOfBids, MYSQLI_ASSOC);
-
-}*/
 
 $content = include_template('all-lots.php', ['rowsСategories' => $rowsCategories, "allCategoriesLot" => $allCategoriesLot, "selectAllCategoryQueryArr" => $selectAllCategoryQueryArr, "postrow" => $postRow, "page" => $page, "total" => $total]);
 

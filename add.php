@@ -20,7 +20,7 @@ if (empty($getUser['name'])) {
     return;
 }
 
-$title = "Главная";
+$title = "Добавить лот";
 $queryCategories = 'Select id, name, symbol_code from categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
@@ -84,6 +84,7 @@ if ($_POST['senddata'] ?? NULL) {
         }
         elseif($fileType !== 'image/jpeg' && $fileType !== 'image/png')  {
              $errors['format'] = "Неверный формат картинки";
+
         }
         else {
             move_uploaded_file($_FILES['add-lot-file']['tmp_name'], $filePath . $fileName);
@@ -107,10 +108,9 @@ if ($_POST['senddata'] ?? NULL) {
         $dateOfCreation = date("Y-m-d H-i-s");
 
         $insertLot = "INSERT INTO lots (date_of_creation, name_of_the_lot,
-    deskription,img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid)
+    deskription,img, start_price, step_of_the_bid, winnerid, finish_date, categoryid)
     VALUES (CURRENT_TIMESTAMP, '$nameFieldSafe' ,'$messageSafe', '$fileUrl' ,
-    $lotRateSafe,$lotStepSafe, $authorIdSafe, NULL, '$dateSafe',$categories)";
-
+    $lotRateSafe,$lotStepSafe, $authorIdSafe, '$dateSafe',$categories)";
        if( mysqli_query($con, $insertLot)){
         $lastid = 'select id from lots order by id desc limit 1';
         $lastidinsert = mysqli_fetch_row(mysqli_query($con, $lastid));

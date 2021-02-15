@@ -14,7 +14,10 @@ $title = "Страница логина";
 
 $errors = [];
 
-$email = mysqli_real_escape_string($con, $_POST['email'] ?? NULL);
+if ($_POST['email']) {
+    $email = mysqli_real_escape_string($con, $_POST['email'] ?? NULL);
+}
+
 $password = mysqli_real_escape_string($con, $_POST['password'] ?? NULL);
 $submit = $_POST['submit'] ?? NULL;
 

@@ -11,13 +11,20 @@ $queryCategories = 'Select id, name, symbol_code from categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
-$email = mysqli_real_escape_string($con, $_POST['email'] ?? NULL);
+if ($_POST['email']) {
+    $email = mysqli_real_escape_string($con, $_POST['email'] ?? NULL);
+}
+
 
 $password = mysqli_real_escape_string($con, $_POST['password'] ?? NULL);
 
-$name = mysqli_real_escape_string($con, $_POST['name'] ?? NULL);
+if ($_POST['name']) {
+    $name = mysqli_real_escape_string($con, $_POST['name'] ?? NULL);
+}
 
-$contacts = mysqli_real_escape_string($con, $_POST['message'] ?? NULL);
+if ($_POST['message']) {
+    $contacts = mysqli_real_escape_string($con, $_POST['message'] ?? NULL);
+}
 
 $errors = [];
 $register = $_POST['register'] ?? NULL;

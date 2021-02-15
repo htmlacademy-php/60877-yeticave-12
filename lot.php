@@ -14,9 +14,6 @@ $title = "Страница Лота";
 if (isset($_SESSION['iduser'])) {
     $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 }
-else {
-    $userId = null;
-}
 
 if ($_GET['id']) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
