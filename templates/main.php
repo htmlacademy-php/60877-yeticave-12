@@ -37,7 +37,18 @@
                                                   href="lot.php?id=<?php echo $row['id']; ?>"><?php echo htmlspecialchars($row['name_of_the_lot']); ?></a>
                         </h3>
                         <div class="lot__state">
-                            <div class="lot__rate">
+                            <div class="lot__rate lot__index-column">
+                            <span> <?php
+                            if ($row['rate_count']>0&&$row['rate_count']<2) {
+                                echo $row['rate_count']." ставка";
+                            }
+                            else if ($row['rate_count']>1) {
+                                echo $row['rate_count']." ставки";
+                            }
+                            else if ($row['rate_count']>4) {
+                                echo $row['rate_count']." ставок";
+                            }
+                            ?></span>
                                 <span class="lot__amount">Стартовая цена </span>
                                 <span
                                     class="lot__cost"> <?php echo htmlspecialchars(formatPrice($row['start_price'])); ?></span>

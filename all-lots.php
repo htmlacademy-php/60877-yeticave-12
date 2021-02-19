@@ -42,9 +42,23 @@ if ($page > $total) {
 $start = $page * $num - $num;
 
 
-$queryLot = "Select img, lots.id as lotsid, name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date,
-step_of_the_bid, name from lots join categories on lots.categoryid = categories.id
-where categories.id = " . $categoryId . " and finish_date >current_timestamp LIMIT $start, $num";
+$queryLot = 'SELECT
+l.`name_of_the_lot`,
+l.`categoryid`,
+c.`name`,
+c.`symbol_code`,
+l.`start_price`,
+l.`finish_date`,
+l.`img`,
+l.`id`, MAX(b.`summary_of_the_lot`) AS rate,
+COUNT(b.`id`) AS rate_count
+FROM lots AS l
+LEFT JOIN `categories` AS c ON l.`categoryid` = c.`id`
+LEFT JOIN `bids` AS b ON b.`lotid` = l.`id`
+WHERE l.`finish_date` > CURTIME() AND l.categoryid='.$categoryId.'
+GROUP BY l.`id`
+ORDER BY l.`id` DESC LIMIT '.$start.', '.$num.'';
+
 $resultLot = mysqli_query($con, $queryLot);
 $allCategoriesLot = mysqli_fetch_all($resultLot, MYSQLI_ASSOC);
 
@@ -56,6 +70,22 @@ $selectAllCategoryQuery = mysqli_query($con, $selectAllLotCategory);
 $selectAllCategoryQueryArr = mysqli_fetch_array($selectAllCategoryQuery, MYSQLI_ASSOC);
 
 $title = "All Lots";
+
+
+/*$selectCatId = "select id from lots where categoryid = ".$_GET['categoryid'];
+$selectCatIdQuery = mysqli_query($con, $selectCatId );
+$selectCatIdArr = mysqli_fetch_all($selectCatIdQuery, MYSQLI_ASSOC);
+
+$bids = [];
+foreach ($selectCatIdArr as $selectCatIdElem){
+   $allCategoriesBids = "select count(id) from bids where lotid = ".$selectCatIdElem['id'];
+    $allCategoriesBidsQuery = mysqli_query($con, $allCategoriesBids );
+    $allCategoriesBidsArr = mysqli_fetch_all($allCategoriesBidsQuery, MYSQLI_ASSOC);
+    array_push($bids, $allCategoriesBidsArr[0]["count(id)"]);
+}*/
+
+
+
 
 $content = include_template('all-lots.php', ['rowsСategories' => $rowsCategories, "allCategoriesLot" => $allCategoriesLot, "selectAllCategoryQueryArr" => $selectAllCategoryQueryArr, "postrow" => $postRow, "page" => $page, "total" => $total]);
 

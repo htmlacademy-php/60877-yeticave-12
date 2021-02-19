@@ -77,7 +77,7 @@ if ($_POST['senddata'] ?? NULL) {
         $fileName = $_FILES['add-lot-file']['name'];
         $filePath = __DIR__ . '/uploads/';
         $fileUrl = '/uploads/' . $fileName;
-        $fileType = finfo_file($finfo, "uploads/$fileName");
+        $fileType = finfo_file($finfo, "uploads"."\\".$fileName);
 
         if(empty($fileName)){
             $errors['image-null'] = "Нету картинки!!";

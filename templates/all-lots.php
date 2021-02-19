@@ -30,48 +30,29 @@
                                                       href="lot.php?id=<?php echo $allCategoriesLotArray['lotsid']; ?>"><?php echo $allCategoriesLotArray['name_of_the_lot']; ?></a>
                             </h3>
                             <div class="lot__state">
-                            <?php
-              /* Вытягиваю историю ставок*/
-              $con = mysqli_connect("localhost", "root", "", "yeticave");
-mysqli_set_charset($con, "utf8");
-if ($con == false) {
-   print("Ошибка подключения: " . mysqli_connect_error());
-}
-              $id = $allCategoriesLotArray['lotsid'];
-$thehistoryofbids= "Select count(bids.id) from bids JOIN users ON bids.userid = users.id where bids.lotid = ".$id;
-$resultthehistoryofbids = mysqli_query($con, $thehistoryofbids );
-$rowshistory= mysqli_fetch_all($resultthehistoryofbids, MYSQLI_ASSOC);
-/* конец истории ставок*/
 
-
-              ?>
-
-              <?php if ($rowshistory[0]["count(bids.id)"]<1): ?>
-
-
-                <div class="lot__rate">
-                  <span class="lot__amount">Стартовая цена</span>
-                  <span class="lot__cost"><?php echo $allCategoriesLotArray['start_price']; ?><b class="rub">р</b></span>
-                </div>
-
-                 <?php else: ?>
-
-
-
-                <span>
-                     <?php
-                        if ($rowshistory[0]["count(bids.id)"]==1) {
-                             echo $rowshistory[0]["count(bids.id)"]. " ставка";
+                            <?php if ($allCategoriesLotArray['rate_count']>0): ?>
+                <span class="lot__amount">
+             <?php
+             if ($allCategoriesLotArray['rate_count']>0&&$allCategoriesLotArray['rate_count']<2) {
+                                echo $allCategoriesLotArray['rate_count']." ставка";
                             }
-                        if ($rowshistory[0]["count(bids.id)"]>1) {
-                             echo $rowshistory[0]["count(bids.id)"]. " ставки";
+                            else if ($allCategoriesLotArray['rate_count']>1) {
+                                echo $allCategoriesLotArray['rate_count']." ставки";
                             }
-                        if ($rowshistory[0]["count(bids.id)"]>4) {
-                             echo $rowshistory[0]["count(bids.id)"]. " ставок";
-                            } ?>
-                            </span>
+                            else if ($allCategoriesLotArray['rate_count']>4) {
+                                echo $allCategoriesLotArray['rate_count']." ставок";
+                            }
+                            ?>
+                </span>
+              <?php else: ?>
+<div class="lot__lot-price">
+                <span class="lot__amount">Стартовая цена</span>
+                <span class="lot__cost"><?php echo $allCategoriesLotArray['start_price'] . ' ₽'; ?></span>
+              </div>
+              <?php endif; ?>
 
-                 <?php endif; ?>
+
                                 <?php
                                 $hours = lefttotime($allCategoriesLotArray['finish_date'])[0];
                                 $minutes = lefttotime($allCategoriesLotArray['finish_date'])[1];

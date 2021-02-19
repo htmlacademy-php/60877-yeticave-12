@@ -8,8 +8,23 @@ require_once("helpers.php");
 require_once("function.php");
 require_once("getwinner.php");
 
-$queryLots = 'Select name_of_the_lot, categoryid, name, symbol_code, start_price, finish_date, img, lots.id from lots
-join categories on lots.categoryid = categories.id where finish_date>CURTIME() order by lots.id DESC';
+$queryLots = 'SELECT
+l.`name_of_the_lot`,
+l.`categoryid`,
+c.`name`,
+c.`symbol_code`,
+l.`start_price`,
+l.`finish_date`,
+l.`img`,
+l.`id`, MAX(b.`summary_of_the_lot`) AS rate,
+COUNT(b.`id`) AS rate_count
+FROM lots AS l
+LEFT JOIN `categories` AS c ON l.`categoryid` = c.`id`
+LEFT JOIN `bids` AS b ON b.`lotid` = l.`id`
+WHERE l.`finish_date` > CURTIME()
+GROUP BY l.`id`
+ORDER BY l.`id` DESC';
+
 $resultLots = mysqli_query($con, $queryLots);
 $rowsLots = mysqli_fetch_all($resultLots, MYSQLI_ASSOC);
 

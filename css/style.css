@@ -1236,3 +1236,13 @@ input:invalid .form__error{
 .rates__item--end {
   opacity: 0.4;
 }
+
+.lot__index-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.lot__lot-price {
+  display: flex;
+  flex-direction: column;
+}
