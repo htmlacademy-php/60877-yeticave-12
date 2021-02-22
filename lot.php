@@ -1,79 +1,91 @@
 <?php
+
 session_start();
+
+require_once("timezone.php");
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
+$queryCategories = 'Select id, name, symbol_code from categories';
+$resultCategories = mysqli_query($con, $queryCategories);
+$rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
+$title = "Страница Лота";
 
-$title = "Главная";
-$userid = $_SESSION['iduser'];
+if (isset($_SESSION['iduser'])) {
+    $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
+}
 
+if ($_GET['id']) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
+}
 
-    $querysumlot = "Select max(summary_of_the_lot) from bids where bids.lotid = ".$id;
-    $querysumlottodb = mysqli_query($con, $querysumlot);
-    $querysumlottodbfinal= mysqli_fetch_array($querysumlottodb, MYSQLI_ASSOC);
+$querySumLot = "Select max(summary_of_the_lot) from bids where bids.lotid = " . $id;
+$querySumLotToDb = mysqli_query($con, $querySumLot);
+$querySumLotToDbFinal = mysqli_fetch_array($querySumLotToDb, MYSQLI_ASSOC);
+
+/* выбираю макс ставку на данный момент*/
+$selectMaxBidForNow = "select max(summary_of_the_lot), lots.step_of_the_bid from bids join lots on bids.lotid = lots.id where lotid = " . $id;
+$selectMaxBidForNowQuery = mysqli_query($con, $selectMaxBidForNow);
+$maxBidForNowArr = mysqli_fetch_all($selectMaxBidForNowQuery, MYSQLI_ASSOC);
+/* конец выборки максимальной ставки */
+
+
+/*начинаю определять текущего юзера*/
+$selectLotsAuthor = "select * from lots where id = " . $id;
+$selectLotsAuthorQuery = mysqli_query($con, $selectLotsAuthor);
+$selectLotsAuthorArr = mysqli_fetch_all($selectLotsAuthorQuery, MYSQLI_ASSOC);
+
+/*определяю последнюю дату создания ставки */
+$maxDateBid = "Select users.id, max(date) as maxdate from bids JOIN users ON bids.userid = users.id where bids.lotid = " . $id . " group by users.id";
+$maxdateBidQuery = mysqli_query($con, $maxDateBid);
+$maxdateBidQueryArr = mysqli_fetch_array($maxdateBidQuery, MYSQLI_ASSOC);
+
+/*заканчиваю определять последнюю дату ставки */
+
+if (isset($_GET['id'])) {
 
 
 
-    if (isset($_GET['id'])) {
-      $querycategories = "Select name, symbol_code from categories";
-      $resultcategories = mysqli_query($con, $querycategories );
-      $rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
-      $querylot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = ".$id;
-      $resultlot = mysqli_query($con, $querylot );
-      $onelot = mysqli_fetch_array($resultlot, MYSQLI_ASSOC);
+    $queryLot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = " . $id;
+    $resultLot = mysqli_query($con, $queryLot);
+    $oneLot = mysqli_fetch_array($resultLot, MYSQLI_ASSOC);
 
-    $thehistoryofbidssum= "select * FROM bids where bids.lotid = ".$id;
-    $resultthehistoryofbidsum = mysqli_query($con, $thehistoryofbidssum );
-    $rowshistorysum= mysqli_fetch_all($resultthehistoryofbidsum, MYSQLI_ASSOC);
+    $theHistoryofBidsSum = "select * FROM bids where bids.lotid = " . $id;
+    $resultTheHistoryofBidsum = mysqli_query($con, $theHistoryofBidsSum);
+    $rowsHistorySum = mysqli_fetch_all($resultTheHistoryofBidsum, MYSQLI_ASSOC);
 
-    $thehistoryofbids= "Select bids.id, date, summary_of_the_lot, name from bids JOIN users ON bids.userid = users.id where bids.lotid = ".$id;
-    $resultthehistoryofbids = mysqli_query($con, $thehistoryofbids );
-    $rowshistory= mysqli_fetch_all($resultthehistoryofbids, MYSQLI_ASSOC);
+    $theHistoryofBids = "Select bids.id, date, summary_of_the_lot, name from bids JOIN users ON bids.userid = users.id where bids.lotid = " . $id;
+    $resultheHistoryofBids = mysqli_query($con, $theHistoryofBids);
+    $rowsHistory = mysqli_fetch_all($resultheHistoryofBids, MYSQLI_ASSOC);
 
-    if (!$onelot) {
+    if (!$oneLot) {
         header('Location: /404.php');
         die();
     }
-
-  }
+}
 
 $errors = [];
-$sendbid = $_POST['send_bid']??NULL;
-  if ($sendbid) {
-    $cost  = $_POST['cost'];
-
+$sendBid = $_POST['send_bid'] ?? NULL;
+if ($sendBid) {
+    if ($_POST['cost']) {
+        $cost = mysqli_real_escape_string($con, $_POST['cost']);
+    }
     if (empty($cost)) {
         $errors['wrongbet'] = "Поле ставки пустое";
-    }
-    else {
-        $lotid = $_GET['id'];
+    } else {
 
-        $insertintodb = "INSERT INTO bids (date, summary_of_the_lot, userid, lotid ) VALUES (current_timestamp, $cost, $userid, $lotid )";
-if (!$insertintodb) {
-  echo "Запрос не добавил ставку!!";
+        $insertIntoDb = "INSERT INTO bids (date, summary_of_the_lot, userid, lotid ) VALUES (current_timestamp, $cost, $userId, $id )";
+
+        $insertIntoDbQuery = mysqli_query($con, $insertIntoDb);
+        if (!$insertIntoDbQuery) {
+            exit("Запрос не добавил ставку!!");
+        }
+        header("Location: my-bets.php/?id=" . $id);
+    }
 }
-        header("Location: my-bets.php/?id=".$lotid);
-    }
-    }
+
+$content = include_template('lot.php', ['rowsCategories'=>$rowsCategories, "maxdateBidQueryArr" => $maxdateBidQueryArr, "userId" => $userId, "selectLotsAuthorArr" => $selectLotsAuthorArr, "maxBidForNowArr" => $maxBidForNowArr, 'querySumLotToDbFinal' => $querySumLotToDbFinal, 'oneLot' => $oneLot, 'rowsHistorySum' => $rowsHistorySum, 'rowsHistory' => $rowsHistory, 'errors' => $errors]);
+$layoutContent = include_template('layout.php', ['rowsCategories'=>$rowsCategories, 'content' => $content, 'title' => $title]);
 
 
-
-  /*
-    if ($_POST['send_bid']!==null) {
-
-        $lotid = $_GET['id'];
-        $userid = 1;
-        $maxbet = 1;
-
-        $insertintodb = "INSERT INTO bids (date, summary_of_the_lot, userid, lotid ) VALUES (current_timestamp, $maxbet, $userid, $lotid )";
-        header("Location: my-bets.php/?id=".$lotid);
-    }
-    elseif(empty($sendbid)){
-        header("Location: lot.php/?id=".$lotid);
-    }
-*/
-        $content = include_template('lot.php', ['rowscategories'=>$rowscategories, 'querysumlottodbfinal' => $querysumlottodbfinal, 'onelot'=>$onelot, 'rowshistorysum'=>$rowshistorysum, 'rowshistory'=>$rowshistory, 'errors'=>$errors]);
-        $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories]);
-        print($layout_content);
-?>
+print($layoutContent);

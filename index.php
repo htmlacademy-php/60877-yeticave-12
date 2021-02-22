@@ -1,22 +1,40 @@
 <?php
+
 session_start();
+require_once("timezone.php");
+
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
+require_once("getwinner.php");
 
-$querylots = "Select name_of_the_lot, categoryid, name, start_price, finish_date, img, lots.id from lots join categories on lots.categoryid = categories.id where finish_date>CURTIME() order by lots.id DESC";
-$resultlots = mysqli_query($con, $querylots );
-$rowslots = mysqli_fetch_all($resultlots, MYSQLI_ASSOC);
+$queryLots = 'SELECT
+l.`name_of_the_lot`,
+l.`categoryid`,
+c.`name`,
+c.`symbol_code`,
+l.`start_price`,
+l.`finish_date`,
+l.`img`,
+l.`id`, MAX(b.`summary_of_the_lot`) AS rate,
+COUNT(b.`id`) AS rate_count
+FROM lots AS l
+LEFT JOIN `categories` AS c ON l.`categoryid` = c.`id`
+LEFT JOIN `bids` AS b ON b.`lotid` = l.`id`
+WHERE l.`finish_date` > CURTIME()
+GROUP BY l.`id`
+ORDER BY l.`id` DESC';
 
-$querycategories = "Select name, symbol_code from categories";
-$resultcategories = mysqli_query($con, $querycategories );
-$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
+$resultLots = mysqli_query($con, $queryLots);
+$rowsLots = mysqli_fetch_all($resultLots, MYSQLI_ASSOC);
+
+$queryCategories = "Select categories.id, name, symbol_code from categories";
+$resultCategories = mysqli_query($con, $queryCategories);
+$rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
 $title = "Главная";
+$content = include_template('main.php', ['rowsCategories' => $rowsCategories, 'rowsLots' => $rowsLots, 'resultlots' => $resultLots]);
 
-$content = include_template('main.php', ['rowscategories' => $rowscategories, 'rowslots' => $rowslots, 'resultlots'=>$resultlots]);
+$layoutContent = include_template('layout.php', ['rowsCategories'=>$rowsCategories, 'content' => $content, 'title' => 'Главная']);
 
-$layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories]);
-
-print($layout_content);
-?>
+print($layoutContent);

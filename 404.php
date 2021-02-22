@@ -1,13 +1,16 @@
 <?php
+session_start();
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-$querycategories = "Select name, symbol_code from categories";
-$resultcategories = mysqli_query($con, $querycategories );
-$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
+$title = 'Страница ошибки';
 
-$mistake = include_template('404.php', ['rowscategories'=>$rowscategories]);
+$queryCategories = 'Select id, name, symbol_code from categories';
+$resultCategories = mysqli_query($con, $queryCategories);
+$rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
-print($mistake);
-?>
+$content = include_template('404.php', ['rowsCategories' => $rowsCategories]);
+$layoutContent = include_template('layout.php', ['content' => $content, 'title' => $title, 'rowscategories' => $rowsCategories]);
+
+print($layoutContent);

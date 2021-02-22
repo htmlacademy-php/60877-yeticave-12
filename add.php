@@ -1,112 +1,133 @@
 <?php
+
 session_start();
-if (empty($_SESSION)) {
-    header("HTTP/1.0 403 Forbidden");
-    return;
-}
 
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
-$title = "Главная";
 
-$querycategories = "Select id, name, symbol_code from categories";
-$resultcategories = mysqli_query($con, $querycategories );
-$rowscategories= mysqli_fetch_all($resultcategories, MYSQLI_ASSOC);
+if (empty($_SESSION['iduser'])) {
+    header("HTTP/1.0 403 Forbidden");
+    return;
+}
+
+$selectUser = "select name from users where id = ".$_SESSION['iduser'];
+$selectUserQuery = mysqli_query($con, $selectUser);
+$getUser = mysqli_fetch_array($selectUserQuery, MYSQLI_ASSOC);
+
+if (empty($getUser['name'])) {
+    header("HTTP/1.0 403 Forbidden");
+    return;
+}
+
+$title = "Добавить лот";
+$queryCategories = 'Select id, name, symbol_code from categories';
+$resultCategories = mysqli_query($con, $queryCategories);
+$rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $errors = [];
 
-if ($_POST['senddata']??NULL) {
-$namefield  = $_POST['lot-name'] ?? NULL;
+if ($_POST['senddata'] ?? NULL) {
+    $nameField = $_POST['lot-name'] ?? NULL;
 
-if (empty($namefield)) {
-    $errors['name'] = "Поле имени пустое";
-}
-
-$categories  = $_POST['category'] ?? NULL;
-if ($categories <0) {
-    $errors['categories'] = "Поле категории пустое";
-}
-
-$message  = $_POST['message'] ?? NULL;
-
-if (empty($message)) {
-    $errors['message'] = "Поле сообщения пустое";
-}
-
-$lotRate  = $_POST['lot-rate'] ?? NULL;
-
-if (empty($lotRate)) {
-    $errors['lot-rate-empty'] = "Поле сообщения пустое";
-}
-
-if (!is_numeric($lotRate)||($lotRate<0)){
-    $errors['lot-rate-num'] = "Начальная цена не число! Или меньше ноля";
-}
-
-$lotStep  = $_POST['lot-step'] ?? NULL;
-
-if (empty($lotStep)) {
-    $errors['lot-step-empty'] = "Поле сообщения пустое! ";
-}
-
-if (!is_numeric($lotStep)||($lotStep<0)){
-    $errors['lot-step-num'] = "Шаг ставки не число! Или меньше ноля";
-}
-
-$date = $_POST['lot-date'] ?? NULL;
-if (empty($date)) {
-    $errors['missing-date'] = "Выберите дату!! ";
-}
-$datedif = strtotime($date)-strtotime('now');
-if ($datedif<0) {
-    $errors['wrongdate'] = "Выберите дату больше нынешней!";
-}
-if (isset($_FILES['add-lot-file'])) {
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $file_name = $_FILES['add-lot-file']['name'];
-    $file_path = __DIR__ . '/uploads/';
-    $file_url = '/uploads/' . $file_name;
-    move_uploaded_file($_FILES['add-lot-file']['tmp_name'], $file_path . $file_name);
-    $file_type = finfo_file($finfo, "uploads/$file_name");
-    if ($file_type !== 'image/jpeg'&&$file_type !== 'image/png') {
-        $errors['format'] = "Неверный формат картинки";
+    if (empty($nameField)) {
+        $errors['name'] = "Поле имени пустое";
     }
-    if (empty($file_name)) {
-        $errors['image-size'] = "Нету картинки!!";
-    }
-}
 
-$authorid = $_SESSION['iduser'];
-$namefieldsafe = mysqli_real_escape_string($con, $namefield);
-$messagesafe = mysqli_real_escape_string($con, $message);
-$categoriessafe = mysqli_real_escape_string($con, $categories);
-$lotRatesafe = mysqli_real_escape_string($con, $lotRate);
-$lotStepsafe = mysqli_real_escape_string($con, $lotStep);
-$authoridsafe = mysqli_real_escape_string($con, $authorid);
-$datesafe = mysqli_real_escape_string($con, $date);
-
-if (!$errors) {
-    $lotname = $_FILES['add-lot-file']['name'];
-    $date_of_creation = date("Y-m-d H-i-s");
-
-    $insertlot = "INSERT INTO lots (date_of_creation, name_of_the_lot,
-    deskription,img, start_price, step_of_the_bid, authorid, winnerid, finish_date, categoryid)
-    VALUES (CURRENT_TIMESTAMP, '$namefieldsafe' ,'$messagesafe', '$file_url' ,
-    $lotRatesafe , $lotStepsafe, $authoridsafe , NULL, '$datesafe', $categories)";
-
-mysqli_query($con, $insertlot );
-
-$lastid = "select id from lots order by id desc limit 1";
-$lastidinsert = mysqli_fetch_row (mysqli_query($con, $lastid ));
-header("Location: lot.php/?id=".$lastidinsert[0]);
-}}
-    $namefield = $_POST['lot-name'] ?? NULL;
     $categories = $_POST['category'] ?? NULL;
-    $message = $_POST['message'] ?? NULL;
-    $lotRate = $_POST['lot-rate'] ?? NULL;
-    $lotStep = $_POST['lot-step'] ?? NULL;
-    $content = include_template('add-lot.php', ['rowscategories'=>$rowscategories, 'errors'=>$errors, "namefield"=>$namefield,"categories"=>$categories, "message"=>$message, "lotRate"=>$lotRate,"lotStep"=>$lotStep ]);
-    $layout_content = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowscategories' => $rowscategories]);
-    print($layout_content);
+    if ($categories < 0) {
+        $errors['categories'] = "Поле категории пустое";
+    }
 
-?>
+    $message = $_POST['message'] ?? NULL;
+
+    if (empty($message)) {
+        $errors['message'] = "Поле сообщения пустое";
+    }
+
+    $lotRate = $_POST['lot-rate'] ?? NULL;
+
+    if (empty($lotRate)) {
+        $errors['lot-rate-empty'] = "Поле сообщения пустое";
+    }
+
+    if (!is_numeric($lotRate) || ($lotRate < 0)) {
+        $errors['lot-rate-num'] = "Начальная цена не число! Или меньше ноля";
+    }
+
+    $lotStep = $_POST['lot-step'] ?? NULL;
+
+    if (empty($lotStep)) {
+        $errors['lot-step-empty'] = "Поле сообщения пустое! ";
+    }
+
+    if (!is_numeric($lotStep) || ($lotStep < 0)) {
+        $errors['lot-step-num'] = "Шаг ставки не число! Или меньше ноля";
+    }
+
+    $date = $_POST['lot-date'] ?? NULL;
+    if (empty($date)) {
+        $errors['missing-date'] = "Выберите дату!! ";
+    }
+    $dateDif = strtotime($date) - time();
+    if ($dateDif < 0) {
+        $errors['wrongdate'] = "Выберите дату больше нынешней!";
+    }
+    if (isset($_FILES['add-lot-file'])) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $fileName = $_FILES['add-lot-file']['name'];
+        $filePath = __DIR__ . '/uploads/';
+        $fileUrl = '/uploads/' . $fileName;
+        $fileType = finfo_file($finfo, "uploads"."\\".$fileName);
+
+        if(empty($fileName)){
+            $errors['image-null'] = "Нету картинки!!";
+        }
+        elseif($fileType !== 'image/jpeg' && $fileType !== 'image/png')  {
+             $errors['format'] = "Неверный формат картинки";
+
+        }
+        else {
+            move_uploaded_file($_FILES['add-lot-file']['tmp_name'], $filePath . $fileName);
+        }
+    }
+    else {
+        $errors['image-not'] = "Нету файла!!";
+    }
+
+    $authorId = $_SESSION['iduser'];
+    $nameFieldSafe = mysqli_real_escape_string($con, $nameField);
+    $messageSafe = mysqli_real_escape_string($con, $message);
+    $categoriesSafe = mysqli_real_escape_string($con, $categories);
+    $lotRateSafe = mysqli_real_escape_string($con, $lotRate);
+    $lotStepSafe = mysqli_real_escape_string($con, $lotStep);
+    $authorIdSafe = mysqli_real_escape_string($con, $authorId);
+    $dateSafe = mysqli_real_escape_string($con, $date);
+
+    if (!$errors) {
+        $lotName = $_FILES['add-lot-file']['name'];
+        $dateOfCreation = date("Y-m-d H-i-s");
+
+        $insertLot = "INSERT INTO lots (date_of_creation, name_of_the_lot,
+    deskription,img, start_price, step_of_the_bid, winnerid, finish_date, categoryid)
+    VALUES (CURRENT_TIMESTAMP, '$nameFieldSafe' ,'$messageSafe', '$fileUrl' ,
+    $lotRateSafe,$lotStepSafe, $authorIdSafe, '$dateSafe',$categories)";
+       if( mysqli_query($con, $insertLot)){
+        $lastid = 'select id from lots order by id desc limit 1';
+        $lastidinsert = mysqli_fetch_row(mysqli_query($con, $lastid));
+        header("Location: lot.php/?id=" . $lastidinsert[0]);
+       }
+else {
+      $errors['not-add'] = "Не добавлен лот!";
+    }
+}}
+$nameField = $_POST['lot-name'] ?? NULL;
+$categories = $_POST['category'] ?? NULL;
+$message = $_POST['message'] ?? NULL;
+$lotRate = $_POST['lot-rate'] ?? NULL;
+$lotStep = $_POST['lot-step'] ?? NULL;
+
+$content = include_template('add-lot.php', ['rowsCategories' => $rowsCategories, 'errors' => $errors, 'nameField' => $nameField, 'categories' => $categories, 'message' => $message, 'lotRate' => $lotRate, 'lotStep' => $lotStep]);
+
+$layoutContent = include_template('layout.php', ['content' => $content, 'title' => 'Главная', 'rowsCategories' => $rowsCategories]);
+
+print ($layoutContent);
