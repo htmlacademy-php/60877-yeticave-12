@@ -14,7 +14,6 @@ if(isset($_GET['categoryid'])) {
     $categoryId = mysqli_real_escape_string($con, $_GET['categoryid']);
 }
 
-/*пагинация*/
 $countAllLotsCat = "select count(lots.id) as count from lots join categories on lots.categoryid = categories.id where categories.id = " . $categoryId;
 $countAllLotsCatQuery = mysqli_query($con, $countAllLotsCat);
 $numberLotsFromCat = mysqli_fetch_array($countAllLotsCatQuery, MYSQLI_ASSOC);
@@ -28,7 +27,7 @@ if (isset($_GET['page'])) {
 }
 
 if ($numberLotsFromCat["count"]) {
-    $total = ceil($numberLotsFromCat["count"] / $num);//проверить что есть $numberLotsFromCat["count"];
+    $total = ceil($numberLotsFromCat["count"] / $num);
 }
 
 
@@ -63,29 +62,12 @@ $resultLot = mysqli_query($con, $queryLot);
 $allCategoriesLot = mysqli_fetch_all($resultLot, MYSQLI_ASSOC);
 
 while ($postRow[] = mysqli_fetch_array($resultLot)){}
-/*конец пагинации*/
 
 $selectAllLotCategory = "select name from categories where id = ".$categoryId;
 $selectAllCategoryQuery = mysqli_query($con, $selectAllLotCategory);
 $selectAllCategoryQueryArr = mysqli_fetch_array($selectAllCategoryQuery, MYSQLI_ASSOC);
 
 $title = "All Lots";
-
-
-/*$selectCatId = "select id from lots where categoryid = ".$_GET['categoryid'];
-$selectCatIdQuery = mysqli_query($con, $selectCatId );
-$selectCatIdArr = mysqli_fetch_all($selectCatIdQuery, MYSQLI_ASSOC);
-
-$bids = [];
-foreach ($selectCatIdArr as $selectCatIdElem){
-   $allCategoriesBids = "select count(id) from bids where lotid = ".$selectCatIdElem['id'];
-    $allCategoriesBidsQuery = mysqli_query($con, $allCategoriesBids );
-    $allCategoriesBidsArr = mysqli_fetch_all($allCategoriesBidsQuery, MYSQLI_ASSOC);
-    array_push($bids, $allCategoriesBidsArr[0]["count(id)"]);
-}*/
-
-
-
 
 $content = include_template('all-lots.php', ['rowsСategories' => $rowsCategories, "allCategoriesLot" => $allCategoriesLot, "selectAllCategoryQueryArr" => $selectAllCategoryQueryArr, "postrow" => $postRow, "page" => $page, "total" => $total]);
 

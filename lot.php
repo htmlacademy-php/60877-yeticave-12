@@ -44,8 +44,6 @@ $maxdateBidQueryArr = mysqli_fetch_array($maxdateBidQuery, MYSQLI_ASSOC);
 
 if (isset($_GET['id'])) {
 
-
-
     $queryLot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = " . $id;
     $resultLot = mysqli_query($con, $queryLot);
     $oneLot = mysqli_fetch_array($resultLot, MYSQLI_ASSOC);

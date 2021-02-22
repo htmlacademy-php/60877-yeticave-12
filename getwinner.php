@@ -6,8 +6,6 @@ require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-
-/*определение победителей лотов*/
 $getWinner = 'select lots.id as lotsid, lots.name_of_the_lot, bids.id as bidsid, users.id as usersid,
  users.email, bids.date, users.name, summary_of_the_lot from lots join users
 on lots.authorid = users.id join bids on lots.id = bids.lotid where winnerid is null
@@ -16,8 +14,6 @@ and finish_date < current_timestamp order by bids.date desc limit 1';
 $queryGetWinner = mysqli_query($con, $getWinner);
 
 $getArrWinner = mysqli_fetch_array($queryGetWinner, MYSQLI_ASSOC);
-
-/*конец определения победителей лотов*/
 
 if ($getArrWinner) {
     $winnerId = $getArrWinner['usersid'];
