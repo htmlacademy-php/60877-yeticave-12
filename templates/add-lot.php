@@ -56,9 +56,10 @@
                 } ?></span>
         </div>
 
-        <div class="form__item form__item--file <?php if (isset($errors['format'])&&isset($errors['image-null'])&&$errors(['image-not'])) {
-            echo "form__item--invalid";
-        } ?>">
+        <div
+            class="form__item form__item--file <?php if (isset($errors['format']) && isset($errors['image-null']) && $errors(['image-not'])) {
+                echo "form__item--invalid";
+            } ?>">
             <label>Изображение <sup>*</sup></label>
             <div class="form__input-file">
                 <input class="visually-hidden" type="file" id="lot-img" value="" name="add-lot-file" required>
@@ -72,7 +73,7 @@
                 <?php if (isset($errors['image-size'])) {
                     echo $errors['image-size'];
                 } ?>
-                  <?php if (isset($errors['image-not'])) {
+                <?php if (isset($errors['image-not'])) {
                     echo $errors['image-not'];
                 } ?>
         </span>

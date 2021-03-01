@@ -14,9 +14,12 @@ $queryCategories = 'Select id, name, symbol_code from categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
-if (isset($_SESSION['iduser'])) {
-    $userId = $_SESSION['iduser'];
+
+if (!isset($_SESSION['iduser'])) {
+    header('Location: login.php');
+    return;
 }
+$userId = $_SESSION['iduser'];
 
 /*определение победителей лотов*/
 $getWinner = 'select bids.id, users.email, summary_of_the_lot from lots join users on lots.authorid = users.id join bids on

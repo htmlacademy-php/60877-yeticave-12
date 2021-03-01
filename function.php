@@ -1,5 +1,6 @@
 <?php
 
+//форматирует цену и приводит ее к правильному формату согласно ТЗ
 function formatPrice(int $sum)
 {
     $ok_sum = ceil($sum);
@@ -7,6 +8,7 @@ function formatPrice(int $sum)
     return $ok_sum;
 }
 
+//определяет сколько осталось к нужной дате
 function lefttotime($dateleft)
 {
 

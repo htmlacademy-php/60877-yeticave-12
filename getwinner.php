@@ -21,20 +21,20 @@ if ($getArrWinner) {
     $insertWinner = "UPDATE lots SET winnerid = " . $winnerId . " WHERE lots.id =" . $lotsId;
     $insertWinnerQuery = mysqli_query($con, $insertWinner);
     $winnerEmail = $getArrWinner["email"];
-$winnerName = $getArrWinner["name"];
-$lotId = $getArrWinner["lotsid"];
-$nameWinnerLot = $getArrWinner["name_of_the_lot"];
-$winnerUserId = $getArrWinner["usersid"];
-$transport = (new Swift_SmtpTransport('phpdemo.ru', 25))
-    ->setUsername('keks@phpdemo.ru')
-    ->setPassword('htmlacademy');
-$mailer = new Swift_Mailer($transport);
-$message = (new Swift_Message('Wonderful Subject'))
-    ->setFrom(['keks@phpdemo.ru' => 'John Doe'])
-    ->setTo([$winnerEmail => 'Bid Winner from Yeticave'])
-    ->setBody(include_template('email.php', ["winnerName"=>$winnerName, "lotId"=>$lotId, "nameWinnerLot" => $nameWinnerLot, "winnerUserId"=>$winnerUserId]));
-        $message->addPart('Welcome to Mailtrap, now your test emails will be safe', 'text/html');
-$result = $mailer->send($message);
+    $winnerName = $getArrWinner["name"];
+    $lotId = $getArrWinner["lotsid"];
+    $nameWinnerLot = $getArrWinner["name_of_the_lot"];
+    $winnerUserId = $getArrWinner["usersid"];
+    $transport = (new Swift_SmtpTransport('phpdemo.ru', 25))
+        ->setUsername('keks@phpdemo.ru')
+        ->setPassword('htmlacademy');
+    $mailer = new Swift_Mailer($transport);
+    $message = (new Swift_Message('Wonderful Subject'))
+        ->setFrom(['keks@phpdemo.ru' => 'John Doe'])
+        ->setTo([$winnerEmail => 'Bid Winner from Yeticave'])
+        ->setBody(include_template('email.php', ["winnerName" => $winnerName, "lotId" => $lotId, "nameWinnerLot" => $nameWinnerLot, "winnerUserId" => $winnerUserId]));
+    $message->addPart('Welcome to Mailtrap, now your test emails will be safe', 'text/html');
+    $result = $mailer->send($message);
 }
 
 

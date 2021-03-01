@@ -19,7 +19,11 @@
         } ?>">
             <label for="email">E-mail <sup>*</sup></label>
             <input id="email" type="text" name="email" placeholder="Введите e-mail">
-            <span class="form__error"><?php if (isset($errors['email'])) {
+            <span class="form__error   <?php if (isset($errors['email'])) {
+                echo "form__item--invalid";
+            } ?> ">
+
+                <?php if (isset($errors['email'])) {
                     echo $errors['email'];
                 } ?>
                 <?php if (isset($errors['wrongformatemail'])) {
@@ -37,9 +41,12 @@
                 } ?></span>
         </div>
         <input type="submit" class="button" name="submit">Войти</button>
-        <span class="form__error"><?php if (isset($errors['wrongdata'])) {
-                echo $errors['wrongdata'];
-            } ?></span>
+        <span class="form__error">
+        <?php if (isset($errors['wrongdata'])) {
+            echo $errors['wrongdata'];
+        } ?>
+
+            </span>
     </form>
 </main>
 

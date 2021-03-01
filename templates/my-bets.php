@@ -13,7 +13,7 @@
     <section class="rates container">
         <h2>Мои ставки</h2>
         <table class="rates__list">
-            <?php foreach ($userMyBetQueryArray as $myBetArray):?>
+            <?php foreach ($userMyBetQueryArray as $myBetArray): ?>
 
                 <tr class="rates__item <?php
                 if ($myBetArray['id'] == $getArrWinner['id']) {
@@ -98,7 +98,7 @@
                         if ($s < 10) {
                             $s = '0' . $s;
                         }
-                        if ($h > 1&&$d<1) {
+                        if ($h > 1 && $d < 1) {
                             echo $h . ":" . $m . ":" . $s . " часа назад";
                         } else if ($w > 1) {
                             echo "Больше недели назад";
@@ -110,9 +110,8 @@
                             echo "Час назад";
                         } else if ($h > 24) {
                             echo "Вчера, в " . $h . ":" . $m;
-                        }
-                        else if ($h < 1) {
-                            echo $m." минут назад";
+                        } else if ($h < 1) {
+                            echo $m . " минут назад";
                         }
                         ?>
 

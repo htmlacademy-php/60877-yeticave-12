@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Фев 23 2021 г., 10:48
+-- Время создания: Мар 01 2021 г., 16:27
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.3.9
 
@@ -112,7 +112,7 @@ CREATE TABLE `lots` (
   `date_of_creation` datetime DEFAULT NULL,
   `name_of_the_lot` varchar(50) NOT NULL,
   `deskription` longtext NOT NULL,
-  `img` varchar(255) NOT NULL,
+  `img` longtext NOT NULL,
   `start_price` int(11) NOT NULL,
   `finish_date` datetime NOT NULL,
   `step_of_the_bid` int(11) NOT NULL,
@@ -159,7 +159,10 @@ INSERT INTO `lots` (`id`, `date_of_creation`, `name_of_the_lot`, `deskription`, 
 (31, '2021-02-15 18:15:18', '123', '23', '/uploads/category-5.jpg', 23, '2021-02-27 00:00:00', 23, NULL, 11, 5),
 (32, '2021-02-15 18:15:45', 'trtrt', 'rtrt', '/uploads/Desktop (3).jpg', 345, '2021-02-27 00:00:00', 45, NULL, 11, 4),
 (33, '2021-02-17 19:40:24', 'ew23', '23', '/uploads/category-1.jpg', 23, '2021-02-26 00:00:00', 23, NULL, 11, 3),
-(34, '2021-02-17 23:04:57', '45', '334', '/uploads/lot-1.jpg', 34, '2021-02-24 00:00:00', 34, NULL, 11, 1);
+(34, '2021-02-17 23:04:57', '45', '334', '/uploads/lot-1.jpg', 34, '2021-02-24 00:00:00', 34, NULL, 11, 1),
+(35, '2021-02-24 13:26:45', '345', '455555555555555555', '/uploads/хоста1.png', 45, '2021-08-27 00:00:00', 45, NULL, 12, 4),
+(36, '2021-02-25 22:51:33', '159', '6666', '/uploads/хоста1.png', 66, '2021-03-27 00:00:00', 66, NULL, 11, 5),
+(37, '2021-02-27 22:41:58', '45', '45', '/uploads/Капризна дівка.jpeg', 34, '2021-02-28 00:00:00', 34, NULL, 11, 4);
 
 -- --------------------------------------------------------
 
@@ -185,6 +188,7 @@ INSERT INTO `users` (`id`, `date_registration`, `email`, `name`, `password`, `co
 (2, '2020-08-02 00:00:00', 'halustyan@ukr.net', 'Maxym', '8b4cf0258846b23e0a8272bee22c38dd', 'город Чернигов, улица Мира 290'),
 (3, '2020-08-09 00:00:00', 'halkamaka@ukr.net', 'masha', 'qwerty', 'Полтава, ленона 300'),
 (4, '2020-08-19 00:00:00', 'test@ukr.net', 'yulya', '*49A0F43C1FF6FDDB84A22F846F98A4ACAD959DE9', 'Чернигов, рокосовского, 17'),
+(5, '2023-08-19 00:00:00', 'test@ukr.net', 'Sveta', '8526913Klojush', 'Чернигов, Rокосовского, 200'),
 (6, '2020-11-27 18:14:05', 'name@ukr.net', '234', '', '234'),
 (7, '2020-11-27 18:29:47', 'namenamememememem@ukr.net', '234234', '$2y$10$jSj4wJwaaFkaRAROEaGaQeQDJKTaxDYjOpkzde9l/uK9Ur7spMTvu', '234234234'),
 (8, '2020-11-28 00:34:26', 'kontekstexeo@gmail.com', 'Виктор Орлов', '$2y$10$lHRF082pg.prxfJ.vHBO8eg1ayQp8ZnkEJJf3HQmsk9DY8RCAcpeC', 'nsmsmsm'),
@@ -192,7 +196,10 @@ INSERT INTO `users` (`id`, `date_registration`, `email`, `name`, `password`, `co
 (10, '2020-12-03 18:49:51', 'itexpeditionamerica@gmail.com', 'Виктор Орлов', '$2y$10$mNnwXGgbhXfo/bgPRo6xAeXCdzgZ9kBrmU9kBIb4GglTjH.ngI0C2', 'ertertert'),
 (11, '2021-02-13 23:54:54', 'nina@ukr.net', 'Nina', '$2y$10$ZC9A8Lu69gcWgoOpfeJK2ud0qDcPLlaNQVwFYrka8IMtA37OAc/SS', 'nina@ukr.net'),
 (12, '2021-02-14 14:05:49', 'budya123@ukr.net', 'budya', '$2y$10$Txhsvlu8sF45JHx.u0CaKugnDcP25U6ot.AAOAY/ETvbgnTfCymXO', 'chernigiv region'),
-(5, '2023-08-19 00:00:00', 'test@ukr.net', 'Sveta', '8526913Klojush', 'Чернигов, Rокосовского, 200');
+(13, '2021-02-23 22:33:15', 'mishaluchi@ukr.net', 'Olga', '$2y$10$qGTyhTRU6DAIX2sNfPgSne5Xx.TCXyCRGKWwwM7b7ByyzoCLL9S/O', 'Tupichiv, lenina 106'),
+(14, '2021-02-24 13:14:31', 'kontekstexe90o@gmail.com', 'Виктор Орлов', '$2y$10$/Qn98/o8wZM985mYC4uaj.aLa7z6nt/yK8exyCLnVBAqskdbx8Rw2', 'drtertert'),
+(15, '2021-02-25 22:50:31', 'kontekstex7777eo@gmail.com', 'Виктор Орлов', '$2y$10$nd4UYz.L2yO8t5gZ9ocgKe1CzlJs8VGpRRtDYp4UT4vWxOcpj5QuC', '6666'),
+(16, '2021-02-27 22:34:50', 'ko444ntekstexeo@gmail.com', 'Виктор Орлов', '$2y$10$BLzFOSbEohlQA/D6LLwoBOSCty8i.asZ6rsTysDJNnZJGd6WD4Hfu', '4444');
 
 --
 -- Индексы сохранённых таблиц
@@ -202,6 +209,7 @@ INSERT INTO `users` (`id`, `date_registration`, `email`, `name`, `password`, `co
 -- Индексы таблицы `bids`
 --
 ALTER TABLE `bids`
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
   ADD KEY `date` (`date`),
   ADD KEY `summary_of_the_lot` (`summary_of_the_lot`);
@@ -210,6 +218,7 @@ ALTER TABLE `bids`
 -- Индексы таблицы `categories`
 --
 ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
   ADD KEY `name` (`name`);
 
@@ -217,6 +226,7 @@ ALTER TABLE `categories`
 -- Индексы таблицы `lots`
 --
 ALTER TABLE `lots`
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
   ADD UNIQUE KEY `date_of_creation` (`date_of_creation`),
   ADD KEY `name_of_the_lot` (`name_of_the_lot`);
@@ -226,6 +236,7 @@ ALTER TABLE `lots` ADD FULLTEXT KEY `yeticave_search` (`name_of_the_lot`,`deskri
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `date_registration` (`date_registration`),
   ADD UNIQUE KEY `id` (`id`),
   ADD KEY `name` (`name`);
@@ -250,13 +261,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT для таблицы `lots`
 --
 ALTER TABLE `lots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
