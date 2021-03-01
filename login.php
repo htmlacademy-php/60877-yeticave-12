@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
     $submit = $_POST['submit'] ?? NULL;
 }
 
-if (isset($submit)) {
+if ($submit) {
     if (empty($email)) {
         $errors['email'] = "Пустой email!";
     }

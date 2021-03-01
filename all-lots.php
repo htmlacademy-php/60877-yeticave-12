@@ -23,8 +23,6 @@ $numberLotsFromCat = mysqli_fetch_array($countAllLotsCatQuery, MYSQLI_ASSOC);
 
 $num = 9;
 
-$page = 0;
-
 if (isset($_GET['page'])) {
     $page = intval($_GET['page']);
 } else {

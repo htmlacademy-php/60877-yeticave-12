@@ -15,7 +15,7 @@ $queryGetWinner = mysqli_query($con, $getWinner);
 
 $getArrWinner = mysqli_fetch_array($queryGetWinner, MYSQLI_ASSOC);
 
-if ($getArrWinner) {
+if (isset($getArrWinner)) {
     $winnerId = $getArrWinner['usersid'];
     $lotsId = $getArrWinner['lotsid'];
     $insertWinner = "UPDATE lots SET winnerid = " . $winnerId . " WHERE lots.id =" . $lotsId;

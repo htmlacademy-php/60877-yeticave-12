@@ -26,21 +26,31 @@ $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $errors = [];
 
+$nameField = '';
+
 if (isset($_POST['lot-name'])) {
     $nameField = $_POST['lot-name'] ?? NULL;
 }
+
+$categories = '';
 
 if (isset($_POST['category'])) {
     $categories = $_POST['category'] ?? NULL;
 }
 
+$message = '';
+
 if (isset($_POST['message'])) {
     $message = $_POST['message'] ?? NULL;
 }
 
+$lotRate = null;
+
 if (isset($_POST['lot-rate'])) {
     $lotRate = $_POST['lot-rate'] ?? NULL;
 }
+
+$lotStep = null;
 
 if (isset($_POST['lot-step'])) {
     $lotStep = $_POST['lot-step'] ?? NULL;
@@ -52,7 +62,6 @@ if (isset($_POST['senddata']) ?? NULL) {
     if (empty($nameField)) {
         $errors['name'] = "Поле имени пустое";
     }
-
 
     if ($categories < 0) {
         $errors['categories'] = "Поле категории пустое";
@@ -78,6 +87,8 @@ if (isset($_POST['senddata']) ?? NULL) {
         $errors['lot-step-num'] = "Шаг ставки не число! Или меньше ноля";
     }
 
+    $date = null;
+
     if (isset($_POST['lot-date'])) {
         $date = $_POST['lot-date'] ?? NULL;
     }
@@ -85,7 +96,9 @@ if (isset($_POST['senddata']) ?? NULL) {
     if (empty($date)) {
         $errors['missing-date'] = "Выберите дату!! ";
     }
+
     $dateDif = strtotime($date) - time();
+
     if ($dateDif < 0) {
         $errors['wrongdate'] = "Выберите дату больше нынешней!";
     }
@@ -130,36 +143,6 @@ if (isset($_POST['senddata']) ?? NULL) {
             $errors['not-add'] = "Не добавлен лот!";
         }
     }
-}
-
-$nameField = '';
-
-if (isset($_POST['lot-name'])) {
-    $nameField = $_POST['lot-name'] ?? NULL;
-}
-
-$categories = '';
-
-if (isset($_POST['category'])) {
-    $categories = $_POST['category'] ?? NULL;
-}
-
-$message = '';
-
-if (isset($_POST['message'])) {
-    $message = $_POST['message'] ?? NULL;
-}
-
-$lotRate = null;
-
-if (isset($_POST['lot-rate'])) {
-    $lotRate = $_POST['lot-rate'] ?? NULL;
-}
-
-$lotStep = null;
-
-if (isset($_POST['lot-step'])) {
-    $lotStep = $_POST['lot-step'] ?? NULL;
 }
 
 $content = include_template('add-lot.php', ['rowsCategories' => $rowsCategories, 'errors' => $errors, 'nameField' => $nameField, 'categories' => $categories, 'message' => $message, 'lotRate' => $lotRate, 'lotStep' => $lotStep]);
