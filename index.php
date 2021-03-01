@@ -35,6 +35,6 @@ $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $title = "Главная";
 $content = include_template('main.php', ['rowsCategories' => $rowsCategories, 'rowsLots' => $rowsLots, 'resultlots' => $resultLots]);
 
-$layoutContent = include_template('layout.php', ['rowsCategories'=>$rowsCategories, 'content' => $content, 'title' => 'Главная']);
+$layoutContent = include_template('layout.php', ['rowsCategories' => $rowsCategories, 'content' => $content, 'title' => 'Главная']);
 
 print($layoutContent);

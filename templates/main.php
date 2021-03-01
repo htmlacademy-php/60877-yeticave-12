@@ -11,7 +11,7 @@
                 <li class="promo__item promo__item--<?php echo $rowCat['symbol_code']; ?>">
 
                     <a class="promo__link"
-                       href="all-lots.php?categoryid=<?= $rowCat['id']; ?>"><?php echo ($rowCat['name']); ?></a>
+                       href="all-lots.php?categoryid=<?= $rowCat['id']; ?>"><?php echo($rowCat['name']); ?></a>
                 </li>
             <?php endforeach; ?>
 
@@ -39,16 +39,14 @@
                         <div class="lot__state">
                             <div class="lot__rate lot__index-column">
                             <span> <?php
-                            if ($row['rate_count']>0&&$row['rate_count']<2) {
-                                echo $row['rate_count']." ставка";
-                            }
-                            else if ($row['rate_count']>1) {
-                                echo $row['rate_count']." ставки";
-                            }
-                            else if ($row['rate_count']>4) {
-                                echo $row['rate_count']." ставок";
-                            }
-                            ?></span>
+                                if ($row['rate_count'] > 0 && $row['rate_count'] < 2) {
+                                    echo $row['rate_count'] . " ставка";
+                                } else if ($row['rate_count'] > 1) {
+                                    echo $row['rate_count'] . " ставки";
+                                } else if ($row['rate_count'] > 4) {
+                                    echo $row['rate_count'] . " ставок";
+                                }
+                                ?></span>
                                 <span class="lot__amount">Стартовая цена </span>
                                 <span
                                     class="lot__cost"> <?php echo htmlspecialchars(formatPrice($row['start_price'])); ?></span>

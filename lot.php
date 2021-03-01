@@ -11,9 +11,13 @@ $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $title = "Страница Лота";
 
+$userId = null;
+
 if (isset($_SESSION['iduser'])) {
     $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 }
+
+$id = null;
 
 if ($_GET['id']) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
@@ -42,6 +46,9 @@ $maxdateBidQueryArr = mysqli_fetch_array($maxdateBidQuery, MYSQLI_ASSOC);
 
 /*заканчиваю определять последнюю дату ставки */
 
+$oneLot = [];
+$rowsHistorySum = [];
+$rowsHistory = [];
 if (isset($_GET['id'])) {
 
     $queryLot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = " . $id;
@@ -63,9 +70,13 @@ if (isset($_GET['id'])) {
 }
 
 $errors = [];
-$sendBid = $_POST['send_bid'] ?? NULL;
-if ($sendBid) {
-    if ($_POST['cost']) {
+
+if (isset($_POST['send_bid'])) {
+    $sendBid = $_POST['send_bid'] ?? NULL;
+}
+
+if (isset($sendBid)) {
+    if (isset($_POST['cost'])) {
         $cost = mysqli_real_escape_string($con, $_POST['cost']);
     }
     if (empty($cost)) {
@@ -82,8 +93,8 @@ if ($sendBid) {
     }
 }
 
-$content = include_template('lot.php', ['rowsCategories'=>$rowsCategories, "maxdateBidQueryArr" => $maxdateBidQueryArr, "userId" => $userId, "selectLotsAuthorArr" => $selectLotsAuthorArr, "maxBidForNowArr" => $maxBidForNowArr, 'querySumLotToDbFinal' => $querySumLotToDbFinal, 'oneLot' => $oneLot, 'rowsHistorySum' => $rowsHistorySum, 'rowsHistory' => $rowsHistory, 'errors' => $errors]);
-$layoutContent = include_template('layout.php', ['rowsCategories'=>$rowsCategories, 'content' => $content, 'title' => $title]);
+$content = include_template('lot.php', ['rowsCategories' => $rowsCategories, "maxdateBidQueryArr" => $maxdateBidQueryArr, "userId" => $userId, "selectLotsAuthorArr" => $selectLotsAuthorArr, "maxBidForNowArr" => $maxBidForNowArr, 'querySumLotToDbFinal' => $querySumLotToDbFinal, 'oneLot' => $oneLot, 'rowsHistorySum' => $rowsHistorySum, 'rowsHistory' => $rowsHistory, 'errors' => $errors]);
+$layoutContent = include_template('layout.php', ['rowsCategories' => $rowsCategories, 'content' => $content, 'title' => $title]);
 
 
 print($layoutContent);

@@ -1,4 +1,3 @@
-
 <main>
     <nav class="nav">
         <ul class="nav__list container">
@@ -27,30 +26,29 @@
                         <div class="lot__info">
                             <span class="lot__category"><?php echo $allCategoriesLotArray['name']; ?></span>
                             <h3 class="lot__title"><a class="text-link"
-                                                      href="lot.php?id=<?php echo $allCategoriesLotArray['lotsid']; ?>"><?php echo $allCategoriesLotArray['name_of_the_lot']; ?></a>
+                                                      href="lot.php?id=<?php echo $allCategoriesLotArray['id']; ?>"><?php echo $allCategoriesLotArray['name_of_the_lot']; ?></a>
                             </h3>
                             <div class="lot__state">
 
-                            <?php if ($allCategoriesLotArray['rate_count']>0): ?>
-                <span class="lot__amount">
+                                <?php if ($allCategoriesLotArray['rate_count'] > 0): ?>
+                                    <span class="lot__amount">
              <?php
-             if ($allCategoriesLotArray['rate_count']>0&&$allCategoriesLotArray['rate_count']<2) {
-                                echo $allCategoriesLotArray['rate_count']." ставка";
-                            }
-                            else if ($allCategoriesLotArray['rate_count']>1) {
-                                echo $allCategoriesLotArray['rate_count']." ставки";
-                            }
-                            else if ($allCategoriesLotArray['rate_count']>4) {
-                                echo $allCategoriesLotArray['rate_count']." ставок";
-                            }
-                            ?>
+             if ($allCategoriesLotArray['rate_count'] > 0 && $allCategoriesLotArray['rate_count'] < 2) {
+                 echo $allCategoriesLotArray['rate_count'] . " ставка";
+             } else if ($allCategoriesLotArray['rate_count'] > 1) {
+                 echo $allCategoriesLotArray['rate_count'] . " ставки";
+             } else if ($allCategoriesLotArray['rate_count'] > 4) {
+                 echo $allCategoriesLotArray['rate_count'] . " ставок";
+             }
+             ?>
                 </span>
-              <?php else: ?>
-<div class="lot__lot-price">
-                <span class="lot__amount">Стартовая цена</span>
-                <span class="lot__cost"><?php echo $allCategoriesLotArray['start_price'] . ' ₽'; ?></span>
-              </div>
-              <?php endif; ?>
+                                <?php else: ?>
+                                    <div class="lot__lot-price">
+                                        <span class="lot__amount">Стартовая цена</span>
+                                        <span
+                                            class="lot__cost"><?php echo $allCategoriesLotArray['start_price'] . ' ₽'; ?></span>
+                                    </div>
+                                <?php endif; ?>
 
 
                                 <?php
@@ -79,14 +77,14 @@
 
                 <?php if (isset($page) && $page > 1 && isset($_GET['categoryid'])): ?>
                     <li class="pagination-item pagination-item-prev"><a
-                            href="all-lots.php?categoryid=<?php echo $_GET['categoryid']; ?>&page=<?php echo $page - 1; ?>">Назад</a>
+                            href="all-lots.php?categoryid=<?php echo strip_tags($_GET['categoryid']); ?>&page=<?php echo $page - 1; ?>">Назад</a>
                     </li>
                 <?php endif; ?>
 
                 <?php if (isset($page) && isset($_GET['categoryid'])): ?>
                     <?php for ($i = 1; $i <= $total; $i++): ?>
                         <li class="pagination-item "><a
-                                href="all-lots.php?categoryid=<?php echo $_GET['categoryid']; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                href="all-lots.php?categoryid=<?php echo strip_tags($_GET['categoryid']); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                         </li>
                     <?php endfor; ?>
                 <?php endif; ?>
@@ -94,7 +92,7 @@
 
                 <?php if (isset($page) && $page < $total && isset($_GET['categoryid'])): ?>
                     <li class="pagination-item pagination-item-next"><a
-                            href="all-lots.php?categoryid=<?php echo $_GET['categoryid']; ?>&page=<?php echo $page + 1; ?>">Вперед</a>
+                            href="all-lots.php?categoryid=<?php echo strip_tags($_GET['categoryid']); ?>&page=<?php echo $page + 1; ?>">Вперед</a>
                     </li>
                 <?php endif; ?>
 

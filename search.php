@@ -22,7 +22,9 @@ if (isset ($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0) {
 
 $start = $page * $resultsPerPage - $resultsPerPage;
 
-$search = mysqli_real_escape_string($con, $_GET['search']);
+if (isset($_GET['search'])) {
+    $search = mysqli_real_escape_string($con, $_GET['search']);
+}
 
 $countSql = "SELECT count(id) as count FROM lots WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search') and current_timestamp < finish_date";
 
@@ -36,7 +38,9 @@ $querySearch = "SELECT img, symbol_code, name, lots.id, name_of_the_lot, start_p
 $resultSearchQuery = mysqli_query($con, $querySearch);
 $resultSearch = mysqli_fetch_all($resultSearchQuery, MYSQLI_ASSOC);
 
-$total = ceil(($countSqlResult['count']) / $resultsPerPage);
+if (isset($countSqlResult)) {
+    $total = ceil(($countSqlResult['count']) / $resultsPerPage);
+}
 
 if ($page > $total) {
     $page = $total;

@@ -18,7 +18,8 @@
                         <li class="lots__item lot">
                         <div class="lot__image">
                         <?php if (isset($resultSearch)): ?>
-                            <img src="<?php echo $resultSearchRow['img']; ?>" width="350" height="260" alt="<?php echo $resultSearchRow['symbol_code']; ?>">
+                            <img src="<?php echo $resultSearchRow['img']; ?>" width="350" height="260"
+                                 alt="<?php echo $resultSearchRow['symbol_code']; ?>">
                             </div>
                             <div class="lot__info">
                                 <span class="lot__category"><?php echo $resultSearchRow['name']; ?></span>

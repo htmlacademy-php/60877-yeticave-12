@@ -11,23 +11,32 @@ $queryCategories = 'Select id, name, symbol_code from categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
-if ($_POST['email']) {
+$email = '';
+$password = '';
+$name = '';
+$contacts = '';
+
+if (isset($_POST['email'])) {
     $email = mysqli_real_escape_string($con, $_POST['email'] ?? NULL);
 }
 
+if (isset($_POST['password'])) {
+    $password = mysqli_real_escape_string($con, $_POST['password'] ?? NULL);
+}
 
-$password = mysqli_real_escape_string($con, $_POST['password'] ?? NULL);
-
-if ($_POST['name']) {
+if (isset($_POST['name'])) {
     $name = mysqli_real_escape_string($con, $_POST['name'] ?? NULL);
 }
 
-if ($_POST['message']) {
+if (isset($_POST['message'])) {
     $contacts = mysqli_real_escape_string($con, $_POST['message'] ?? NULL);
 }
 
 $errors = [];
-$register = $_POST['register'] ?? NULL;
+
+if (isset($_POST['register'])) {
+    $register = $_POST['register'] ?? NULL;
+}
 
 if (isset($register)) {
 
@@ -60,9 +69,10 @@ if (isset($register)) {
         $errors['repeatemail'] = "Такой email уже есть";
     }
     if (!$errors) {
-        $insertAfterRegistrate = "INSERT INTO users(date_registration, email, password, name, contacts) VALUES (CURRENT_TIMESTAMP, '$email', '$password', '$name', '$contacts')";
+        $insertAfterRegistrate = "INSERT INTO users(date_registration, email, password, name, contacts)
+        VALUES (CURRENT_TIMESTAMP, '$email', '$password', '$name', '$contacts')";
         mysqli_query($con, $insertAfterRegistrate);
-        header("Location: /");
+        header("Location: login.php");
     }
 }
 
