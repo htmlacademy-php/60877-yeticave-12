@@ -122,7 +122,7 @@ if (isset($_POST['senddata'])) {
 
     $authorId = $_SESSION['iduser'];
     if (empty($authorId)) {
-      header("Location: login.php");
+        header("Location: login.php");
     }
     $nameFieldSafe = mysqli_real_escape_string($con, $nameField);
     $messageSafe = mysqli_real_escape_string($con, $message);

@@ -13,15 +13,13 @@ $title = "Страница Лота";
 
 if (isset($_SESSION['iduser'])) {
     $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
-}
-else{
+} else {
     header("Location:login.php");
 }
 
 if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
-}
-else {
+} else {
     header("Location:404.php");
 }
 
