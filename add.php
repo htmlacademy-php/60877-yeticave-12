@@ -56,7 +56,7 @@ if (isset($_POST['lot-step'])) {
     $lotStep = $_POST['lot-step'] ?? NULL;
 }
 
-if (isset($_POST['senddata']) ?? NULL) {
+if (isset($_POST['senddata'])) {
 
 
     if (empty($nameField)) {
@@ -113,7 +113,6 @@ if (isset($_POST['senddata']) ?? NULL) {
             $errors['image-null'] = "Нету картинки!!";
         } elseif ($fileType !== 'image/jpeg' && $fileType !== 'image/png') {
             $errors['format'] = "Неверный формат картинки";
-
         } else {
             move_uploaded_file($_FILES['add-lot-file']['tmp_name'], $filePath . $fileName);
         }
@@ -122,6 +121,9 @@ if (isset($_POST['senddata']) ?? NULL) {
     }
 
     $authorId = $_SESSION['iduser'];
+    if (empty($authorId)) {
+      header("Location: login.php");
+    }
     $nameFieldSafe = mysqli_real_escape_string($con, $nameField);
     $messageSafe = mysqli_real_escape_string($con, $message);
     $categoriesSafe = mysqli_real_escape_string($con, $categories);

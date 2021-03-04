@@ -16,6 +16,9 @@ $categoryId = '';
 if (isset($_GET['categoryid'])) {
     $categoryId = mysqli_real_escape_string($con, $_GET['categoryid']);
 }
+elseif (empty($_GET['categoryid'])) {
+  header("Location: 404.php");
+}
 
 $countAllLotsCat = "select count(lots.id) as count from lots join categories on lots.categoryid = categories.id where categories.id = " . $categoryId;
 $countAllLotsCatQuery = mysqli_query($con, $countAllLotsCat);
@@ -25,7 +28,8 @@ $num = 9;
 
 if (isset($_GET['page'])) {
     $page = intval($_GET['page']);
-} else {
+}
+ elseif(empty($page) || $page < 0) {
     $page = 1;
 }
 
@@ -33,11 +37,6 @@ $total = 0;
 
 if (isset($numberLotsFromCat["count"])) {
     $total = ceil($numberLotsFromCat["count"] / $num);
-}
-
-
-if (empty($page) || $page < 0) {
-    $page = 1;
 }
 
 if ($page > $total) {

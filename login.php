@@ -21,13 +21,13 @@ if (isset($_POST['email'])) {
     $email = mysqli_real_escape_string($con, $_POST['email'] ?? NULL);
 }
 
+$password = '';
+
 if (isset($_POST['password'])) {
     $password = mysqli_real_escape_string($con, $_POST['password'] ?? NULL);
 }
 
-if (isset($_POST['submit'])) {
-    $submit = $_POST['submit'] ?? NULL;
-}
+$submit = $_POST['submit'];
 
 if ($submit) {
     if (empty($email)) {

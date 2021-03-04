@@ -11,16 +11,18 @@ $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $title = "Страница Лота";
 
-$userId = null;
-
 if (isset($_SESSION['iduser'])) {
     $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 }
+else{
+    header("Location:login.php");
+}
 
-$id = null;
-
-if ($_GET['id']) {
+if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
+}
+else {
+    header("Location:404.php");
 }
 
 $querySumLot = "Select max(summary_of_the_lot) from bids where bids.lotid = " . $id;
@@ -49,6 +51,7 @@ $maxdateBidQueryArr = mysqli_fetch_array($maxdateBidQuery, MYSQLI_ASSOC);
 $oneLot = [];
 $rowsHistorySum = [];
 $rowsHistory = [];
+
 if (isset($_GET['id'])) {
 
     $queryLot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = " . $id;
