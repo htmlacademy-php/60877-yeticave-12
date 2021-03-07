@@ -11,8 +11,6 @@ $queryCategories = 'Select id, name, symbol_code from categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
-$categoryId = '';
-
 if (isset($_GET['categoryid'])) {
     $categoryId = mysqli_real_escape_string($con, $_GET['categoryid']);
 } elseif (empty($_GET['categoryid'])) {
@@ -31,10 +29,11 @@ if (isset($_GET['page'])) {
     $page = 1;
 }
 
-$total = 0;
-
 if (isset($numberLotsFromCat["count"])) {
     $total = ceil($numberLotsFromCat["count"] / $num);
+}
+else {
+    $total = 0;
 }
 
 if ($page > $total) {

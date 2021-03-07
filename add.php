@@ -10,6 +10,7 @@ if (empty($_SESSION['iduser'])) {
     header("HTTP/1.0 403 Forbidden");
     return;
 }
+$idUser = mysqli_real_escape_string($con, $_SESSION['iduser']);
 
 $selectUser = "select name from users where id = " . $_SESSION['iduser'];
 $selectUserQuery = mysqli_query($con, $selectUser);
@@ -26,38 +27,46 @@ $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $errors = [];
 
-$nameField = '';
+
 
 if (isset($_POST['lot-name'])) {
-    $nameField = $_POST['lot-name'] ?? NULL;
+    $nameField = $_POST['lot-name'];
 }
-
-$categories = '';
+else {
+    $nameField = null;
+}
 
 if (isset($_POST['category'])) {
-    $categories = $_POST['category'] ?? NULL;
+    $categories = $_POST['category'];
 }
-
-$message = '';
+else {
+    $categories = null;
+}
 
 if (isset($_POST['message'])) {
-    $message = $_POST['message'] ?? NULL;
+    $message = $_POST['message'];
+}
+else {
+    $message = NULL;
 }
 
-$lotRate = null;
+
 
 if (isset($_POST['lot-rate'])) {
-    $lotRate = $_POST['lot-rate'] ?? NULL;
+    $lotRate = $_POST['lot-rate'];
+}
+else {
+    $lotRate = null;
 }
 
-$lotStep = null;
-
 if (isset($_POST['lot-step'])) {
-    $lotStep = $_POST['lot-step'] ?? NULL;
+    $lotStep = $_POST['lot-step'];
+}
+else {
+    $lotStep = null;
 }
 
 if (isset($_POST['senddata'])) {
-
 
     if (empty($nameField)) {
         $errors['name'] = "Поле имени пустое";
@@ -87,10 +96,11 @@ if (isset($_POST['senddata'])) {
         $errors['lot-step-num'] = "Шаг ставки не число! Или меньше ноля";
     }
 
-    $date = null;
-
     if (isset($_POST['lot-date'])) {
-        $date = $_POST['lot-date'] ?? NULL;
+        $date = $_POST['lot-date'];
+    }
+    else {
+        $date = null;
     }
 
     if (empty($date)) {

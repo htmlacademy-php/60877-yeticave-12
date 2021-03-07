@@ -11,11 +11,11 @@ $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $title = "Страница Лота";
 
-if (isset($_SESSION['iduser'])) {
-    $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
-} else {
-    header("Location:login.php");
+if (!isset($_SESSION['iduser'])) {
+    header('Location: login.php');
+    return;
 }
+$userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 
 if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
@@ -46,7 +46,6 @@ $maxdateBidQueryArr = mysqli_fetch_array($maxdateBidQuery, MYSQLI_ASSOC);
 
 /*заканчиваю определять последнюю дату ставки */
 
-$oneLot = [];
 $rowsHistorySum = [];
 $rowsHistory = [];
 
@@ -73,7 +72,10 @@ if (isset($_GET['id'])) {
 $errors = [];
 
 if (isset($_POST['send_bid'])) {
-    $sendBid = $_POST['send_bid'] ?? NULL;
+    $sendBid = $_POST['send_bid'];
+}
+else {
+    $sendBid = null;
 }
 
 if (isset($sendBid)) {

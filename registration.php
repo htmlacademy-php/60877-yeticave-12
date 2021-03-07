@@ -11,31 +11,41 @@ $queryCategories = 'Select id, name, symbol_code from categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
-$email = '';
-$password = '';
-$name = '';
-$contacts = '';
-
 if (isset($_POST['email'])) {
-    $email = mysqli_real_escape_string($con, $_POST['email'] ?? NULL);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+}
+else {
+    $email = null;
 }
 
 if (isset($_POST['password'])) {
-    $password = mysqli_real_escape_string($con, $_POST['password'] ?? NULL);
+    $password = mysqli_real_escape_string($con, $_POST['password']);
+}
+else {
+    $password = null;
 }
 
 if (isset($_POST['name'])) {
-    $name = mysqli_real_escape_string($con, $_POST['name'] ?? NULL);
+    $name = mysqli_real_escape_string($con, $_POST['name']);
+}
+else {
+    $name = null;
 }
 
 if (isset($_POST['message'])) {
-    $contacts = mysqli_real_escape_string($con, $_POST['message'] ?? NULL);
+    $contacts = mysqli_real_escape_string($con, $_POST['message']);
+}
+else {
+    $contacts = null;
 }
 
 $errors = [];
 
 if (isset($_POST['register'])) {
-    $register = $_POST['register'] ?? NULL;
+    $register = $_POST['register'];
+}
+else {
+    $register = null;
 }
 
 if (isset($register)) {
