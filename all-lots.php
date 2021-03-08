@@ -11,10 +11,10 @@ $queryCategories = 'Select id, name, symbol_code from categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
-$categoryId = '';
-
 if (isset($_GET['categoryid'])) {
     $categoryId = mysqli_real_escape_string($con, $_GET['categoryid']);
+} elseif (empty($_GET['categoryid'])) {
+    header("Location: 404.php");
 }
 
 $countAllLotsCat = "select count(lots.id) as count from lots join categories on lots.categoryid = categories.id where categories.id = " . $categoryId;
@@ -23,23 +23,17 @@ $numberLotsFromCat = mysqli_fetch_array($countAllLotsCatQuery, MYSQLI_ASSOC);
 
 $num = 9;
 
-$page = 0;
-
 if (isset($_GET['page'])) {
     $page = intval($_GET['page']);
-} else {
+} elseif (empty($page) || $page < 0) {
     $page = 1;
 }
-
-$total = 0;
 
 if (isset($numberLotsFromCat["count"])) {
     $total = ceil($numberLotsFromCat["count"] / $num);
 }
-
-
-if (empty($page) || $page < 0) {
-    $page = 1;
+else {
+    $total = 0;
 }
 
 if ($page > $total) {

@@ -15,21 +15,27 @@ $title = "Страница логина";
 
 $errors = [];
 
-$email = '';
-
 if (isset($_POST['email'])) {
-    $email = mysqli_real_escape_string($con, $_POST['email'] ?? NULL);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+}
+else {
+    $email = null;
 }
 
 if (isset($_POST['password'])) {
-    $password = mysqli_real_escape_string($con, $_POST['password'] ?? NULL);
+    $password = mysqli_real_escape_string($con, $_POST['password']);
+}
+else {
+    $password = null;
 }
 
 if (isset($_POST['submit'])) {
-    $submit = $_POST['submit'] ?? NULL;
+    $submit = $_POST['submit'];
+} else {
+    $submit = null;
 }
 
-if (isset($submit)) {
+if ($submit) {
     if (empty($email)) {
         $errors['email'] = "Пустой email!";
     }

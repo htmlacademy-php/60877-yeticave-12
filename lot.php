@@ -11,16 +11,16 @@ $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $title = "Страница Лота";
 
-$userId = null;
-
-if (isset($_SESSION['iduser'])) {
-    $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
+if (!isset($_SESSION['iduser'])) {
+    header('Location: login.php');
+    return;
 }
+$userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 
-$id = null;
-
-if ($_GET['id']) {
+if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
+} else {
+    header("Location:404.php");
 }
 
 $querySumLot = "Select max(summary_of_the_lot) from bids where bids.lotid = " . $id;
@@ -46,9 +46,9 @@ $maxdateBidQueryArr = mysqli_fetch_array($maxdateBidQuery, MYSQLI_ASSOC);
 
 /*заканчиваю определять последнюю дату ставки */
 
-$oneLot = [];
 $rowsHistorySum = [];
 $rowsHistory = [];
+
 if (isset($_GET['id'])) {
 
     $queryLot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = " . $id;
@@ -72,7 +72,10 @@ if (isset($_GET['id'])) {
 $errors = [];
 
 if (isset($_POST['send_bid'])) {
-    $sendBid = $_POST['send_bid'] ?? NULL;
+    $sendBid = $_POST['send_bid'];
+}
+else {
+    $sendBid = null;
 }
 
 if (isset($sendBid)) {

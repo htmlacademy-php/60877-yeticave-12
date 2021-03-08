@@ -19,7 +19,7 @@ if (!isset($_SESSION['iduser'])) {
     header('Location: login.php');
     return;
 }
-$userId = $_SESSION['iduser'];
+$userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 
 /*определение победителей лотов*/
 $getWinner = 'select bids.id, users.email, summary_of_the_lot from lots join users on lots.authorid = users.id join bids on

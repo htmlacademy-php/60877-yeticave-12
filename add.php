@@ -10,6 +10,7 @@ if (empty($_SESSION['iduser'])) {
     header("HTTP/1.0 403 Forbidden");
     return;
 }
+$idUser = mysqli_real_escape_string($con, $_SESSION['iduser']);
 
 $selectUser = "select name from users where id = " . $_SESSION['iduser'];
 $selectUserQuery = mysqli_query($con, $selectUser);
@@ -26,33 +27,50 @@ $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $errors = [];
 
+
+
 if (isset($_POST['lot-name'])) {
-    $nameField = $_POST['lot-name'] ?? NULL;
+    $nameField = $_POST['lot-name'];
+}
+else {
+    $nameField = null;
 }
 
 if (isset($_POST['category'])) {
-    $categories = $_POST['category'] ?? NULL;
+    $categories = $_POST['category'];
+}
+else {
+    $categories = null;
 }
 
 if (isset($_POST['message'])) {
-    $message = $_POST['message'] ?? NULL;
+    $message = $_POST['message'];
+}
+else {
+    $message = NULL;
 }
 
+
+
 if (isset($_POST['lot-rate'])) {
-    $lotRate = $_POST['lot-rate'] ?? NULL;
+    $lotRate = $_POST['lot-rate'];
+}
+else {
+    $lotRate = null;
 }
 
 if (isset($_POST['lot-step'])) {
-    $lotStep = $_POST['lot-step'] ?? NULL;
+    $lotStep = $_POST['lot-step'];
+}
+else {
+    $lotStep = null;
 }
 
-if (isset($_POST['senddata']) ?? NULL) {
-
+if (isset($_POST['senddata'])) {
 
     if (empty($nameField)) {
         $errors['name'] = "Поле имени пустое";
     }
-
 
     if ($categories < 0) {
         $errors['categories'] = "Поле категории пустое";
@@ -79,13 +97,18 @@ if (isset($_POST['senddata']) ?? NULL) {
     }
 
     if (isset($_POST['lot-date'])) {
-        $date = $_POST['lot-date'] ?? NULL;
+        $date = $_POST['lot-date'];
+    }
+    else {
+        $date = null;
     }
 
     if (empty($date)) {
         $errors['missing-date'] = "Выберите дату!! ";
     }
+
     $dateDif = strtotime($date) - time();
+
     if ($dateDif < 0) {
         $errors['wrongdate'] = "Выберите дату больше нынешней!";
     }
@@ -100,7 +123,6 @@ if (isset($_POST['senddata']) ?? NULL) {
             $errors['image-null'] = "Нету картинки!!";
         } elseif ($fileType !== 'image/jpeg' && $fileType !== 'image/png') {
             $errors['format'] = "Неверный формат картинки";
-
         } else {
             move_uploaded_file($_FILES['add-lot-file']['tmp_name'], $filePath . $fileName);
         }
@@ -109,6 +131,9 @@ if (isset($_POST['senddata']) ?? NULL) {
     }
 
     $authorId = $_SESSION['iduser'];
+    if (empty($authorId)) {
+        header("Location: login.php");
+    }
     $nameFieldSafe = mysqli_real_escape_string($con, $nameField);
     $messageSafe = mysqli_real_escape_string($con, $message);
     $categoriesSafe = mysqli_real_escape_string($con, $categories);
@@ -130,36 +155,6 @@ if (isset($_POST['senddata']) ?? NULL) {
             $errors['not-add'] = "Не добавлен лот!";
         }
     }
-}
-
-$nameField = '';
-
-if (isset($_POST['lot-name'])) {
-    $nameField = $_POST['lot-name'] ?? NULL;
-}
-
-$categories = '';
-
-if (isset($_POST['category'])) {
-    $categories = $_POST['category'] ?? NULL;
-}
-
-$message = '';
-
-if (isset($_POST['message'])) {
-    $message = $_POST['message'] ?? NULL;
-}
-
-$lotRate = null;
-
-if (isset($_POST['lot-rate'])) {
-    $lotRate = $_POST['lot-rate'] ?? NULL;
-}
-
-$lotStep = null;
-
-if (isset($_POST['lot-step'])) {
-    $lotStep = $_POST['lot-step'] ?? NULL;
 }
 
 $content = include_template('add-lot.php', ['rowsCategories' => $rowsCategories, 'errors' => $errors, 'nameField' => $nameField, 'categories' => $categories, 'message' => $message, 'lotRate' => $lotRate, 'lotStep' => $lotStep]);
