@@ -15,24 +15,19 @@ $title = "Страница логина";
 
 $errors = [];
 
+$email = '';
 if (isset($_POST['email'])) {
     $email = mysqli_real_escape_string($con, $_POST['email']);
 }
-else {
-    $email = null;
-}
 
+$password = '';
 if (isset($_POST['password'])) {
     $password = mysqli_real_escape_string($con, $_POST['password']);
 }
-else {
-    $password = null;
-}
 
+$submit = '';
 if (isset($_POST['submit'])) {
     $submit = $_POST['submit'];
-} else {
-    $submit = null;
 }
 
 if ($submit) {

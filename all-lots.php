@@ -23,17 +23,14 @@ $numberLotsFromCat = mysqli_fetch_array($countAllLotsCatQuery, MYSQLI_ASSOC);
 
 $num = 9;
 
+$page = 1;
 if (isset($_GET['page'])) {
     $page = intval($_GET['page']);
-} elseif (empty($page) || $page < 0) {
-    $page = 1;
 }
 
+$total = 0;
 if (isset($numberLotsFromCat["count"])) {
     $total = ceil($numberLotsFromCat["count"] / $num);
-}
-else {
-    $total = 0;
 }
 
 if ($page > $total) {
