@@ -34,3 +34,10 @@ function lefttotime($dateleft)
     return [$hours, $minutes];
 
 }
+
+function throwForbiddenError()
+{
+    header("HTTP/1.0 403 Forbidden");
+    return;
+}
+
