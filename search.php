@@ -16,8 +16,8 @@ $resultsPerPage = 9;
 
 $page = 1;
 
-if (isset ($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0) {
-    $page = intval($_GET['page']);
+if (isset ($_GET['page']) && is_numeric($_GET['page']&&$_GET['page']>0)) {
+    $page = $_GET['page'];
 }
 
 $start = $page * $resultsPerPage - $resultsPerPage;

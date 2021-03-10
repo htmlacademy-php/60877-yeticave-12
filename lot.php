@@ -71,11 +71,9 @@ if (isset($_GET['id'])) {
 
 $errors = [];
 
+$sendBid = '';
 if (isset($_POST['send_bid'])) {
     $sendBid = $_POST['send_bid'];
-}
-else {
-    $sendBid = null;
 }
 
 if (isset($sendBid)) {
