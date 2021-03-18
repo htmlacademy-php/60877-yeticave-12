@@ -29,11 +29,10 @@
 
             <label for="email">E-mail <sup>*</sup></label>
             <input id="email" type="text" name="email" placeholder="Введите e-mail"
-                   value="<?php if (isset($errors['repeatemail'])) {
+                   value="<?php if (isset($errors['repeatemail']) && isset($_POST['email'])) {
                        echo strip_tags($_POST['email']);
-                   } ?>
-        ">
-            <span class="form__error">      <?php if (isset($errors['repeatemail'])) {
+                   } ?>">
+            <span class="form__error"><?php if (isset($errors['repeatemail'])) {
                     echo $errors['repeatemail'];
                 } ?>
                 <?php if (isset($errors['wrongformatemail'])) {
@@ -54,7 +53,7 @@
         } ?>">
             <label for="name">Имя <sup>*</sup></label>
             <input id="name" type="text" name="name" placeholder="Введите имя"
-                   value="<?php if (isset($errors['name'])) {
+                   value="<?php if (isset($errors['name']) && isset($_POST['name'])) {
                        echo strip_tags($_POST['name']);
                    } ?>">
             <span class="form__error"><?php if (isset($errors['name'])) {
@@ -66,7 +65,7 @@
         } ?>">
             <label for="message">Контактные данные <sup>*</sup></label>
             <textarea id="message" name="message" placeholder="Напишите как с вами связаться"
-                      value="<?php if (isset($errors['message'])) {
+                      value="<?php if (isset($errors['message']) && isset($_POST['message'])) {
                           echo strip_tags($_POST['message']);
                       } ?>"></textarea>
             <span class="form__error"><?php if (isset($errors['message'])) {

@@ -6,16 +6,16 @@ require_once("timezone.php");
 require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
-$queryCategories = 'Select id, name, symbol_code from categories';
+
+$queryCategories = 'SELECT id, name, symbol_code FROM categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 $title = "Страница Лота";
 
-if (!isset($_SESSION['iduser'])) {
-    header('Location: login.php');
-    return;
+$userId = '';
+if (isset($_SESSION['iduser'])) {
+    $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 }
-$userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 
 if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($con, $_GET['id']);
@@ -23,24 +23,24 @@ if (isset($_GET['id'])) {
     header("Location:404.php");
 }
 
-$querySumLot = "Select max(summary_of_the_lot) from bids where bids.lotid = " . $id;
+$querySumLot = "SELECT MAX(summary_of_the_lot) FROM bids WHERE bids.lotid = " . $id;
 $querySumLotToDb = mysqli_query($con, $querySumLot);
 $querySumLotToDbFinal = mysqli_fetch_array($querySumLotToDb, MYSQLI_ASSOC);
 
 /* выбираю макс ставку на данный момент*/
-$selectMaxBidForNow = "select max(summary_of_the_lot), lots.step_of_the_bid from bids join lots on bids.lotid = lots.id where lotid = " . $id;
+$selectMaxBidForNow = "SELECT MAX(summary_of_the_lot), lots.step_of_the_bid FROM bids JOIN lots ON bids.lotid = lots.id WHERE lotid = " . $id;
 $selectMaxBidForNowQuery = mysqli_query($con, $selectMaxBidForNow);
 $maxBidForNowArr = mysqli_fetch_all($selectMaxBidForNowQuery, MYSQLI_ASSOC);
 /* конец выборки максимальной ставки */
 
 
 /*начинаю определять текущего юзера*/
-$selectLotsAuthor = "select * from lots where id = " . $id;
+$selectLotsAuthor = "SELECT * FROM lots WHERE id = " . $id;
 $selectLotsAuthorQuery = mysqli_query($con, $selectLotsAuthor);
 $selectLotsAuthorArr = mysqli_fetch_all($selectLotsAuthorQuery, MYSQLI_ASSOC);
 
 /*определяю последнюю дату создания ставки */
-$maxDateBid = "Select users.id, max(date) as maxdate from bids JOIN users ON bids.userid = users.id where bids.lotid = " . $id . " group by users.id";
+$maxDateBid = "SELECT users.id, MAX(date) AS maxdate FROM bids JOIN users ON bids.userid = users.id WHERE bids.lotid = " . $id . " GROUP BY users.id";
 $maxdateBidQuery = mysqli_query($con, $maxDateBid);
 $maxdateBidQueryArr = mysqli_fetch_array($maxdateBidQuery, MYSQLI_ASSOC);
 
@@ -51,15 +51,15 @@ $rowsHistory = [];
 
 if (isset($_GET['id'])) {
 
-    $queryLot = "Select name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name from lots join categories on lots.categoryid = categories.id where lots.id = " . $id;
+    $queryLot = "SELECT name_of_the_lot, img, lots.deskription, categoryid, start_price, finish_date, step_of_the_bid, name FROM lots JOIN categories ON lots.categoryid = categories.id WHERE lots.id = " . $id;
     $resultLot = mysqli_query($con, $queryLot);
     $oneLot = mysqli_fetch_array($resultLot, MYSQLI_ASSOC);
 
-    $theHistoryofBidsSum = "select * FROM bids where bids.lotid = " . $id;
+    $theHistoryofBidsSum = "SELECT * FROM bids WHERE bids.lotid = " . $id;
     $resultTheHistoryofBidsum = mysqli_query($con, $theHistoryofBidsSum);
     $rowsHistorySum = mysqli_fetch_all($resultTheHistoryofBidsum, MYSQLI_ASSOC);
 
-    $theHistoryofBids = "Select bids.id, date, summary_of_the_lot, name from bids JOIN users ON bids.userid = users.id where bids.lotid = " . $id;
+    $theHistoryofBids = "SELECT bids.id, date, summary_of_the_lot, name FROM bids JOIN users ON bids.userid = users.id WHERE bids.lotid = " . $id;
     $resultheHistoryofBids = mysqli_query($con, $theHistoryofBids);
     $rowsHistory = mysqli_fetch_all($resultheHistoryofBids, MYSQLI_ASSOC);
 
@@ -71,12 +71,11 @@ if (isset($_GET['id'])) {
 
 $errors = [];
 
-$sendBid = '';
-if (isset($_POST['send_bid'])) {
-    $sendBid = $_POST['send_bid'];
-}
 
-if (isset($sendBid)) {
+$sendBid = filter_input(INPUT_POST, 'send_bid');
+
+
+if ($sendBid) {
     if (isset($_POST['cost'])) {
         $cost = mysqli_real_escape_string($con, $_POST['cost']);
     }

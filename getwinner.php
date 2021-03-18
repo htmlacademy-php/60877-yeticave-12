@@ -6,10 +6,10 @@ require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-$getWinner = 'select lots.id as lotsid, lots.name_of_the_lot, bids.id as bidsid, users.id as usersid,
- users.email, bids.date, users.name, summary_of_the_lot from lots join users
-on lots.authorid = users.id join bids on lots.id = bids.lotid where winnerid is null
-and finish_date < current_timestamp order by bids.date desc limit 1';
+$getWinner = 'SELECT lots.id AS lotsid, lots.name_of_the_lot, bids.id AS bidsid, users.id AS usersid,
+users.email, bids.date, users.name, summary_of_the_lot FROM lots JOIN users
+ON lots.authorid = users.id JOIN bids ON lots.id = bids.lotid WHERE winnerid IS NULL
+AND finish_date < current_timestamp ORDER BY bids.date DESC LIMIT 1';
 
 $queryGetWinner = mysqli_query($con, $getWinner);
 

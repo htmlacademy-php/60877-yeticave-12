@@ -7,7 +7,7 @@ require_once("helpers.php");
 require_once("function.php");
 require_once("timezone.php");
 
-$queryCategories = 'Select id, name, symbol_code from categories';
+$queryCategories = 'SELECT id, name, symbol_code FROM categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
@@ -17,7 +17,7 @@ if (isset($_GET['categoryid'])) {
     header("Location: 404.php");
 }
 
-$countAllLotsCat = "select count(lots.id) as count from lots join categories on lots.categoryid = categories.id where categories.id = " . $categoryId;
+$countAllLotsCat = "SELECT count(lots.id) AS count FROM lots JOIN categories ON lots.categoryid = categories.id WHERE categories.id = " . $categoryId;
 $countAllLotsCatQuery = mysqli_query($con, $countAllLotsCat);
 $numberLotsFromCat = mysqli_fetch_array($countAllLotsCatQuery, MYSQLI_ASSOC);
 
@@ -63,7 +63,7 @@ $allCategoriesLot = mysqli_fetch_all($resultLot, MYSQLI_ASSOC);
 while ($postRow[] = mysqli_fetch_array($resultLot)) {
 }
 
-$selectAllLotCategory = "select name from categories where id = " . $categoryId;
+$selectAllLotCategory = "SELECT name FROM categories WHERE id = " . $categoryId;
 $selectAllCategoryQuery = mysqli_query($con, $selectAllLotCategory);
 $selectAllCategoryQueryArr = mysqli_fetch_array($selectAllCategoryQuery, MYSQLI_ASSOC);
 

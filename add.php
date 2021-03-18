@@ -15,7 +15,7 @@ if (isset($_SESSION['iduser'])) {
 
     $idUser = $_SESSION['iduser'];
 
-    $selectUser = "select name from users where id = " . $idUser;
+    $selectUser = "SELECT name FROM users WHERE id = " . $idUser;
     $selectUserQuery = mysqli_query($con, $selectUser);
     $getUser = mysqli_fetch_array($selectUserQuery, MYSQLI_ASSOC);
 
@@ -24,7 +24,7 @@ if (isset($_SESSION['iduser'])) {
     }
 
     $title = "Добавить лот";
-    $queryCategories = 'Select id, name, symbol_code from categories';
+    $queryCategories = 'SELECT id, name, symbol_code FROM categories';
     $resultCategories = mysqli_query($con, $queryCategories);
     $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
     $errors = [];

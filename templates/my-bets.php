@@ -14,9 +14,15 @@
         <h2>Мои ставки</h2>
         <table class="rates__list">
             <?php foreach ($userMyBetQueryArray as $myBetArray): ?>
-
+<?php
+    $win = false;
+    if (isset($myBetArray['id'])&&isset($getArrWinner['id'])) {
+      $win = $myBetArray['id']==$getArrWinner['id'];
+    }
+    ?>
                 <tr class="rates__item <?php
-                if ($myBetArray['id'] == $getArrWinner['id']) {
+
+                if ($win) {
                     echo "rates__item--win";
                 }
                 $presentTime = strtotime('now');
@@ -25,7 +31,7 @@
                 if ($timerFinishing <= 0) {
                     echo "rates__item--end";
                 }
-                if ($myBetArray['id'] == $getArrWinner['id']) {
+                if ($win) {
                     echo "timer--win";
                 }
                 ?>">
@@ -56,14 +62,14 @@
                             echo "timer--end";
                         }
 
-                        if ($mybetarray['id'] == $getArrWinner['id']) {
+                        if ($win) {
                             echo "timer--win";
                         }
 
                         ?>
                       ">
                             <?php
-                            if ($myBetArray['id'] == $getArrWinner['id']) {
+                            if ($win) {
                                 echo "Ставка выиграла";
                             } elseif ($timerFinishing <= 0) {
                                 echo "Торги окончены";

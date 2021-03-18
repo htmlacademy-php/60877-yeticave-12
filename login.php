@@ -6,7 +6,7 @@ require_once("connection.php");
 require_once("helpers.php");
 require_once("function.php");
 
-$queryCategories = 'Select id, name, symbol_code from categories';
+$queryCategories = 'SELECT id, name, symbol_code FROM categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
