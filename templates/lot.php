@@ -62,9 +62,10 @@
                     <div class="lot-item__cost-state">
                         <div class="lot-item__rate">
                             <span class="lot-item__amount">Текущая цена</span>
+
                             <span class="lot-item__cost"><?php
-                                echo $querySumLotToDbFinal['max(summary_of_the_lot)'];
-                                if (!$querySumLotToDbFinal['max(summary_of_the_lot)']) {
+                                echo $querySumLotToDbFinal["MAX(summary_of_the_lot)"];
+                                if (!$querySumLotToDbFinal["MAX(summary_of_the_lot)"]) {
                                     echo $oneLot['start_price'];
                                 }
                                 ?></span>
@@ -72,7 +73,7 @@
                         <div class="lot-item__min-cost">
 
                             Мин. ставка
-                            <span><?php echo formatPrice($maxBidForNowArr[0]["max(summary_of_the_lot)"] + $maxBidForNowArr[0]["step_of_the_bid"]); ?></span>
+                            <span><?php echo formatPrice($maxBidForNowArr[0]["MAX(summary_of_the_lot)"] + $maxBidForNowArr[0]["step_of_the_bid"]); ?></span>
                         </div>
                     </div>
                     <form class="lot-item__form <?php if (isset($errors['wrongbet'])) {
@@ -81,7 +82,7 @@
                         <p class="lot-item__form-item form__item">
                             <label for="cost">Ваша ставка</label>
                             <input id="cost" type="text" name="cost"
-                                   placeholder="<?php echo $querySumLotToDbFinal['max(summary_of_the_lot)']; ?>">
+                                   placeholder="<?php echo $querySumLotToDbFinal["MAX(summary_of_the_lot)"]; ?>">
                             <span class="form__error"><?php if (isset($errors['wrongbet'])) {
                                     echo $errors['wrongbet'];
                                 } ?></span>

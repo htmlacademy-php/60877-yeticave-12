@@ -10,7 +10,7 @@ require_once("function.php");
 
 $title = "Страница ставок";
 
-$queryCategories = 'Select id, name, symbol_code from categories';
+$queryCategories = 'SELECT id, name, symbol_code FROM categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
@@ -22,13 +22,13 @@ if (!isset($_SESSION['iduser'])) {
 $userId = mysqli_real_escape_string($con, $_SESSION['iduser']);
 
 /*определение победителей лотов*/
-$getWinner = 'select bids.id, users.email, summary_of_the_lot from lots join users on lots.authorid = users.id join bids on
-lots.id = bids.lotid where winnerid is null and finish_date < current_timestamp order by summary_of_the_lot desc limit 1';
+$getWinner = 'SELECT bids.id, users.email, summary_of_the_lot FROM lots JOIN users ON lots.authorid = users.id JOIN bids ON
+lots.id = bids.lotid WHERE winnerid IS NULL AND finish_date < current_timestamp ORDER BY summary_of_the_lot DESC LIMIT 1';
 $queryGetWinner = mysqli_query($con, $getWinner);
 $getArrWinner = mysqli_fetch_array($queryGetWinner, MYSQLI_ASSOC);
 /*конец определения победителей лотов*/
 
-$userMyBet = "select img, deskription, lots.id, name_of_the_lot, start_price, date_of_creation, finish_date, categories.name from lots JOIN categories ON lots.categoryid = categories.id JOIN bids ON bids.lotid = lots.id where userid = " . $userId;
+$userMyBet = "SELECT img, deskription, lots.id, name_of_the_lot, start_price, date_of_creation, finish_date, categories.name FROM lots JOIN categories ON lots.categoryid = categories.id JOIN bids ON bids.lotid = lots.id where userid = " . $userId;
 $userMyBetQuery = mysqli_query($con, $userMyBet);
 $userMyBetQueryArray = mysqli_fetch_all($userMyBetQuery, MYSQLI_ASSOC);
 

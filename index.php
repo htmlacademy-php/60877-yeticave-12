@@ -28,7 +28,7 @@ ORDER BY l.`id` DESC';
 $resultLots = mysqli_query($con, $queryLots);
 $rowsLots = mysqli_fetch_all($resultLots, MYSQLI_ASSOC);
 
-$queryCategories = "Select categories.id, name, symbol_code from categories";
+$queryCategories = "SELECT categories.id, name, symbol_code FROM categories";
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 

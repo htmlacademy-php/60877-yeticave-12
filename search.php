@@ -8,7 +8,7 @@ require_once("function.php");
 
 $title = "Страница поиска";
 
-$queryCategories = 'Select id, name, symbol_code from categories';
+$queryCategories = 'SELECT id, name, symbol_code FROM categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
@@ -16,7 +16,7 @@ $resultsPerPage = 9;
 
 $page = 1;
 
-if (isset ($_GET['page']) && is_numeric($_GET['page']&&$_GET['page']>0)) {
+if (isset ($_GET['page']) && is_numeric($_GET['page'] && $_GET['page'] > 0)) {
     $page = $_GET['page'];
 }
 
@@ -26,7 +26,7 @@ if (isset($_GET['search'])) {
     $search = mysqli_real_escape_string($con, $_GET['search']);
 }
 
-$countSql = "SELECT count(id) as count FROM lots WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search') and current_timestamp < finish_date";
+$countSql = "SELECT COUNT(id) as count FROM lots WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search') AND current_timestamp < finish_date";
 
 $countSqlQuery = mysqli_query($con, $countSql);
 $countSqlResult = mysqli_fetch_array($countSqlQuery, MYSQLI_ASSOC);
@@ -34,7 +34,7 @@ $countSqlResult = mysqli_fetch_array($countSqlQuery, MYSQLI_ASSOC);
 $querySearch = "SELECT img, symbol_code, name, lots.id, name_of_the_lot, start_price, date_of_creation, finish_date FROM lots JOIN categories
  ON lots.categoryid = categories.id
  WHERE MATCH(name_of_the_lot, deskription) AGAINST('$search')
- and current_timestamp<finish_date order by date_of_creation desc limit $start, $resultsPerPage";
+ AND current_timestamp<finish_date ORDER BY date_of_creation DESC LIMIT $start, $resultsPerPage";
 $resultSearchQuery = mysqli_query($con, $querySearch);
 $resultSearch = mysqli_fetch_all($resultSearchQuery, MYSQLI_ASSOC);
 

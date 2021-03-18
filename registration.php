@@ -7,7 +7,7 @@ require_once("function.php");
 
 $title = "Страница регистрации";
 
-$queryCategories = 'Select id, name, symbol_code from categories';
+$queryCategories = 'SELECT id, name, symbol_code FROM categories';
 $resultCategories = mysqli_query($con, $queryCategories);
 $rowsCategories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
@@ -33,12 +33,9 @@ if (isset($_POST['message'])) {
 
 $errors = [];
 
-$register = '';
-if (isset($_POST['register'])) {
-    $register = $_POST['register'];
-}
+$register = filter_input(INPUT_POST, 'register');
 
-if (isset($register)) {
+if ($register) {
 
     if (empty($email)) {
         $errors['email'] = "Не заполнено поле майла!";
@@ -77,6 +74,6 @@ if (isset($register)) {
 }
 
 
-$content = include_template('registration-page.php', ['rowsCategories' => $rowsCategories, "errors" => $errors]);
-$layoutContent = include_template('layout.php', ['content' => $content, "errors" => $errors, 'rowsCategories' => $rowsCategories]);
+$content = include_template('registration-page.php', ['rowsCategories' => $rowsCategories, "errors" => $errors, "title" => $title]);
+$layoutContent = include_template('layout.php', ['content' => $content, "errors" => $errors, 'rowsCategories' => $rowsCategories, "title" => $title]);
 print($layoutContent);
